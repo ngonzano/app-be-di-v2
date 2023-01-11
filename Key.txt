@@ -1,0 +1,5 @@
+LOS TOKEN DE MERCADO PAGO SE CAMBIAN EN server.js y mercadoPagoController.js
+
+**********************************NO BORRAR**********************************************
+2go9fanFPSWCLXGu5JyMmeAMSem1
+**********************************NO BORRAR**********************************************

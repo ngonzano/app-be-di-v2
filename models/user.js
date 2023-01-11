@@ -1,0 +1,413 @@
+const db = require('../config/config')
+const crypto = require('crypto')
+
+const User = {}
+
+User.getAllTiendas = () => {
+    const sql=`
+    select u.id as id_tienda,
+	   u.name,u.lastname,
+	   u.image,
+	   u.direc_fiscal,
+	   g.descripcion as giro,
+       u.llegaen,
+       u.desde,
+       u.hasta,
+	   ( CASE WHEN 
+		   (select Round(avg(calificacion),1)  from evidencia where idtienda = u.id) IS null then 4.5
+			else (select Round(avg(calificacion),1)  from evidencia where idtienda = u.id)
+		 END
+	   ) as promedio,
+	   ( CASE WHEN 
+		   (select lat from address where id_user = u.id and istienda = true) IS null then '0'
+			else (select lat from address where id_user = u.id and istienda = true)
+		 END
+	   ) as lat,
+	   ( CASE WHEN 
+		   (select lng from address where id_user = u.id and istienda = true) IS null then '0'
+			else (select lng from address where id_user = u.id and istienda = true)
+		 END
+	   ) as lng,
+       u.rango_cliente_tienda,
+       u.rango_repartidor_tienda
+      from users as u inner join user_has_roles as ur on u.id = ur.id_user
+	                  inner join giros as g on g.idgiro = u.idgiro 
+     where ur.id_rol='2'
+	   and u.idgiro != 1
+	 group by u.id,g.descripcion--,a.lat,a.lng
+     order by promedio desc
+    `
+    return db.manyOrNone(sql)
+}
+User.buscarTienda= (descripcion) => {
+    const sql= `
+    select u.id as id_tienda,
+           u.name,u.lastname,
+           u.image,
+           u.direc_fiscal,
+           g.descripcion as giro,
+           u.llegaen,
+           u.desde,
+           u.hasta,
+           ( CASE WHEN 
+               (select Round(avg(calificacion),1)  from evidencia where idtienda = u.id) IS null then 4.5
+                else (select Round(avg(calificacion),1)  from evidencia where idtienda = u.id)
+             END
+           ) as promedio,
+           ( CASE WHEN 
+               (select lat from address where id_user = u.id and istienda = true) IS null then '0'
+                else (select lat from address where id_user = u.id and istienda = true)
+             END
+           ) as lat,
+           ( CASE WHEN 
+               (select lng from address where id_user = u.id and istienda = true) IS null then '0'
+                else (select lng from address where id_user = u.id and istienda = true)
+             END
+           ) as lng,
+           u.rango_cliente_tienda,
+           u.rango_repartidor_tienda
+     from users as u inner join user_has_roles as ur on u.id = ur.id_user
+                   inner join giros as g on g.idgiro = u.idgiro 
+    where ur.id_rol='2'
+      and u.idgiro != 1
+      and (upper(u.name ||' '||u.lastname) ilike upper($1) or upper(g.descripcion) ilike upper($1))
+    group by u.id,g.descripcion
+    order by promedio desc
+    `
+    return db.manyOrNone(sql, `%${descripcion}%`);
+}
+User.getUsuario = (email, cumpleanio) => {
+    const sql=`
+    select count(*) from users
+     where email = $1
+       and cumpleanio = $2  
+    `
+    return db.oneOrNone(sql, [
+        email, cumpleanio
+    ])
+}
+User.create = (user) => {
+    //ENCRYPTAR
+    // console.log(`user.password: ${user.password}`);
+    const myPasswordHashed = crypto.createHash('md5').update(user.password).digest('hex')
+    user.password = myPasswordHashed
+    //FIN ENCRYPTAR
+    const sql= `
+    insert into users (
+        email,name,lastname,phone,image,password,session_token,create_at,update_at,cumpleanio,correo
+    )values(
+        $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) returning id
+    `
+    return db.oneOrNone(sql, [
+        user.email,user.name,user.lastname,user.phone,user.image,user.password,user.session_token,new Date(),new Date(), user.cumpleanio,user.correo
+    ])
+}
+User.asignarRolRepartidor = (user) => {
+    //FIN ENCRYPTAR
+    // insert into user_has_roles (id_user, id_rol, create_at, update_at) 
+    // values ($2,3,$4,$5);
+
+    // insert into tienda_has_delivery (id_tienda, id_delivery, estado, create_at, update_at)
+    // values($1,$2,$3,$4,$5);
+    const sql= `
+    do $$
+     begin 
+    	if exists (select id_delivery from tienda_has_delivery where id_delivery=$2) then
+    		update tienda_has_delivery set id_tienda = $1 where id_delivery=$2;
+            update tienda_has_delivery set estado = $3 where id_tienda = $1 and id_delivery=$2;
+    	else
+    		insert into user_has_roles (id_user, id_rol, create_at, update_at) 
+        	values ($2,3,$4,$5);
+
+        	insert into tienda_has_delivery (id_tienda, id_delivery, estado, create_at, update_at)
+        	values($1,$2,$3,$4,$5);
+    	end if;
+    end $$
+    `
+    return db.oneOrNone(sql, [
+        user.idtienda,user.idrepartidor,user.estado,new Date(),new Date()
+    ])
+}
+User.createEvidencia = (evidencia) => {
+
+    const sql= `
+    insert into evidencia (
+        comentario,iddelivery,idusuario,idtienda,idorder,image1,create_at
+    )values(
+        $1,$2,$3,$4,$5,$6,$7) returning id
+    `
+    return db.oneOrNone(sql, [
+        evidencia.comentario,evidencia.iddelivery,evidencia.idusuario,evidencia.idtienda,evidencia.idorder,evidencia.image1,new Date()
+    ])
+}
+User.mostrarEvidencia = (idorder, iduser,iddelivery,idtienda) => {
+    const sql=`
+    select u.name as usuario, d.name as delivery,t.name as tienda,o.id as idorder, e.comentario,e.image1,comentariousuario,calificacion
+      from evidencia e inner join users u on u.id = e.idusuario
+                          inner join users d on d.id = e.iddelivery
+						  inner join users t on t.id = e.idtienda
+						  inner join orders o on o.id = e.idorder
+	where e.idorder = $1
+      and u.id = $2
+      and d.id = $3
+      and t.id = $4
+    `
+    return db.oneOrNone(sql, [
+        idorder,iduser,iddelivery,idtienda
+    ])
+}
+User.updateUserPass = (user) => {
+    //ENCRYPTAR
+    const myPasswordHashed = crypto.createHash('md5').update(user.password).digest('hex')
+    user.password = myPasswordHashed
+    //FIN ENCRYPTAR
+    const sql= `
+    update users set password = $4, update_at = $3
+     where email = $2
+       and cumpleanio = $1
+    `
+    return db.none(sql, [
+        user.cumpleanio, user.email, new Date(), user.password
+    ])
+}
+User.update = (user) => {
+    const sql = ` 
+    UPDATE USERS SET NAME = $2, LASTNAME=$3, PHONE=$4, IMAGE= $5, UPDATE_AT=$6
+    WHERE ID=$1 
+    `;
+    return db.none(sql, [
+        user.id,
+        user.name,
+        user.lastname,
+        user.phone,
+        user.image,
+        new Date()
+    ])
+}
+User.getAdminsNotificationTokens = (iduser) =>{
+    const sql =`
+    SELECT U.NOTIFICATION_TOKEN 
+      FROM USERS AS U INNER JOIN USER_HAS_ROLES AS UHR ON UHR.ID_USER=U.ID
+                      INNER JOIN ROLES AS R ON R.ID = UHR.ID_ROL
+					  INNER JOIN products AS P ON P.id_user = U.id
+     WHERE R.ID = 2
+	   AND U.NOTIFICATION_TOKEN IS NOT NULL
+	   AND P.id_user=$1
+	 LIMIT 1
+    `;
+    return db.manyOrNone(sql,iduser);
+}
+User.findByPhone = (phone) => {
+    const sql= `
+    SELECT u.ID,EMAIL,u.NAME,LASTNAME,u.IMAGE,PHONE,PASSWORD,SESSION_TOKEN,notification_token,is_available,idgiro,u.correo,
+    json_agg(
+        json_build_object(
+                'id', r.id,
+             'name', r.name,
+             'image', r.image,
+             'route', r.route
+        )
+    ) as roles		
+FROM USERS as u inner join user_has_roles as uhr on u.id=uhr.id_user
+                 inner join roles r on uhr.id_rol=r.id 
+WHERE u.PHONE = $1
+  AND estado = true
+group by u.id
+    `
+    return db.oneOrNone(sql, phone);
+}
+User.findByEmail = (correo) => {
+    const sql= `
+    SELECT u.ID,EMAIL,u.NAME,LASTNAME,u.IMAGE,PHONE,PASSWORD,SESSION_TOKEN,notification_token,is_available,idgiro,u.correo,
+    json_agg(
+        json_build_object(
+                'id', r.id,
+             'name', r.name,
+             'image', r.image,
+             'route', r.route
+        )
+    ) as roles		
+FROM USERS as u inner join user_has_roles as uhr on u.id=uhr.id_user
+                 inner join roles r on uhr.id_rol=r.id 
+WHERE u.correo = $1
+  AND estado = true
+group by u.id
+    `
+    return db.oneOrNone(sql, correo);
+}
+User.findByOrden = (email) => {
+    const sql = `
+    SELECT MAX(id) as id FROM orders
+     WHERE id_client = $1
+    `;
+    return db.oneOrNone(sql, email);
+}
+User.findByDeliveryMen = (idTienda) => {
+    const sql= `
+    SELECT u.ID,
+       EMAIL,
+	   u.NAME,
+	   LASTNAME,
+	   u.IMAGE,
+	   PHONE,
+	   PASSWORD,
+	   SESSION_TOKEN,
+	   notification_token,
+	   ( 
+        case 
+		    when (select lat from address a where isdelivery = true and a.id_user= u.id) is null then 9999999
+			else (select lat from address a where isdelivery = true and a.id_user= u.id)
+		end
+	   ),
+	   ( 
+        case 
+		    when (select lng from address a where isdelivery = true and a.id_user= u.id) is null then 9999999
+			else (select lng from address a where isdelivery = true and a.id_user= u.id)
+		end
+	   ),
+       u.rango_cliente_tienda,
+       u.rango_repartidor_tienda
+    FROM USERS AS U INNER JOIN USER_HAS_ROLES AS UHR ON UHR.ID_USER = U.ID
+                    INNER JOIN ROLES AS R ON R.ID = UHR.ID_ROL
+					INNER JOIN TIENDA_HAS_DELIVERY AS td on td.id_delivery = u.id
+    WHERE R.ID = 3
+      AND U.is_available = true
+      and td.estado = true
+	  and td.id_tienda = $1
+    `;
+    return db.manyOrNone(sql,idTienda);
+}
+User.findByUserId= (id) => {
+    const sql= `
+    SELECT u.ID,EMAIL,u.NAME,LASTNAME,u.IMAGE,PHONE,PASSWORD,SESSION_TOKEN,notification_token,is_available as estado,u.correo,
+    json_agg(
+        json_build_object(
+                'id', r.id,
+             'name', r.name,
+             'image', r.image,
+             'route', r.route
+        )
+    ) as roles		
+    FROM USERS as u inner join user_has_roles as uhr on u.id=uhr.id_user
+                     inner join roles r on uhr.id_rol=r.id 
+    WHERE u.ID = $1
+    group by u.id
+    `
+    return db.oneOrNone(sql, id);
+}
+User.findById = (id, callback) => {
+    const sql= `
+        SELECT ID, EMAIL, NAME, LASTNAME, IMAGE, PHONE, PASSWORD, SESSION_TOKEN,notification_token,correo
+          FROM USERS
+        WHERE ID = $1
+    `
+    return db.oneOrNone(sql, id).then(user => {callback(null, user)})
+}
+User.buscarRepartidor = (id) => {
+    const sql= `
+        SELECT ID, EMAIL, NAME, LASTNAME, IMAGE, PHONE, PASSWORD, SESSION_TOKEN,notification_token,
+               (
+                case when 
+                        (select estado from tienda_has_delivery where id_delivery=id) is null then false
+                     else (select estado from tienda_has_delivery where id_delivery=id)
+                end ) as estado_delivery
+          FROM USERS
+        WHERE email = $1
+    `
+    return db.oneOrNone(sql, id)
+}
+User.buscarUsuario = (id) => {
+    const sql= `
+        SELECT count(*)
+          FROM USERS
+        WHERE email = $1
+    `
+    return db.oneOrNone(sql, id);
+}
+User.buscarTelefono = (phone) => {
+    const sql= `
+        SELECT count(*)
+          FROM USERS
+         WHERE phone = $1
+    `
+    return db.oneOrNone(sql, phone);
+}
+User.buscarCorreo = (correo) => {
+    const sql= `
+        SELECT count(*)
+          FROM USERS
+         WHERE correo = $1
+    `
+    return db.oneOrNone(sql, correo);
+}
+User.isPasswordMatched = (userPassword, hash) => {
+    const myPasswordHashed = crypto.createHash('md5').update(userPassword).digest('hex')
+    if (myPasswordHashed === hash) {
+        // console.log(`${myPasswordHashed} - ${hash} - true`)
+        return true
+    }
+    // console.log(`${myPasswordHashed} - ${hash} - 'false`)
+    return false
+}
+User.updateToken = (id, token) => {
+    const sql = ` 
+    UPDATE USERS SET SESSION_TOKEN= $2
+    WHERE ID=$1 
+    `;
+    return db.none(sql, [
+        id,
+        token
+    ])
+}
+User.updateNotificationToken = (id, token) => {
+    const sql = ` 
+    UPDATE USERS SET NOTIFICATION_TOKEN= $2
+    WHERE ID=$1 
+    `;
+    return db.none(sql, [
+        id,
+        token
+    ])
+}
+User.getUserNotificationToken = (id) => {
+    const sql = `
+    SELECT
+        U.notification_token
+    FROM 
+        users AS U
+    WHERE
+        U.id = $1
+    `
+    return db.oneOrNone(sql, id);
+}
+User.updateDelivery = (iduser, estado) => {
+    const sql= `
+    update users set is_available = $2
+     where id = $1
+    `;
+    return db.none(sql, [iduser, estado])
+}
+User.eliminarUsuario = (id) => {
+    const sql= `
+    update users set estado = false
+    where id =  $1
+    `;
+    return db.none(sql, id)
+}
+User.actualizarComentario = (idorder, comentariousuario, calificacion) => {
+    const sql= `
+    update evidencia set comentariousuario = $2, calificacion = $3
+     where idorder = $1
+    `;
+    return db.none(sql, [idorder, comentariousuario, calificacion])
+}
+User.buscarConst = (codigo) => {
+    const sql= `
+    select valor 
+      from constantes 
+     where codigo=$1
+    `
+    return db.oneOrNone(sql, codigo);
+}
+
+module.exports=User

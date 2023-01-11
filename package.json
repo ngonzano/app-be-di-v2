@@ -1,0 +1,33 @@
+{
+  "name": "backend_delivery",
+  "version": "1.0.0",
+  "description": "backend delivery node.js",
+  "main": "server.js",
+  "scripts": {
+    "dev":"nodemon server",
+    "start":"node server"
+  },
+  "keywords": [
+    "flutter",
+    "delivery",
+    "nodejs"
+  ],
+  "author": "Nilton Gonzano",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/storage": "^5.9.0",
+    "bluebird": "^3.7.2",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "firebase-admin": "^9.11.0",
+    "http": "^0.0.1-security",
+    "mercadopago": "^1.5.8",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "pg-promise": "^10.10.2",
+    "socket.io": "^2.4.1"
+  }
+}

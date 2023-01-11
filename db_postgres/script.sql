@@ -1,0 +1,240 @@
+drop table if exists mediopago cascade;
+CREATE TABLE mediopago
+(
+    id_mediopago bigserial primary key,
+    descripcion varchar(255) null,
+    estado boolean DEFAULT true
+);
+
+insert into mediopago (descripcion)
+values ('Efectivo');
+insert into mediopago (descripcion)
+values ('Mercado Pago');
+insert into mediopago (descripcion)
+values ('POS');
+insert into mediopago (descripcion)
+values ('Yape');
+insert into mediopago (descripcion)
+values ('Plin');
+
+
+drop table if exists roles cascade;
+create table roles(
+	id bigserial primary key,
+	name varchar(180) not null unique,
+	image varchar(255) null,
+	route varchar(255) null,
+	create_at timestamp(0) not null,
+	update_at timestamp(0) not null
+);
+
+drop table if exists giros cascade;
+create table giros(
+	idgiro bigserial primary key,
+	descripcion varchar(255) not null unique,
+	estado boolean null default true
+);
+insert into giros (	DESCRIPCION ) 
+       values ('Persona Natural');
+insert into giros (	DESCRIPCION ) 
+       values ('Licores');
+
+drop table if exists users cascade;
+create table users(
+	id bigserial primary key,
+	email varchar(20) not null unique,
+	correo varchar(100) null unique,
+	name varchar(100) not null,
+	lastname varchar(100) not null,
+	phone varchar(20) not null unique,
+	image varchar(255) not null,
+	notification_token varchar(255) null,
+	password varchar(255) not null,
+	is_available boolean null default true,
+	session_token varchar(500) null,
+	create_at timestamp(0) not null,
+	update_at timestamp(0) not null,
+	direc_fiscal varchar(250) null default 'Sin direccion fiscal',
+	cumpleanio varchar(10) null default '14-01-1988',
+	idGiro bigint null default 1,
+	estado boolean null default true,
+	llegaen varchar(100) null default 'No es Tienda',
+	desde varchar(10) null default '0',
+	hasta varchar(10) null default '0',
+	rango_cliente_tienda varchar(10) not null default '3500',
+	rango_repartidor_tienda varchar(10) not null default '0',
+	foreign key(idgiro) references giros(idgiro) on update cascade on delete cascade
+);
+
+
+
+drop table if exists user_has_roles cascade;
+create table user_has_roles(
+	id_user bigserial not null,
+	id_rol bigserial not null,
+	create_at timestamp(0) not null,
+	update_at timestamp(0) not null,
+	foreign key(id_user) references users(id) on update cascade on delete cascade,
+	foreign key(id_rol) references roles(id) on update cascade on delete cascade,
+	primary key(id_user,id_rol)
+);
+
+drop table if exists tienda_has_delivery cascade;
+create table tienda_has_delivery(
+	id_tienda bigserial not null,
+	id_delivery bigserial not null,
+	estado boolean null default true,
+	create_at timestamp(0) not null,
+	update_at timestamp(0) not null,
+	foreign key(id_tienda) references users(id) on update cascade on delete cascade,
+	foreign key(id_delivery) references users(id) on update cascade on delete cascade,
+	primary key(id_tienda,id_delivery)
+);
+
+insert into roles (
+	name,route,create_at,update_at,image
+) values (
+	'CLIENTE','client/products/list','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/laser-halia.appspot.com/o/ROLES%2Fcliente.jpeg?alt=media&token=16296e25-054b-4cc6-b338-6a29371fd23b');
+insert into roles (
+	name,route,create_at,update_at,image
+) values (
+	'TIENDA','restaurant/orders/list','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/laser-halia.appspot.com/o/ROLES%2Fnegocio.png?alt=media&token=ed3acf35-e044-4d9c-b6f6-2d987e1015ae');
+insert into roles (
+	name,route,create_at,update_at,image
+) values (
+	'REPARTIDOR','delivery/orders/list','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/laser-halia.appspot.com/o/ROLES%2Fdelivery.jpeg?alt=media&token=d2d7544c-e349-41ed-a7e5-01ac53538c9e');
+insert into roles (
+	name,route,create_at,update_at,image
+) values (
+	'ADMIN','admin/list/inicio','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/laser-halia.appspot.com/o/ROLES%2Fadmin.png?alt=media&token=a41a17ef-635e-452d-98f8-8e0680792783');
+
+drop table IF exists CATEGORIES cascade;
+
+create table CATEGORIES (
+	ID bigserial primary key,
+	NAME varchar(100) not null unique,
+	description varchar(255) not null,
+	image varchar(255) null,
+	create_at timestamp(0) not null,
+	update_at timestamp(0) not null,
+	id_user bigint null,
+	foreign key(id_user) references USERS(id) on update cascade on delete cascade
+);
+
+drop table IF exists products cascade;
+create table products (
+	ID bigserial primary key,
+	NAME varchar(180) not null unique,
+	description varchar(255) not null,
+	price decimal default 0,
+	pricecompra decimal default 0,
+	image1 varchar(255) null,
+	image2 varchar(255) null,
+	image3 varchar(255) null,
+	id_category bigint not null,
+	create_at timestamp(0) not null,
+	update_at timestamp(0) not null,
+	id_user bigint not null,
+	estado boolean NOT NULL DEFAULT true,
+    cantidad bigint NOT NULL DEFAULT 0,
+	foreign key(id_category) references CATEGORIES(id) on update cascade on delete cascade,
+	foreign key(id_user) references USERS(id) on update cascade on delete cascade
+);
+
+drop table IF exists address cascade;
+CREATE TABLE ADDRESS(
+	ID bigserial PRIMARY KEY,
+	id_user BIGINT NOT NULL,
+	ADDRESS VARCHAR(255) NOT NULL,
+	NEIGHBORHOOD VARCHAR(255) NOT NULL,
+	LAT DECIMAL default 0,
+	LNG DECIMAL default 0,
+	CREATE_AT timestamp(0) NOT NULL,
+	update_AT timestamp(0) NOT NULL,
+	disponibilidad boolean not null default true,
+	istienda boolean NOT NULL DEFAULT false,
+	isdelivery boolean NOT NULL DEFAULT false,
+	Foreign key(id_user) references users(id) on update cascade on delete cascade
+);
+
+drop table IF exists orders cascade;
+CREATE TABLE orders(
+	ID bigserial PRIMARY KEY,
+	id_client bigint not null,
+	id_delivery bigint null,
+	id_address bigint not null,
+	lat decimal default 0,
+	lng decimal default 0,
+	status varchar(90) not null,
+	timestamp bigint not null,
+	create_at timestamp(0) not null,
+	update_at timestamp(0) not null,
+	status_pago boolean not null default false,
+	id_tienda bigint not null,
+	id_mediopago bigint NOT NULL DEFAULT 1,
+	total decimal default 0,
+	Foreign key(id_client) references users(id) on update cascade on delete cascade,
+	Foreign key(id_delivery) references users(id) on update cascade on delete cascade,
+	Foreign key(id_address) references address(id) on update cascade on delete cascade,
+	Foreign key(id_tienda) references users(id) on update cascade on delete cascade
+);
+
+drop table IF exists orders_has_products cascade;
+CREATE TABLE orders_has_products(
+	id_order bigint not null,
+	id_product bigint not null,
+	quantity bigint not null,
+	create_at timestamp(0) not null,
+	update_at timestamp(0) not null,
+	estado boolean NOT NULL DEFAULT true,
+	sub_total decimal default 0,
+	PRIMARY key(ID_order, id_product),
+	Foreign key(ID_order) references orders(id) on update cascade on delete cascade,
+	Foreign key(id_product) references products(id) on update cascade on delete cascade
+);
+
+drop table IF exists orders_has_delivery cascade;
+CREATE TABLE orders_has_delivery(
+	id_or_has_de bigserial not null,
+	id_order bigint not null,
+	distancia decimal not null,
+	estado boolean NOT NULL DEFAULT true,
+	create_at timestamp(0) not null,
+	update_at timestamp(0) not null,
+	PRIMARY key(id_order, id_delivery),
+	Foreign key(id_order) references orders(id) on update cascade on delete cascade
+);
+
+drop table IF exists evidencia cascade;
+create table evidencia (
+	ID bigserial primary key,
+	comentario varchar(255) not null,
+	comentariousuario varchar(255) not null default 'Sin Comentario',
+	iddelivery bigint not null,
+	idusuario bigint not null,
+	idtienda bigint not null,
+	idorder bigint not null,
+	calificacion decimal default 4.0,
+	image1 varchar(255) null,
+	create_at timestamp(0) not null,
+	foreign key(iddelivery) references USERS(id) on update cascade on delete cascade,
+	foreign key(idusuario) references USERS(id) on update cascade on delete cascade,
+	foreign key(idtienda) references USERS(id) on update cascade on delete cascade,
+	foreign key(idorder) references orders(id) on update cascade on delete cascade
+);
+
+  /////////////////////////////////////////////////////////////////////
+  /// .   SOLO TOCAR CUANDO FALLA MP CHECKOUT API
+  ////////////////////////////////////////////////////////////////
+
+  //PROD android con plantilla de MP
+  // static const String clientID = '1181137664744409';
+  // static const String publicKey =
+  //     'APP_USR-04dfab39-81db-4b43-9f76-8468126ef827';
+  // static const String accesToken =
+  //     'APP_USR-1181137664744409-120823-00a328d8dbd81d6967dd857a28f2a421-1258945087';
+
+  //QA
+  // static const String publicKey = 'TEST-3b1a86de-5a2f-4c0c-967f-dd6dc4b3e684';
+  // static const String accesToken =
+  //     'TEST-1181137664744409-120823-dac96283eed0df895d33abbd2d487097-1258945087';
