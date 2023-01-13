@@ -63,6 +63,7 @@ create table users(
 	hasta varchar(10) null default '0',
 	rango_cliente_tienda varchar(10) not null default '3500',
 	rango_repartidor_tienda varchar(10) not null default '0',
+	withlogin varchar(15) not null default 'Sin informacion',
 	foreign key(idgiro) references giros(idgiro) on update cascade on delete cascade
 );
 

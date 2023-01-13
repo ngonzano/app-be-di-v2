@@ -24,7 +24,7 @@ module.exports = (app, upload) => {
     app.get('/api/users/buscarconst/:codigo', passport.authenticate('jwt', {session:false}), UsersController.buscarConstController)
 
     //guardar datos
-    app.post('/api/users/create',upload.array('image',1), UsersController.registerWithImage)
+    app.post('/api/users/create/:withlogin',upload.array('image',1), UsersController.registerWithImage)
     app.post('/api/users/asignarrepartidor', passport.authenticate('jwt', {session: false}), UsersController.asignarRolRepartidorController)
 
     app.post('/api/users/createevidencia',upload.array('image',1), UsersController.createEvidenciaController)

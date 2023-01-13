@@ -231,6 +231,8 @@ module.exports = {
         try {
             const user= JSON.parse(req.body.user)
             const files = req.files
+            const withlogin = await req.params.withlogin
+
             if (files.length>0) {
                 const pathImage = `image_${Date.now()}` //nombre del archivo
                 const url= await storage(files[0], pathImage)
@@ -239,7 +241,7 @@ module.exports = {
                     user.image=url
                 }
             }
-            const data = await User.create(user)
+            const data = await User.create(user, withlogin)
             await Rol.create(data.id, 1)//rol por defecto (cliente)
 
             return res.status(201).json({

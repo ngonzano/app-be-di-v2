@@ -86,7 +86,7 @@ User.getUsuario = (email, cumpleanio) => {
         email, cumpleanio
     ])
 }
-User.create = (user) => {
+User.create = (user, withlogin) => {
     //ENCRYPTAR
     // console.log(`user.password: ${user.password}`);
     const myPasswordHashed = crypto.createHash('md5').update(user.password).digest('hex')
@@ -94,12 +94,12 @@ User.create = (user) => {
     //FIN ENCRYPTAR
     const sql= `
     insert into users (
-        email,name,lastname,phone,image,password,session_token,create_at,update_at,cumpleanio,correo
+        email,name,lastname,phone,image,password,session_token,create_at,update_at,cumpleanio,correo,withlogin
     )values(
-        $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) returning id
+        $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) returning id
     `
     return db.oneOrNone(sql, [
-        user.email,user.name,user.lastname,user.phone,user.image,user.password,user.session_token,new Date(),new Date(), user.cumpleanio,user.correo
+        user.email,user.name,user.lastname,user.phone,user.image,user.password,user.session_token,new Date(),new Date(), user.cumpleanio,user.correo,withlogin
     ])
 }
 User.asignarRolRepartidor = (user) => {
