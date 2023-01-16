@@ -22,6 +22,18 @@ module.exports = {
             })
         }
     },
+    async getAllGirosController(req,res, next){
+        try {
+            const data= await User.getAllGiros()
+            return res.status('201').json(data)
+        } catch (error) {
+            //console.log(error)
+            return res.status(501).json({
+                success: false,
+                message: 'Error al obtener giros.'
+            })
+        }
+    },
     async getUsuarioController(req,res, next){
         try {
             const email = await req.params.email
@@ -510,6 +522,25 @@ module.exports = {
             return res.status(501).json({
                 success : false,
                 message : 'El repartidor ya se encuentra registrado como repartidor en su negocio.',
+                error : error
+            })
+        }
+    },
+    async agregarNegocioController(req, res, next) {
+        try {
+            const user = req.body;
+            await User.agregarNegocio(user)
+            return res.status(201).json({
+                success : true,
+                message : 'Se agrego el negocio satisfactoriamente',
+                
+            })
+
+        } catch (error) {
+            console.log(`Error al crear el negocio: ${error}`)
+            return res.status(501).json({
+                success : false,
+                message : 'Error al crear el negocio.',
                 error : error
             })
         }

@@ -61,8 +61,8 @@ create table users(
 	llegaen varchar(100) null default 'No es Tienda',
 	desde varchar(10) null default '0',
 	hasta varchar(10) null default '0',
-	rango_cliente_tienda varchar(10) not null default '3500',
-	rango_repartidor_tienda varchar(10) not null default '0',
+	rango_cliente_tienda varchar(10) not null default '4500',
+	rango_repartidor_tienda varchar(10) not null default '4500',
 	withlogin varchar(15) not null default 'Sin informacion',
 	foreign key(idgiro) references giros(idgiro) on update cascade on delete cascade
 );
@@ -95,19 +95,19 @@ create table tienda_has_delivery(
 insert into roles (
 	name,route,create_at,update_at,image
 ) values (
-	'CLIENTE','client/products/list','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/laser-halia.appspot.com/o/ROLES%2Fcliente.jpeg?alt=media&token=16296e25-054b-4cc6-b338-6a29371fd23b');
+	'CLIENTE','client/products/list','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com/o/ROLES%2Fadmin.png?alt=media&token=a907d6ae-6baa-4c97-8abb-5f27829ce921');
 insert into roles (
 	name,route,create_at,update_at,image
 ) values (
-	'TIENDA','restaurant/orders/list','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/laser-halia.appspot.com/o/ROLES%2Fnegocio.png?alt=media&token=ed3acf35-e044-4d9c-b6f6-2d987e1015ae');
+	'TIENDA','restaurant/orders/list','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com/o/ROLES%2Fadmin.png?alt=media&token=a907d6ae-6baa-4c97-8abb-5f27829ce921');
 insert into roles (
 	name,route,create_at,update_at,image
 ) values (
-	'REPARTIDOR','delivery/orders/list','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/laser-halia.appspot.com/o/ROLES%2Fdelivery.jpeg?alt=media&token=d2d7544c-e349-41ed-a7e5-01ac53538c9e');
+	'REPARTIDOR','delivery/orders/list','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com/o/ROLES%2Fadmin.png?alt=media&token=a907d6ae-6baa-4c97-8abb-5f27829ce921');
 insert into roles (
 	name,route,create_at,update_at,image
 ) values (
-	'ADMIN','admin/list/inicio','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/laser-halia.appspot.com/o/ROLES%2Fadmin.png?alt=media&token=a41a17ef-635e-452d-98f8-8e0680792783');
+	'ADMIN','admin/list/inicio','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com/o/ROLES%2Fadmin.png?alt=media&token=a907d6ae-6baa-4c97-8abb-5f27829ce921');
 
 drop table IF exists CATEGORIES cascade;
 
@@ -174,6 +174,7 @@ CREATE TABLE orders(
 	id_tienda bigint not null,
 	id_mediopago bigint NOT NULL DEFAULT 1,
 	total decimal default 0,
+	idmp varchar(15) not null DEFAULT '0',
 	Foreign key(id_client) references users(id) on update cascade on delete cascade,
 	Foreign key(id_delivery) references users(id) on update cascade on delete cascade,
 	Foreign key(id_address) references address(id) on update cascade on delete cascade,
@@ -198,11 +199,11 @@ drop table IF exists orders_has_delivery cascade;
 CREATE TABLE orders_has_delivery(
 	id_or_has_de bigserial not null,
 	id_order bigint not null,
-	distancia decimal not null,
+	price_delivery decimal not null,
 	estado boolean NOT NULL DEFAULT true,
 	create_at timestamp(0) not null,
 	update_at timestamp(0) not null,
-	PRIMARY key(id_order, id_delivery),
+	PRIMARY key(id_order, id_or_has_de),
 	Foreign key(id_order) references orders(id) on update cascade on delete cascade
 );
 
@@ -223,19 +224,3 @@ create table evidencia (
 	foreign key(idtienda) references USERS(id) on update cascade on delete cascade,
 	foreign key(idorder) references orders(id) on update cascade on delete cascade
 );
-
-  /////////////////////////////////////////////////////////////////////
-  /// .   SOLO TOCAR CUANDO FALLA MP CHECKOUT API
-  ////////////////////////////////////////////////////////////////
-
-  //PROD android con plantilla de MP
-  // static const String clientID = '1181137664744409';
-  // static const String publicKey =
-  //     'APP_USR-04dfab39-81db-4b43-9f76-8468126ef827';
-  // static const String accesToken =
-  //     'APP_USR-1181137664744409-120823-00a328d8dbd81d6967dd857a28f2a421-1258945087';
-
-  //QA
-  // static const String publicKey = 'TEST-3b1a86de-5a2f-4c0c-967f-dd6dc4b3e684';
-  // static const String accesToken =
-  //     'TEST-1181137664744409-120823-dac96283eed0df895d33abbd2d487097-1258945087';

@@ -4,6 +4,7 @@ const UsersController=require('../controllers/usersController')
 module.exports = (app, upload) => {
     //traer datos
     app.get('/api/users/getAllTiendas',UsersController.getAllTiendas)
+    app.get('/api/users/getAllGiros',UsersController.getAllGirosController)
     app.get('/api/users/buscarTienda/:descripcion',passport.authenticate('jwt', {session:false}),  UsersController.buscarTiendaController)
     app.get('/api/users/getusuario/:email/:cumpleanio',UsersController.getUsuarioController)
     app.get('/api/users/findByID/:id', passport.authenticate('jwt', {session:false}), UsersController.findById)
@@ -26,6 +27,7 @@ module.exports = (app, upload) => {
     //guardar datos
     app.post('/api/users/create/:withlogin',upload.array('image',1), UsersController.registerWithImage)
     app.post('/api/users/asignarrepartidor', passport.authenticate('jwt', {session: false}), UsersController.asignarRolRepartidorController)
+    app.post('/api/users/agregarnegocio', passport.authenticate('jwt', {session: false}), UsersController.agregarNegocioController)
 
     app.post('/api/users/createevidencia',upload.array('image',1), UsersController.createEvidenciaController)
 

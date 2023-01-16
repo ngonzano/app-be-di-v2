@@ -39,6 +39,16 @@ User.getAllTiendas = () => {
     `
     return db.manyOrNone(sql)
 }
+User.getAllGiros = () => {
+    const sql=`
+    select idgiro, descripcion
+      from giros
+     where estado = true
+       and descripcion != 'Persona Natural'
+     order by descripcion asc
+    `
+    return db.manyOrNone(sql)
+}
 User.buscarTienda= (descripcion) => {
     const sql= `
     select u.id as id_tienda,
@@ -126,6 +136,19 @@ User.asignarRolRepartidor = (user) => {
     `
     return db.oneOrNone(sql, [
         user.idtienda,user.idrepartidor,user.estado,new Date(),new Date()
+    ])
+}
+User.agregarNegocio = (user) => {
+    const sql= `
+            insert into user_has_roles (id_user, id_rol,create_at,update_at)
+            values ((select id from users where email = $6),2,$7,$8);
+
+    		update users set llegaen = $1, desde=$2, hasta=$3, rango_cliente_tienda= $4, rango_repartidor_tienda=$4,
+                             idgiro = (select idgiro from giros where descripcion =$5)
+             where email=$6;    
+    `
+    return db.oneOrNone(sql, [
+        user.llegaen,user.abre,user.cierra,user.rango,user.giro,user.documento,new Date(),new Date()
     ])
 }
 User.createEvidencia = (evidencia) => {
