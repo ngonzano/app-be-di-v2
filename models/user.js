@@ -220,6 +220,36 @@ User.getAdminsNotificationTokens = (iduser) =>{
     `;
     return db.manyOrNone(sql,iduser);
 }
+User.listarTodosTokens = () =>{
+    const sql =`
+    SELECT U.NOTIFICATION_TOKEN 
+      FROM USERS u
+     WHERE U.NOTIFICATION_TOKEN IS NOT NULL
+    `;
+    return db.manyOrNone(sql);
+}
+User.listarTokenTiendaCliente = () =>{
+    const sql =`
+    select u.email as id_user,
+           u.name,u.lastname,
+           ( CASE WHEN 
+               (select lat from address where id_user = u.id and disponibilidad = true limit 1) IS null then '999999'
+                else (select lat from address where id_user = u.id and disponibilidad = true limit 1)
+             END
+           ) as lat,
+           ( CASE WHEN 
+               (select lng from address where id_user = u.id and disponibilidad = true limit 1) IS null then '999999'
+                else (select lng from address where id_user = u.id and disponibilidad = true limit 1)
+             END
+           ) as lng,
+		   u.notification_token
+     from users as u inner join user_has_roles as ur on u.id = ur.id_user
+    where ur.id_rol='1'
+	  and u.notification_token is not null
+    group by u.id
+    `;
+    return db.manyOrNone(sql);
+}
 User.findByPhone = (phone) => {
     const sql= `
     SELECT u.ID,EMAIL,u.NAME,LASTNAME,u.IMAGE,PHONE,PASSWORD,SESSION_TOKEN,notification_token,is_available,idgiro,u.correo,
@@ -328,13 +358,25 @@ User.findById = (id, callback) => {
 }
 User.buscarRepartidor = (id) => {
     const sql= `
-        SELECT ID, EMAIL, NAME, LASTNAME, IMAGE, PHONE, PASSWORD, SESSION_TOKEN,notification_token,
-               (
-                case when 
-                        (select estado from tienda_has_delivery where id_delivery=id) is null then false
-                     else (select estado from tienda_has_delivery where id_delivery=id)
-                end ) as estado_delivery
-          FROM USERS
+    SELECT u.ID, EMAIL, NAME, LASTNAME,	IMAGE, PHONE, PASSWORD, SESSION_TOKEN,notification_token,
+        (
+        case 
+            when 
+             (select estado from tienda_has_delivery where id_delivery=u.id) is null then false
+              else (select estado from tienda_has_delivery where id_delivery=u.id)
+            end ) as estado_delivery, 
+        rango_cliente_tienda,
+        ( 
+        case 
+            when (select lat from address a where istienda = true and a.id_user= u.id) is null then 9999999
+            else (select lat from address a where istienda = true and a.id_user= u.id)
+        end ) as lat,
+        ( 
+        case 
+            when (select lng from address a where istienda = true and a.id_user= u.id) is null then 9999999
+            else (select lng from address a where istienda = true and a.id_user= u.id)
+        end ) as lng
+        FROM USERS as u
         WHERE email = $1
     `
     return db.oneOrNone(sql, id)

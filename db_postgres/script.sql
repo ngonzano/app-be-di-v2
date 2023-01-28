@@ -38,6 +38,12 @@ insert into giros (	DESCRIPCION )
        values ('Persona Natural');
 insert into giros (	DESCRIPCION ) 
        values ('Licores');
+insert into giros (	DESCRIPCION ) 
+       values ('Restaurante');
+insert into giros (	DESCRIPCION ) 
+       values ('Pizzería');
+insert into giros (	DESCRIPCION ) 
+       values ('Polleria');
 
 drop table if exists users cascade;
 create table users(

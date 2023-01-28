@@ -16,8 +16,9 @@ module.exports = (app, upload) => {
     
     app.get('/api/users/findByOrder/:email', passport.authenticate('jwt', {session:false}), UsersController.findByOrderController)
     app.get('/api/users/findDeliveryMen/:id', passport.authenticate('jwt', {session:false}), UsersController.findByDeliveryMenController)
-    // app.get('/api/users/getAdminsNotificationTokens', passport.authenticate('jwt', {session:false}), UsersController.getAdminsNotificationTokens)
+    app.get('/api/users/listartodostokens', passport.authenticate('jwt', {session:false}), UsersController.listarTodosTokensController)
     app.get('/api/users/getAdminsNotificationTokens/:iduser', passport.authenticate('jwt', {session:false}), UsersController.getAdminsNotificationTokens)
+    app.get('/api/users/listartokentiendacliente', passport.authenticate('jwt', {session:false}), UsersController.listarTokenTiendaClienteController)
 
     //idorder=id
     app.get('/api/users/mostrardatos/:id/:iduser/:iddelivery/:idtienda', passport.authenticate('jwt', {session:false}), UsersController.mostrarEvidenciaController)

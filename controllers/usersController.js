@@ -105,6 +105,7 @@ module.exports = {
             })
         }
     },
+
     async buscarTelefonoController(req,res, next){
         try {
             const phone = await req.params.phone
@@ -185,6 +186,51 @@ module.exports = {
         try {
             const iduser = await req.params.iduser
             const data= await User.getAdminsNotificationTokens(iduser)
+            let tokens =[];
+            data.forEach(d => {
+                tokens.push(d.notification_token);
+            })
+            //console.log(`Tokens -------> : ${tokens}`)
+            return res.status('201').json(tokens)
+        } catch (error) {
+            //console.log(error)
+            return res.status(501).json({
+                success: false,
+                message: 'Error al obtener repartidores.'
+            })
+        }
+    },
+    async listarTokenTiendaClienteController(req,res, next){
+        // try {
+        //     const data= await User.listarTokenTiendaCliente()
+        //     let tokens =[];
+        //     data.forEach(d => {
+        //         tokens.push(d.id_user,d.lastname,d.lat,d.lng,d.notification_token);
+        //     })
+        //     //console.log(`Tokens -------> : ${tokens}`)
+        //     return res.status('201').json(tokens)
+        // } catch (error) {
+        //     //console.log(error)
+        //     return res.status(501).json({
+        //         success: false,
+        //         message: 'Error al obtener repartidores.'
+        //     })
+        // }
+        try {
+            const data= await User.listarTokenTiendaCliente()
+            ////console.log(`Usuarios: ${data}`)
+            return res.status('201').json(data)
+        } catch (error) {
+            //console.log(error)
+            return res.status(501).json({
+                success: false,
+                message: 'Error al obtener usuario.'
+            })
+        }
+    },
+    async listarTodosTokensController(req,res, next){
+        try {
+            const data= await User.listarTodosTokens()
             let tokens =[];
             data.forEach(d => {
                 tokens.push(d.notification_token);
