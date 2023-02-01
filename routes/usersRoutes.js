@@ -3,9 +3,9 @@ const UsersController=require('../controllers/usersController')
 
 module.exports = (app, upload) => {
     //traer datos
-    app.get('/api/users/getAllTiendas',UsersController.getAllTiendas)
+    app.get('/api/users/getAllTiendas/:idgiro',UsersController.getAllTiendas)
     app.get('/api/users/getAllGiros',UsersController.getAllGirosController)
-    app.get('/api/users/buscarTienda/:descripcion',passport.authenticate('jwt', {session:false}),  UsersController.buscarTiendaController)
+    app.get('/api/users/buscarTienda/:descripcion/:idgiro',passport.authenticate('jwt', {session:false}),  UsersController.buscarTiendaController)
     app.get('/api/users/getusuario/:email/:cumpleanio',UsersController.getUsuarioController)
     app.get('/api/users/findByID/:id', passport.authenticate('jwt', {session:false}), UsersController.findById)
     app.get('/api/users/buscarrepartidor/:id', passport.authenticate('jwt', {session:false}), UsersController.buscarRepartidorController)

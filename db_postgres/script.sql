@@ -32,7 +32,8 @@ drop table if exists giros cascade;
 create table giros(
 	idgiro bigserial primary key,
 	descripcion varchar(255) not null unique,
-	estado boolean null default true
+	estado boolean null default true,
+	image varchar(255) null,
 );
 insert into giros (	DESCRIPCION ) 
        values ('Persona Natural');
@@ -44,6 +45,12 @@ insert into giros (	DESCRIPCION )
        values ('Pizzería');
 insert into giros (	DESCRIPCION ) 
        values ('Polleria');
+insert into giros (	DESCRIPCION ) 
+       values ('Tecnologia');
+insert into giros (	DESCRIPCION ) 
+       values ('Libreria');
+insert into giros (	DESCRIPCION ) 
+       values ('Veterinaria');
 
 drop table if exists users cascade;
 create table users(

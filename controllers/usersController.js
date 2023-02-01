@@ -11,11 +11,12 @@ const { findByDeliveryMen, getAdminsNotificationTokens } = require('../models/us
 module.exports = {
     async getAllTiendas(req,res, next){
         try {
-            const data= await User.getAllTiendas()
+            const idgiro = await req.params.idgiro
+            const data= await User.getAllTiendas(idgiro)
             ////console.log(`Usuarios: ${data}`)
             return res.status('201').json(data)
         } catch (error) {
-            //console.log(error)
+            console.log(error)
             return res.status(501).json({
                 success: false,
                 message: 'Error al obtener usuario.'
@@ -80,7 +81,8 @@ module.exports = {
     async buscarTiendaController(req,res, next){
         try {
             const descripcion = await req.params.descripcion
-            const data= await User.buscarTienda(descripcion)
+            const idgiro = await req.params.idgiro
+            const data= await User.buscarTienda(descripcion,idgiro)
             ////console.log(`Usuarios: ${data}`)
             return res.status('201').json(data)
         } catch (error) {

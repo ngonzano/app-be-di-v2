@@ -3,7 +3,7 @@ const crypto = require('crypto')
 
 const User = {}
 
-User.getAllTiendas = () => {
+User.getAllTiendas = (idgiro) => {
     const sql=`
     select u.id as id_tienda,
 	   u.name,u.lastname,
@@ -33,15 +33,15 @@ User.getAllTiendas = () => {
       from users as u inner join user_has_roles as ur on u.id = ur.id_user
 	                  inner join giros as g on g.idgiro = u.idgiro 
      where ur.id_rol='2'
-	   and u.idgiro != 1
+	   and u.idgiro = $1
 	 group by u.id,g.descripcion--,a.lat,a.lng
      order by promedio desc
     `
-    return db.manyOrNone(sql)
+    return db.manyOrNone(sql,idgiro)
 }
 User.getAllGiros = () => {
     const sql=`
-    select idgiro, descripcion
+    select idgiro, descripcion,image
       from giros
      where estado = true
        and descripcion != 'Persona Natural'
@@ -49,7 +49,7 @@ User.getAllGiros = () => {
     `
     return db.manyOrNone(sql)
 }
-User.buscarTienda= (descripcion) => {
+User.buscarTienda= (descripcion,idgiro) => {
     const sql= `
     select u.id as id_tienda,
            u.name,u.lastname,
@@ -79,12 +79,12 @@ User.buscarTienda= (descripcion) => {
      from users as u inner join user_has_roles as ur on u.id = ur.id_user
                    inner join giros as g on g.idgiro = u.idgiro 
     where ur.id_rol='2'
-      and u.idgiro != 1
+      and u.idgiro = $2
       and (upper(u.name ||' '||u.lastname) ilike upper($1) or upper(g.descripcion) ilike upper($1))
     group by u.id,g.descripcion
     order by promedio desc
     `
-    return db.manyOrNone(sql, `%${descripcion}%`);
+    return db.manyOrNone(sql, [`%${descripcion}%`,idgiro]);
 }
 User.getUsuario = (email, cumpleanio) => {
     const sql=`
