@@ -237,3 +237,13 @@ create table evidencia (
 	foreign key(idtienda) references USERS(id) on update cascade on delete cascade,
 	foreign key(idorder) references orders(id) on update cascade on delete cascade
 );
+
+drop table if exists configuracion cascade;
+create table configuracion(
+	id bigserial primary key,
+	descripcion varchar(255) not null,
+	mensaje varchar(255) not null,
+	estado boolean null default true
+);
+insert into configuracion (	descripcion,mensaje ) 
+       values ('Version','1.0.15+16');

@@ -474,5 +474,13 @@ User.buscarConst = (codigo) => {
     `
     return db.oneOrNone(sql, codigo);
 }
+User.versionApp = () => {
+    const sql= `
+    SELECT ID, descripcion, mensaje, estado
+      FROM configuracion
+     WHERE descripcion = 'Version'
+    `
+    return db.oneOrNone(sql);
+}
 
 module.exports=User

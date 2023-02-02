@@ -84,8 +84,4 @@ Product.updateproducto = (product) => {
     ])
 }
 
-//Administrador
-
-
-
 module.exports = Product

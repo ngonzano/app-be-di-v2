@@ -332,6 +332,14 @@ Order.buscarOrden = (id) => {
     `
     return db.oneOrNone(sql, id);
 }
+Order.versionApp = (id) => {
+    const sql= `
+    SELECT ID, descripcion, mensaje, estado
+      FROM configuracion
+     WHERE descripcion = 'Version'
+    `
+    return db.oneOrNone(sql, id);
+}
 //Actualiza el estado de los productos cuando la orden ya esta creada
 Order.updateEstadoOrderProducto = (id_product, id_order, estado) => {
     const sql= `
