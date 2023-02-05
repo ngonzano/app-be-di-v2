@@ -15,7 +15,8 @@ Order.findByStatus = (status, idTienda) => {
 				   	'image2', p.image2,
 				   	'image3', p.image3,
 				   	'quantity', ohp.quantity,
-                    'estado',ohp.estado
+                    'estado',ohp.estado,
+                    'comentario',ohp.comentario
 			   )
 		   ) AS products,
            JSON_BUILD_OBJECT(
@@ -73,7 +74,8 @@ Order.listaOrdenesAnuladas = (status, idTienda) => {
 				   	'image2', p.image2,
 				   	'image3', p.image3,
 				   	'quantity', ohp.quantity,
-                    'estado',ohp.estado
+                    'estado',ohp.estado,
+                    'comentario',ohp.comentario
 			   )
 		   ) AS products,
            JSON_BUILD_OBJECT(
@@ -131,7 +133,8 @@ Order.findByDeliveryAndStatus = (id_delivery, status) => {
 				   	'image2', p.image2,
 				   	'image3', p.image3,
 				   	'quantity', ohp.quantity,
-                    'estado',ohp.estado
+                    'estado',ohp.estado,
+                    'comentario',ohp.comentario
 			   )
 		   ) AS products,
            JSON_BUILD_OBJECT(
@@ -189,7 +192,8 @@ Order.findByClientAndStatus = (id_client, status) => {
 				   	'image2', p.image2,
 				   	'image3', p.image3,
 				   	'quantity', ohp.quantity,
-                    'estado',ohp.estado
+                    'estado',ohp.estado,
+                    'comentario',ohp.comentario
 			   )
 		   ) AS products,
            JSON_BUILD_OBJECT(

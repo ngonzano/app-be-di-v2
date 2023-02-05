@@ -35,7 +35,7 @@ module.exports = {
             await Order.createPagoDelivery(order, delivery)
             //recorrer todos los productos agregados a la orden
             for (const product of order.products) {
-               await OrderHasProduct.create(orderData.id, product.id, product.quantity);
+               await OrderHasProduct.create(orderData.id, product.id, product.quantity, product.comentario);
             }
             //console.log(`LA ORDEN SE CREO CORRECTAMENTE ${orderData.id}`);
                return res.status(201).json({

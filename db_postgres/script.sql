@@ -203,6 +203,7 @@ CREATE TABLE orders_has_products(
 	update_at timestamp(0) not null,
 	estado boolean NOT NULL DEFAULT true,
 	sub_total decimal default 0,
+	comentario varchar(255) null,
 	PRIMARY key(ID_order, id_product),
 	Foreign key(ID_order) references orders(id) on update cascade on delete cascade,
 	Foreign key(id_product) references products(id) on update cascade on delete cascade
