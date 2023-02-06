@@ -4,7 +4,7 @@ const Order = {}
 //lista de ordenes
 Order.findByStatus = (status, idTienda) => {
     const sql = `
-    SELECT O.ID, O.ID_CLIENT, O.ID_ADDRESS, O.ID_DELIVERY, O.STATUS, O.TIMESTAMP,
+    SELECT O.ID, O.ID_CLIENT, O.ID_ADDRESS, O.ID_DELIVERY, O.STATUS, O.TIMESTAMP, O.lat,O.lng,
 		   JSON_AGG(
 			   JSON_BUILD_OBJECT(
 			   		'id',p.id,
@@ -63,7 +63,7 @@ Order.findByStatus = (status, idTienda) => {
 }
 Order.listaOrdenesAnuladas = (status, idTienda) => {
     const sql = `
-    SELECT O.ID, O.ID_CLIENT, O.ID_ADDRESS, O.ID_DELIVERY, O.STATUS, O.TIMESTAMP,
+    SELECT O.ID, O.ID_CLIENT, O.ID_ADDRESS, O.ID_DELIVERY, O.STATUS, O.TIMESTAMP, O.lat,O.lng,
 		   JSON_AGG(
 			   JSON_BUILD_OBJECT(
 			   		'id',p.id,
@@ -122,7 +122,7 @@ Order.listaOrdenesAnuladas = (status, idTienda) => {
 }
 Order.findByDeliveryAndStatus = (id_delivery, status) => {
     const sql = `
-    SELECT O.ID, O.ID_CLIENT, O.ID_ADDRESS, O.ID_DELIVERY, O.STATUS, O.TIMESTAMP,
+    SELECT O.ID, O.ID_CLIENT, O.ID_ADDRESS, O.ID_DELIVERY, O.STATUS, O.TIMESTAMP, O.lat,O.lng,
 		   JSON_AGG(
 			   JSON_BUILD_OBJECT(
 			   		'id',p.id,
