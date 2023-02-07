@@ -15,7 +15,7 @@ const passport = require('passport')
 const io = require('socket.io')(server)
 const mercadopago = require('mercadopago')
 /*sockets*/
-const orderDeliverySocket = require('./sockets/orders_delivery_sockets')
+const orderDeliverySocket = require('./sockets/orders_delivery_sockets');
 const deliveryTiendaSocket = require('./sockets/delivery_tienda_sockets')
 
 const users = require('./routes/usersRoutes')
@@ -65,8 +65,9 @@ app.disable('x-powered-by')
 app.set('port', port)
 
 //LLamar al sockets
-orderDeliverySocket(io)
-deliveryTiendaSocket(io)
+orderDeliverySocket(io);
+deliveryTiendaSocket(io);
+
 /*
 llamando a las rutas
 */
@@ -87,6 +88,10 @@ server.listen(port,'0.0.0.0', function(){
 app.get('/',(req, res) => {
     res.send('H&L DELIVERY | PidePE - ruta raiz del backend, solo se vera con TOKENs.')
 })
+
+// app.get('/orders/delivery', (req, res) => {
+//     res.send('Socket IO');
+//   });
 //error handler
 app.use((err,req, res, next) => {
     //console.log(err)
