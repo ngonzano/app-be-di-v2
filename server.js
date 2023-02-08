@@ -3,6 +3,7 @@ const: constantes
 let: variables
 */
 const express = require('express')
+const sessionx = require('express-session')
 const http = require('http')
 const app = express()
 const server = http.createServer(app)
@@ -89,14 +90,21 @@ app.get('/',(req, res) => {
     res.send('H&L DELIVERY | PidePE - ruta raiz del backend, solo se vera con TOKENs.')
 })
 
-// app.get('/orders/delivery', (req, res) => {
-//     res.send('Socket IO');
-//   });
+app.get('/orders/delivery', (req, res) => {
+    res.send('Socket IO');
+  });
 //error handler
 app.use((err,req, res, next) => {
     //console.log(err)
     res.status(err.status || 500).send(err.stack)
 })
+app.use(sessionx({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }))
+  
 
 module.exports = {
     app: app,
