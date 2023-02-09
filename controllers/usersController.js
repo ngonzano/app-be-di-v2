@@ -422,10 +422,10 @@ module.exports = {
 
             if (dato.includes('@')) {
                  myUser = await User.findByEmail(dato)
-                //  console.log('correo');
+                 console.log('correo');
             } else {
                  myUser = await User.findByPhone(dato)
-                //  console.log('telefono');
+                 console.log('telefono');
             }
             
             if (!myUser) {
