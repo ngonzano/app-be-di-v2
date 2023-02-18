@@ -3,20 +3,23 @@ const Order = require('../models/order')
 const OrderHasProduct = require('../models/order_has_products')
 // const User = require('../models/user')
 
-//QA
-// mercadopago.configure({
-//     sandbox: true,
-//     access_token: 'TEST-4647891345690403-070800-d0bea39e4981caeb0be9329839d56e67-578676229'
-// })
 
-//PROD
-mercadopago.configure({
-    access_token: 'APP_USR-1181137664744409-120823-00a328d8dbd81d6967dd857a28f2a421-1258945087'
-})
 
 module.exports = {
     //generar pago para tarjeta de credito/debito
     async createPaymentCreditCart(req, res, next){
+
+        //QA
+        // mercadopago.configure({
+        //     sandbox: true,
+        //     access_token: 'TEST-4647891345690403-070800-d0bea39e4981caeb0be9329839d56e67-578676229'
+        // })
+            
+        //PROD
+        mercadopago.configure({
+            access_token: 'APP_USR-1181137664744409-120823-00a328d8dbd81d6967dd857a28f2a421-1258945087'
+        })
+
         let payment = req.body //requerir datos del pago viene en req.body viene del flutter
        
         const payment_data = {

@@ -35,9 +35,9 @@ const efectivo = require('./routes/efectivoRoutes')
 // })
 
 //PROD
-mercadopago.configure({
-    access_token:'APP_USR-1181137664744409-120823-00a328d8dbd81d6967dd857a28f2a421-1258945087'
-})
+// mercadopago.configure({
+//     access_token:'APP_USR-1181137664744409-120823-00a328d8dbd81d6967dd857a28f2a421-1258945087'
+// })
 
 /*FIN MERCADO PAGO CONFIGURACION*/
 
