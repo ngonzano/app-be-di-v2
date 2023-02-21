@@ -24,7 +24,7 @@ module.exports = (app, upload) => {
     //idorder=id
     app.get('/api/users/mostrardatos/:id/:iduser/:iddelivery/:idtienda', passport.authenticate('jwt', {session:false}), UsersController.mostrarEvidenciaController)
 
-    app.get('/api/users/buscarconst/:codigo', passport.authenticate('jwt', {session:false}), UsersController.buscarConstController)
+    app.get('/api/users/buscarconst/:codigo/:iduser', passport.authenticate('jwt', {session:false}), UsersController.buscarConstController)
 
     //guardar datos
     app.post('/api/users/create/:withlogin',upload.array('image',1), UsersController.registerWithImage)

@@ -596,8 +596,10 @@ module.exports = {
     async buscarConstController(req,res, next){
         try {
             const codigo = await req.params.codigo
-            const data= await User.buscarConst(codigo)
-            console.log(`Constante: ${data}`)
+            const iduser = await req.params.iduser
+
+            const data = await User.buscarConst(codigo, iduser)
+            // console.log(`Constante: ${data}`)
             return res.status('201').json(data)
         } catch (error) {
             //console.log(error)

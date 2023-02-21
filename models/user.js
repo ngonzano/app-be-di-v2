@@ -466,13 +466,14 @@ User.actualizarComentario = (idorder, comentariousuario, calificacion) => {
     `;
     return db.none(sql, [idorder, comentariousuario, calificacion])
 }
-User.buscarConst = (codigo) => {
+User.buscarConst = (codigo, idUser) => {
     const sql= `
-    select valor 
-      from constantes 
+    select priceDelivery, imageDelivery, publicKey_mp, accessToken_mp 
+      from datos_constantes 
      where codigo=$1
+       and id_user = $2
     `
-    return db.oneOrNone(sql, codigo);
+    return db.oneOrNone(sql, [codigo, idUser]);
 }
 User.versionApp = () => {
     const sql= `

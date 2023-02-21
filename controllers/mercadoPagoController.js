@@ -1,23 +1,30 @@
 const mercadopago = require('mercadopago')
 const Order = require('../models/order')
 const OrderHasProduct = require('../models/order_has_products')
-// const User = require('../models/user')
+const User = require('../models/user')
 
 
 
 module.exports = {
     //generar pago para tarjeta de credito/debito
     async createPaymentCreditCart(req, res, next){
-
-        //QA
+       
+    //QA
         // mercadopago.configure({
         //     sandbox: true,
         //     access_token: 'TEST-4647891345690403-070800-d0bea39e4981caeb0be9329839d56e67-578676229'
         // })
             
         //PROD
+        
+        const codigo = await req.params.codigo
+        const iduser = await req.params.iduser
+        const datos = await User.buscarConst(codigo,iduser)
+
+        // console.log(`${JSON.stringify(datos.accesstoken_mp)}`);
+        
         mercadopago.configure({
-            access_token: 'APP_USR-1181137664744409-120823-00a328d8dbd81d6967dd857a28f2a421-1258945087'
+            access_token: datos.accesstoken_mp
         })
 
         let payment = req.body //requerir datos del pago viene en req.body viene del flutter
@@ -101,7 +108,7 @@ module.exports = {
                     console.log(`LA ORDEN NO SE CREO CORRECTAMENTE ESTADO: ${data.response.status} `);
                 }           
                 return res.status(201).json(data.response)
-            }else{
+            } else {
                 //console.log(`LA ORDEN NO SE CREO CORRECTAMENTE ${data.response.status}`);
                 return res.status(501).json({
                 message: 'Error al crear el pago',
@@ -109,12 +116,13 @@ module.exports = {
             })
             }
         }else{
-            console.log('Error  al crear el pago en createPaymentCreditCart.');
+            console.log('Error al crear el pago en createPaymentCreditCart.');
             // return res.status(501).json({
             //     message: 'Error al crear el pago',
             //     success: false
             // })
         }
+        
     },
     async createPaymentCreditCartMP(req, res, next){
         let payment = req.body //requerir datos del pago viene en req.body viene del flutter

@@ -80,7 +80,18 @@ create table users(
 	foreign key(idgiro) references giros(idgiro) on update cascade on delete cascade
 );
 
-
+drop table if exists datos_constantes cascade;
+create table datos_constantes(
+	id bigserial not null,
+	codigo varchar(20) not null,
+	id_user bigint not null,
+	priceDelivery decimal default 3,
+	imageDelivery varchar(255) not null default 'https://firebasestorage.googleapis.com/v0/b/laser-halia.appspot.com/o/ROLES%2Fdelivery.jpeg?alt=media&token=d2d7544c-e349-41ed-a7e5-01ac53538c9e',
+	publicKey_mp varchar(255) not null default 'APP_USR-04dfab39-81db-4b43-9f76-8468126ef827',
+	accessToken_mp varchar(255) not null default 'APP_USR-1181137664744409-120823-00a328d8dbd81d6967dd857a28f2a421-1258945087',
+	foreign key(id_user) references users(id) on update cascade on delete cascade,
+	primary key(id)
+);
 
 drop table if exists user_has_roles cascade;
 create table user_has_roles(
