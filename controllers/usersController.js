@@ -471,7 +471,7 @@ module.exports = {
             console.log(`Error: ${error}`)
             return res.status(501).json({
                 success: false,
-                message: 'Error al realizar login, verifique su usuario y/o contraseña.',
+                message: 'Error al realizar login, por favor cerrar la app PidePE y volver a intentar.',
                 error: error
             })
         }    

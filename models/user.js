@@ -145,10 +145,14 @@ User.agregarNegocio = (user) => {
 
     		update users set llegaen = $1, desde=$2, hasta=$3, rango_cliente_tienda= $4, rango_repartidor_tienda=$4,
                              idgiro = (select idgiro from giros where descripcion =$5)
-             where email=$6;    
+             where email=$6;
+             
+            insert into datos_constantes (codigo, id_user)
+            values ($9,$10);         
+             
     `
     return db.oneOrNone(sql, [
-        user.llegaen,user.abre,user.cierra,user.rango,user.giro,user.documento,new Date(),new Date()
+        user.llegaen,user.abre,user.cierra,user.rango,user.giro,user.documento,new Date(),new Date(),user.codigo,user.id_user
     ])
 }
 User.createEvidencia = (evidencia) => {
@@ -253,19 +257,19 @@ User.listarTokenTiendaCliente = () =>{
 User.findByPhone = (phone) => {
     const sql= `
     SELECT u.ID,EMAIL,u.NAME,LASTNAME,u.IMAGE,PHONE,PASSWORD,SESSION_TOKEN,notification_token,is_available,idgiro,u.correo,
-    json_agg(
-        json_build_object(
-                'id', r.id,
-             'name', r.name,
-             'image', r.image,
-             'route', r.route
-        )
-    ) as roles		
-FROM USERS as u inner join user_has_roles as uhr on u.id=uhr.id_user
-                 inner join roles r on uhr.id_rol=r.id 
-WHERE u.PHONE = $1
-  AND estado = true
-group by u.id
+          json_agg(
+              json_build_object(
+                      'id', r.id,
+                   'name', r.name,
+                   'image', r.image,
+                   'route', r.route
+              )
+          ) as roles		
+    FROM USERS as u inner join user_has_roles as uhr on u.id=uhr.id_user
+                     inner join roles r on uhr.id_rol=r.id 
+    WHERE u.PHONE = $1
+      AND estado = true
+    group by u.id
     `
     return db.oneOrNone(sql, phone);
 }
