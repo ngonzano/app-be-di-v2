@@ -49,6 +49,26 @@ User.getAllGiros = () => {
     `
     return db.manyOrNone(sql)
 }
+User.getAllGirosCoordenadas = () => {
+    const sql=`
+    select g.idgiro,g.descripcion, g.image,
+       JSON_AGG(
+			   JSON_BUILD_OBJECT(
+	   			'idtienda', u.id,
+				'idgiro', g.idgiro,
+		    	'lat', a.lat,
+			    'lng', a.lng
+	   			)
+	   ) as coordenadas
+     from users u inner join giros g on u.idgiro = g.idgiro
+                  inner join address a on u.id = a.id_user
+    where u.idgiro <> 1
+      and a.disponibilidad = true
+      and u.estado = true
+    group by g.idgiro, descripcion, g.image
+    `
+    return db.manyOrNone(sql)
+}
 User.buscarTienda= (descripcion,idgiro) => {
     const sql= `
     select u.id as id_tienda,

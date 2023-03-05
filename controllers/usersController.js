@@ -35,6 +35,18 @@ module.exports = {
             })
         }
     },
+    async getAllGirosCoordenadasController(req,res, next){
+        try {
+            const data= await User.getAllGirosCoordenadas()
+            return res.status('201').json(data)
+        } catch (error) {
+            //console.log(error)
+            return res.status(501).json({
+                success: false,
+                message: 'Error al obtener giros.'
+            })
+        }
+    },
     async getUsuarioController(req,res, next){
         try {
             const email = await req.params.email
