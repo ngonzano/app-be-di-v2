@@ -16,8 +16,9 @@ const passport = require('passport')
 const io = require('socket.io')(server)
 const mercadopago = require('mercadopago')
 /*sockets*/
-const orderDeliverySocket = require('./sockets/orders_delivery_sockets');
+const orderDeliverySocket = require('./sockets/orders_delivery_sockets')
 const deliveryTiendaSocket = require('./sockets/delivery_tienda_sockets')
+const driverSocket = require('./sockets/driver_sockets')
 
 const users = require('./routes/usersRoutes')
 const categories = require('./routes/categoriesRoutes')
@@ -68,6 +69,7 @@ app.set('port', port)
 //LLamar al sockets
 orderDeliverySocket(io);
 deliveryTiendaSocket(io);
+driverSocket(io);
 
 /*
 llamando a las rutas

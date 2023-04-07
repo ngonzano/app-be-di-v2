@@ -51,6 +51,8 @@ insert into giros (	DESCRIPCION )
        values ('Libreria');
 insert into giros (	DESCRIPCION ) 
        values ('Veterinaria');
+insert into giros (	DESCRIPCION ) 
+       values ('Mototaxi');
 
 drop table if exists users cascade;
 create table users(
@@ -119,7 +121,7 @@ create table tienda_has_delivery(
 insert into roles (
 	name,route,create_at,update_at,image
 ) values (
-	'CLIENTE','client/products/list','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com/o/ROLES%2Fadmin.png?alt=media&token=a907d6ae-6baa-4c97-8abb-5f27829ce921');
+	'CLIENTE','categoria','2021-07-15','2021-07-15','https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com/o/ROLES%2Fadmin.png?alt=media&token=a907d6ae-6baa-4c97-8abb-5f27829ce921');
 insert into roles (
 	name,route,create_at,update_at,image
 ) values (
