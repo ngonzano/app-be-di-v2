@@ -635,7 +635,7 @@ module.exports = {
     },
     async telefonoEmpController(req,res, next){
         try {
-            const data= await User.versionApp()
+            const data= await User.telefonoEmp()
             return res.status('201').json(data)
         } catch (error) {
             //console.log(error)
