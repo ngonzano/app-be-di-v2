@@ -507,5 +507,13 @@ User.versionApp = () => {
     `
     return db.oneOrNone(sql);
 }
+User.telefonoEmp = () => {
+    const sql= `
+    SELECT ID, descripcion, mensaje, estado
+      FROM configuracion
+     WHERE descripcion = 'telefono_emp'
+    `
+    return db.oneOrNone(sql);
+}
 
 module.exports=User
