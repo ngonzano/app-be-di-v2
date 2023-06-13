@@ -8,6 +8,16 @@ module.exports = (app, upload) => {
     app.get('/api/users/getAllGirosCoordenadas',UsersController.getAllGirosCoordenadasController)
     app.get('/api/users/version',UsersController.versionAppController)
     app.get('/api/users/telefonoemp',UsersController.telefonoEmpController)
+
+    //SMS
+    app.get('/api/users/idplanservicio',UsersController.smsIdPlanServicioController)
+    app.get('/api/users/credential',UsersController.smsCredentialController)
+    app.get('/api/users/urlsinch',UsersController.urlSinchController)
+    app.get('/api/users/fromsms',UsersController.fromSmsController)
+    app.get('/api/users/bodysms',UsersController.bodySmsController)
+    //SMS
+
+
     app.get('/api/users/buscarTienda/:descripcion/:idgiro',passport.authenticate('jwt', {session:false}),  UsersController.buscarTiendaController)
     app.get('/api/users/getusuario/:email/:cumpleanio',UsersController.getUsuarioController)
     app.get('/api/users/findByID/:id', passport.authenticate('jwt', {session:false}), UsersController.findById)
@@ -37,6 +47,7 @@ module.exports = (app, upload) => {
 
     app.post('/api/users/login', UsersController.login)
     app.post('/api/users/logout', UsersController.logout)
+
 
     //PUT 
     app.put('/api/users/upduserpass', UsersController.updateUserPassController)

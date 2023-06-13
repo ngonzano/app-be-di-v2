@@ -645,4 +645,66 @@ module.exports = {
             })
         }
     },
+    ////////////SMS//////////////
+    async smsIdPlanServicioController(req,res, next){
+        try {
+            const data= await User.smsIdPlanServicio()
+            return res.status('201').json(data)
+        } catch (error) {
+            //console.log(error)
+            return res.status(501).json({
+                success: false,
+                message: 'Error al obtener la version'
+            })
+        }
+    },
+    async smsCredentialController(req,res, next){
+        try {
+            const data= await User.smsCredential()
+            return res.status('201').json(data)
+        } catch (error) {
+            //console.log(error)
+            return res.status(501).json({
+                success: false,
+                message: 'Error al obtener la version'
+            })
+        }
+    },
+    async urlSinchController(req,res, next){
+        try {
+            const data= await User.urlSinch()
+            return res.status('201').json(data)
+        } catch (error) {
+            //console.log(error)
+            return res.status(501).json({
+                success: false,
+                message: 'Error al obtener la version'
+            })
+        }
+    },
+    async fromSmsController(req,res, next){
+        try {
+            const data= await User.fromSms()
+            return res.status('201').json(data)
+        } catch (error) {
+            //console.log(error)
+            return res.status(501).json({
+                success: false,
+                message: 'Error al obtener la version'
+            })
+        }
+    },
+    async bodySmsController(req,res, next){
+        try {
+            const data= await User.bodySms()
+            return res.status('201').json(data)
+        } catch (error) {
+            //console.log(error)
+            return res.status(501).json({
+                success: false,
+                message: 'Error al obtener la version'
+            })
+        }
+    },
+
 }

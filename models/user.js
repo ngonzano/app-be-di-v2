@@ -515,5 +515,49 @@ User.telefonoEmp = () => {
     `
     return db.oneOrNone(sql);
 }
+//SMS
+User.smsIdPlanServicio = () => {
+    const sql= `
+    SELECT ID, descripcion, mensaje, estado
+      FROM configuracion
+     WHERE descripcion = 'idPlanServicio'
+    `
+    return db.oneOrNone(sql);
+}
+User.smsCredential = () => {
+    const sql= `
+    SELECT ID, descripcion, mensaje, estado
+      FROM configuracion
+     WHERE descripcion = 'smsCredential'
+    `
+    return db.oneOrNone(sql);
+}
+
+User.urlSinch = () => {
+    const sql= `
+    SELECT ID, descripcion, mensaje, estado
+      FROM configuracion
+     WHERE descripcion = 'urlSinch'
+    `
+    return db.oneOrNone(sql);
+}
+User.fromSms = () => {
+    const sql= `
+    SELECT ID, descripcion, mensaje, estado
+      FROM configuracion
+     WHERE descripcion = 'fromSms'
+    `
+    return db.oneOrNone(sql);
+}
+User.bodySms = () => {
+    const sql= `
+    SELECT ID, descripcion, mensaje, estado
+      FROM configuracion
+     WHERE descripcion = 'body_sms'
+    `
+    return db.oneOrNone(sql);
+}
+
+//SMS
 
 module.exports=User
