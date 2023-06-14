@@ -4,10 +4,12 @@ const Category= {}
 
 Category.getAll = (idUser) => {
     const sql = `
-        SELECT ID, UPPER(NAME) as NAME, DESCRIPTION,image 
-          FROM CATEGORIES
-         WHERE id_user=$1
-         ORDER BY NAME
+    SELECT c.ID, UPPER(c.NAME) as NAME, c.DESCRIPTION,c.image 
+      FROM CATEGORIES c inner join products p on c.id = p.id_category
+     WHERE id_user=$1
+       AND P.CANTIDAD <> 0 
+     GROUP BY c.ID
+     ORDER BY NAME
     `;
     return db.manyOrNone(sql, idUser);
 }
