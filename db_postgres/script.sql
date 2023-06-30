@@ -151,7 +151,7 @@ create table CATEGORIES (
 drop table IF exists products cascade;
 create table products (
 	ID bigserial primary key,
-	NAME varchar(180) not null unique,
+	NAME varchar(180) not null, --unique
 	description varchar(255) not null,
 	price decimal default 0,
 	pricecompra decimal default 0,
