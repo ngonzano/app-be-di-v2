@@ -99,7 +99,7 @@ module.exports = {
         }
     },
     async updateController(req, res, next) {
-        let product = JSON.parse(req.body.product)        
+        let product = JSON.parse(req.body.product) 
         
         const files = req.files;
         let inserts = 0
@@ -117,39 +117,52 @@ module.exports = {
                 const start = async () => {
                     
                     await asyncForEach(files, async(file) => {
-                        
+
                         const pathImage =`image_${Date.now()}`                        
 
-                        const url = await storage(file, pathImage)
+                        const url = await storage(file, pathImage)                        
                         
                         if(url !== undefined && url !== null){
+                            let img = 0;
 
-                            if (product.image1 !== null) {
-                                //console.log('imagen 1 sin modificar');                                    
+                            if (img === 0 && product.image1 === null) {
+                                product.image1 = url;
+                                img = 1
+                            }
+                            else if (product.image2 === null && img !== 2) {
+                                product.image2 = url;
+                                img = 2
                             }
                             else {
-                                product.image1 = url
+                                product.image3 = url;
                             }
 
-                            if (product.image2 !== null) {
-                                    //console.log('imagen 2 sin modificar'); 
-                                }
-                            else {
-                                product.image2 = url
-                            }
-                            if  (product.image3 !== null) {
-                                    //console.log('imagen 3 sin modificar'); 
-                                }
-                            else {
-                                product.image3 = url
-                            } 
-                        }
-                        
-                        await Product.updateproducto(product)
-                        inserts = inserts + 1
+                            // if (product.image1 !== null) {
+                            //     //console.log('imagen 1 sin modificar');                                    
+                            // }
+                            // else {
+                            //     product.image1 = url
+                            // }
+
+                            // if (product.image2 !== null) {
+                            //         //console.log('imagen 2 sin modificar'); 
+                            //     }
+                            // else {
+                            //     product.image2 = url
+                            // }
+                            // if  (product.image3 !== null) {
+                            //         //console.log('imagen 3 sin modificar'); 
+                            //     }
+                            // else {
+                            //     product.image3 = url
+                            // } 
+                        }                        
+                        await Product.updateproducto(product)     
+                        inserts = inserts + 1                  
+
                         if (inserts === files.length) {
                             return res.status(201).json({
-                                message: 'El producto se ha actualizado correctamente.',
+                                message: `El producto ${inserts} se ha actualizado correctamente.`,
                                 success: true
                             })
                         }
