@@ -79,6 +79,7 @@ User.buscarTienda= (descripcion,idgiro) => {
            u.llegaen,
            u.desde,
            u.hasta,
+           u.phone,
            ( CASE WHEN 
                (select Round(avg(calificacion),1)  from evidencia where idtienda = u.id) IS null then 4.5
                 else (select Round(avg(calificacion),1)  from evidencia where idtienda = u.id)
