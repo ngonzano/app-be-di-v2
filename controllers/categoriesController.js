@@ -20,7 +20,9 @@ module.exports = {
     async getAllStockController(req, res, next){
         try {
             const idUser = req.params.iduser
-            const data = await Category.getAllStock(idUser)
+            const productname = req.params.productname
+
+            const data = await Category.getAllStock(idUser, productname)
             return res.status(201).json(data)
         } catch (error) {
             //console.log(`Error ${error}`);
