@@ -23,6 +23,17 @@ Category.getAllStock = (idUser, productname) => {
     `;
     return db.manyOrNone(sql, [idUser,`%${productname}%`]);
 }
+Category.getAllStockSinBuscar = (idUser) => {
+    const sql = `
+    SELECT c.ID, UPPER(c.NAME) as NAME, c.DESCRIPTION,c.image 
+          FROM CATEGORIES c inner join products p on c.id = p.id_category
+         WHERE c.id_user=$1
+           AND P.CANTIDAD <> 0
+         GROUP BY c.ID
+         ORDER BY NAME
+    `;
+    return db.manyOrNone(sql, idUser);
+}
 Category.create = (category) => {
     const sql=`
         INSERT INTO CATEGORIES (NAME, DESCRIPTION, CREATE_AT, UPDATE_AT, id_user,image)

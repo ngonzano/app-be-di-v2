@@ -33,6 +33,21 @@ module.exports = {
             })
         }
     },
+    async getAllStockSinBuscarController(req, res, next){
+        try {
+            const idUser = req.params.iduser
+            const data = await Category.getAllStockSinBuscar(idUser)
+
+            return res.status(201).json(data)
+        } catch (error) {
+            //console.log(`Error ${error}`);
+            return res.status(501).json({
+                message: 'Hubo un error al tratar de obtener las categorias',
+                error: error,
+                success: false
+            })
+        }
+    },
     async create(req, res, next){
         try {
             const category = JSON.parse(req.body.category)
