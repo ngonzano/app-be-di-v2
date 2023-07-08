@@ -16,6 +16,22 @@ module.exports = {
                 success: false
             })
         }
+    }, 
+    async getAllBuscarController(req, res, next){
+        try {
+            const idUser = req.params.iduser
+            const productname = req.params.productname
+
+            const data = await Category.getAllBuscar(idUser, productname)
+            return res.status(201).json(data)
+        } catch (error) {
+            //console.log(`Error ${error}`);
+            return res.status(501).json({
+                message: 'Hubo un error al tratar de obtener las categorias',
+                error: error,
+                success: false
+            })
+        }
     },
     async getAllStockController(req, res, next){
         try {
