@@ -5,7 +5,7 @@ module.exports = (io) => {
         // console.log('USUARIO CONECTADO AL NAMESPACE /orders/delivery');
         socket.on('position', (data) => {
             // console.log(`EMITIO ${JSON.stringify(data)}`);
-            orderDeliveryNamespace.emit(`position/${data.id_order}`, { lat: data.lat, lng: data.lng  });
+            orderDeliveryNamespace.emit(`position/${data.id_order}`, { lat: data.lat, lng: data.lng, position: data.position });
         });
         socket.on('disconnect', (data)  => {
             console.log('USUARIO DESCONECTADO');
