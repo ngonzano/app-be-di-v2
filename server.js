@@ -28,6 +28,7 @@ const order = require('./routes/ordersRoutes')
 const mercadoPagoRoutes = require('./routes/mercadoPagoRoutes')
 
 const efectivo = require('./routes/efectivoRoutes')
+const yapeController = require('./routes/yapeRoutes')
 
 /*MERCADO PAGO CONFIGURACION*/
 //QA
@@ -81,9 +82,10 @@ order(app)
 products(app, upload)
 mercadoPagoRoutes(app)
 efectivo(app)
+yapeController(app)
 
-server.listen(port,'0.0.0.0', function(){
-// server.listen(port,'192.168.18.18'||'localhost', function(){
+// server.listen(port,'0.0.0.0', function(){
+server.listen(port,'192.168.18.18'||'localhost', function(){
     console.log('App '+process.pid+' iniciada...')
     console.log('Port '+port+' iniciada...')
 })

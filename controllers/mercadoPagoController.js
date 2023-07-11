@@ -19,7 +19,7 @@ module.exports = {
         
         const codigo = await req.params.codigo
         const iduser = await req.params.iduser
-        const datos = await User.buscarConst(codigo,iduser)
+        const datos = await User.buscarConst(codigo,iduser)        
 
         // console.log(`${JSON.stringify(datos.accesstoken_mp)}`);
         

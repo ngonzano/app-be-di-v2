@@ -492,7 +492,7 @@ User.actualizarComentario = (idorder, comentariousuario, calificacion) => {
 }
 User.buscarConst = (codigo, idUser) => {
     const sql= `
-    select priceDelivery, imageDelivery, publicKey_mp, accessToken_mp 
+    select priceDelivery, imageDelivery, publicKey_mp, accessToken_mp, yape_token_key, yape_op_key 
       from datos_constantes 
      where codigo=$1
        and id_user = $2
