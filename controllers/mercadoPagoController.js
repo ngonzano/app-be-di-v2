@@ -69,7 +69,7 @@ module.exports = {
         // console.log(`PAYMENT DATA: ${JSON.stringify(payment_data)}`);
         
         const data = await mercadopago.payment.create(payment_data).catch((err) => {            
-            console.log('Error al crear el pago...: ' + err)
+            // console.log('Error al crear el pago...: ' + err)
             return res.status(501).json({//esta respuesta se manda a flutter
                 message: 'Error al crear el pago',
                 success: false,
@@ -90,6 +90,8 @@ module.exports = {
                 let order = payment.order
                 order.status='PAGADO'
                 order.idmp = data.response.id //id de mercado pago
+                order.comision = data.response.fee_details[0].amount //comision
+                // console.log(`data.response: ${data.response.fee_details[0].amount}`);
                 order.status_pago=true
                 const delivery = req.params.delivery
 
@@ -102,10 +104,10 @@ module.exports = {
                     for (const product of order.products) {
                         await OrderHasProduct.create(orderData.id, product.id, product.quantity);
                     }
-                    console.log(`LA ORDEN SE CREO CORRECTAMENTE ${orderData.id} con número de id: ${data.response.id} `);
+                    // console.log(`LA ORDEN SE CREO CORRECTAMENTE ${orderData.id} con número de id: ${data.response.id} `);
                     
                 }else{
-                    console.log(`LA ORDEN NO SE CREO CORRECTAMENTE ESTADO: ${data.response.status} `);
+                    // console.log(`LA ORDEN NO SE CREO CORRECTAMENTE ESTADO: ${data.response.status} `);
                 }           
                 return res.status(201).json(data.response)
             } else {

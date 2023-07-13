@@ -91,6 +91,8 @@ create table datos_constantes(
 	imageDelivery varchar(255) not null default 'https://firebasestorage.googleapis.com/v0/b/laser-halia.appspot.com/o/ROLES%2Fdelivery.jpeg?alt=media&token=d2d7544c-e349-41ed-a7e5-01ac53538c9e',
 	publicKey_mp varchar(255) not null default 'APP_USR-04dfab39-81db-4b43-9f76-8468126ef827',
 	accessToken_mp varchar(255) not null default 'APP_USR-1181137664744409-120823-00a328d8dbd81d6967dd857a28f2a421-1258945087',
+	yape_token_key varchar(255) not null default 'pk_live_e88f5b01949d3fb3'
+	yape_op_key varchar(255) not null default 'sk_live_84b62c0c8047ac0d'
 	foreign key(id_user) references users(id) on update cascade on delete cascade,
 	primary key(id)
 );
@@ -201,6 +203,7 @@ CREATE TABLE orders(
 	id_mediopago bigint NOT NULL DEFAULT 1,
 	total decimal default 0,
 	idmp varchar(15) not null DEFAULT '0',
+	idyape varchar(30) not null DEFAULT '0',
 	Foreign key(id_client) references users(id) on update cascade on delete cascade,
 	Foreign key(id_delivery) references users(id) on update cascade on delete cascade,
 	Foreign key(id_address) references address(id) on update cascade on delete cascade,

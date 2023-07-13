@@ -1,5 +1,7 @@
 const request = require('request');
 const User = require('../models/user')
+const Order = require('../models/order')
+const OrderHasProduct = require('../models/order_has_products')
 
 module.exports = {
 
@@ -7,9 +9,9 @@ async crearTokenYape(req, res, next){
 
 const codigo = await req.params.codigo
 const iduser = await req.params.iduser
+const payment = req.body
+// console.log(`payment: ${JSON.stringify(payment)}`)
 const datos = await User.buscarConst(codigo,iduser)
-let payment = req.body
-
        
 const options = {
     method: 'POST',
@@ -18,16 +20,10 @@ const options = {
       Authorization: datos.yape_token_key,
       'content-type': 'application/json'
     },
-     // no se puede obtener un mensaje satisfactorio por "una tarjeta de real para procesar pagos de prueba."
-    body: {
+      body: {
         otp: payment.otp,
         number_phone: payment.number_phone,
         amount: payment.amount,
-        metadata: 
-            {   
-               dni: payment.metadata.dni,
-               negocio: payment.metadata.negocio 
-            }
     },
     json: true
   };
@@ -38,14 +34,16 @@ request(options, function (error, response, body) {
         //  console.log(body);  
         return res.status(501).json({
             message: body.user_message,
-            success: false
+            success: false,
+            object:body.object
         })
     }  else {
         // console.log(body);
         if (body.object==='error') {
             return res.status(501).json({
                 message: body.user_message,
-                success: false
+                success: false,
+                object:body.object
             })
         } else {
             return res.status(201).json(body)
@@ -57,13 +55,13 @@ request(options, function (error, response, body) {
   });
 
   },
-
 async crearPago(req, res, next){
 
     const codigo = await req.params.codigo
     const iduser = await req.params.iduser
     const datos = await User.buscarConst(codigo,iduser)
-    let payment = req.body
+    const payment = req.body
+    // console.log(`payment: ${JSON.stringify(payment)}`)
     
     const options = {
     method: 'POST',
@@ -73,10 +71,62 @@ async crearPago(req, res, next){
         'content-type': 'application/json'
     },
     body: {
-        amount: payment.amount, // En céntimos
+        amount: parseInt(payment.amount), // En céntimos
         currency_code: payment.currency_code, // PEN o USD
         email: payment.email,
         source_id: payment.source_id
+    },
+    
+    json: true
+    };
+
+request(options, function (error, response, body) {
+    if (error){
+        //  console.log(body);  
+        return res.status(501).json({
+            message: body.merchant_message,
+            success: false
+        })
+    }  else {
+        // console.log(body);  
+        if (body.object==='error') {
+            return res.status(501).json({
+                message: body.merchant_message,
+                success: false
+            })
+        } else {
+            // const respuesta = { 
+            //     id: body.id,
+            //     creation_date:body.creation_date,
+            //     outcome: body.outcome,
+            //     fee_details: body.fee_details
+            // }
+            return res.status(201).json(body)
+        }
+        
+    }
+
+});
+
+  },
+async crearDevolucion(req, res, next){
+
+    const codigo = await req.params.codigo
+    const iduser = await req.params.iduser
+    const datos = await User.buscarConst(codigo,iduser)
+    const payment = req.body
+    
+    const options = {
+    method: 'POST',
+    url: 'https://api.culqi.com/v2/refunds',//misma url del pago con tarjeta?
+    headers: {
+        Authorization: datos.yape_op_key,
+        'content-type': 'application/json'
+    },
+    body: {
+        amount: payment.amount,        // En céntimos
+        charge_id: payment.charge_id,  // chr_.... 
+        reason: payment.reason,        // cadena
     },
     
     json: true
@@ -104,9 +154,37 @@ request(options, function (error, response, body) {
 
 });
 
-}
-}
+  },
+async createPagoYape(req, res, next){
+        try {
+            let payment = req.body //requerir datos del pago viene en req.body viene del flutter
+            let order = payment.order
 
+            const delivery = req.body.delivery
 
-//key para token pk_test_ef7365271437193b
-//key para operaciones sk_test_1cc547bb20709546
+            order.status='PAGADO'
+
+            const orderData = await Order.createyape(order, 4) 
+            await Order.createPagoDelivery(order, delivery)
+            //recorrer todos los productos agregados a la orden
+            for (const product of order.products) {
+               await OrderHasProduct.create(orderData.id, product.id, product.quantity, product.comentario);
+            }
+            //console.log(`LA ORDEN SE CREO CORRECTAMENTE ${orderData.id}`);
+               return res.status(201).json({
+                   success : true,
+                   message : 'La Orden se creo correctamente.',
+                   data : orderData.id
+               }
+            )
+        } catch (error) {
+            console.log(`Error en create Order: ${error}`)
+            return res.status(501).json({
+                success : false,
+                message : 'Hubo un error creado la Orden',
+                error : error
+            })
+        }                   
+        
+    }
+}

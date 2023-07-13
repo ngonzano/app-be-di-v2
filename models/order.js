@@ -46,7 +46,7 @@ Order.findByStatus = (status, idTienda) => {
             o.id_tienda,
             (select name ||' '|| lastname from users where id = o.id_tienda) as nombreTienda,
             (select image from users where id = o.id_tienda) as imagentienda,
-            idmp,
+            idmp,idyape,
             id_mediopago as mediopago,
             (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery
        FROM ORDERS AS O INNER JOIN USERS AS U ON O.ID_CLIENT = U.ID
@@ -105,7 +105,7 @@ Order.listaOrdenesAnuladas = (status, idTienda) => {
             o.id_tienda,
             (select name ||' '|| lastname from users where id = o.id_tienda) as nombreTienda,
             (select image from users where id = o.id_tienda) as imagentienda,
-            idmp,
+            idmp,idyape,
             id_mediopago as mediopago,
             (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery
        FROM ORDERS AS O INNER JOIN USERS AS U ON O.ID_CLIENT = U.ID
@@ -164,7 +164,7 @@ Order.findByDeliveryAndStatus = (id_delivery, status) => {
             o.id_tienda,
             (select name ||' '|| lastname from users where id = o.id_tienda) as nombreTienda,
             (select image from users where id = o.id_tienda) as imagentienda,
-            idmp,
+            idmp,idyape,
             id_mediopago as mediopago,
             (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery
        FROM ORDERS AS O INNER JOIN USERS AS U ON O.ID_CLIENT = U.ID
@@ -223,7 +223,7 @@ Order.findByClientAndStatus = (id_client, status) => {
             o.id_tienda,
             (select name ||' '|| lastname from users where id = o.id_tienda) as nombreTienda,
             (select image from users where id = o.id_tienda) as imagentienda,
-            idmp,
+            idmp,idyape,
             id_mediopago as mediopago,
             (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery
        FROM ORDERS AS O INNER JOIN USERS AS U ON O.ID_CLIENT = U.ID
@@ -241,8 +241,8 @@ Order.findByClientAndStatus = (id_client, status) => {
 //FIN lista de ordenes
 Order.create = (order, medioPago) => {
     const sql = `
-        INSERT INTO ORDERS (ID_CLIENT, ID_ADDRESS, STATUS, TIMESTAMP, CREATE_AT, UPDATE_AT,STATUS_PAGO, id_tienda, id_mediopago,idmp)
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+        INSERT INTO ORDERS (ID_CLIENT, ID_ADDRESS, STATUS, TIMESTAMP, CREATE_AT, UPDATE_AT,STATUS_PAGO, id_tienda, id_mediopago,idmp,comision)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
         RETURNING ID;
     `;
     return db.oneOrNone(sql, [
@@ -255,7 +255,28 @@ Order.create = (order, medioPago) => {
         order.status_pago,
         order.id_tienda,
         medioPago,
-        order.idmp
+        order.idmp,
+        order.comision
+    ])
+}
+Order.createyape = (order, medioPago) => {
+    const sql = `
+        INSERT INTO ORDERS (ID_CLIENT, ID_ADDRESS, STATUS, TIMESTAMP, CREATE_AT, UPDATE_AT,STATUS_PAGO, id_tienda, id_mediopago,idmp,idyape,comision)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'0',$10,$11)
+        RETURNING ID;
+    `;
+    return db.oneOrNone(sql, [
+        order.id_client,
+        order.id_address,
+        order.status,
+        Date.now(),
+        new Date(),
+        new Date(),
+        order.status_pago,
+        order.id_tienda,
+        medioPago,
+        order.idyape,
+        order.comision
     ])
 }
 Order.createPagoDelivery = (order, delivery) => {
