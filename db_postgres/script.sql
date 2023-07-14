@@ -204,6 +204,8 @@ CREATE TABLE orders(
 	total decimal default 0,
 	idmp varchar(15) not null DEFAULT '0',
 	idyape varchar(30) not null DEFAULT '0',
+	comision decimal default 0,
+	idyapedevolucion varchar(30) not null DEFAULT '0',
 	Foreign key(id_client) references users(id) on update cascade on delete cascade,
 	Foreign key(id_delivery) references users(id) on update cascade on delete cascade,
 	Foreign key(id_address) references address(id) on update cascade on delete cascade,

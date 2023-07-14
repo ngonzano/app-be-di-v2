@@ -1,8 +1,7 @@
 const db = require('../config/config')
-
 const Yape = {}
 
-// Yape.findByUser = (id_user) => {
+// Yape.findByuUser = (id_user) => {
 //     const sql = `
 //         SELECT ID, ID_USER, ADDRESS, NEIGHBORHOOD, LAT, LNG, istienda, isdelivery
 //           FROM ADDRESS
@@ -29,14 +28,15 @@ const Yape = {}
 //     `;
 //     return db.manyOrNone(sql)
 // }
-// //Eliminar direccion de la lista de usuarios
-// Yape.update = (idadrees) => {
-//     const sql= `
-//     UPDATE ADDRESS SET disponibilidad = false
-//      WHERE ID = $1
-//     `;
-//     return db.none(sql, idadrees)
-// }
+
+Yape.updateDevolucion = (idTienda,idOrder, idyapedevolucion) => {
+    const sql= `
+    UPDATE ORDERS SET idyapedevolucion = $3
+     WHERE ID = $2
+       AND ID_TIENDA = $1
+    `;
+    return db.none(sql, [idTienda,idOrder, idyapedevolucion])
+}
 // Yape.updAddressTienda = (idadrees, idtienda) => {
 //     const sql= `
 //     UPDATE ADDRESS SET istienda = true

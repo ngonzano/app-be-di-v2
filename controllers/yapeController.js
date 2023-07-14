@@ -2,6 +2,7 @@ const request = require('request');
 const User = require('../models/user')
 const Order = require('../models/order')
 const OrderHasProduct = require('../models/order_has_products')
+const Yape = require('../models/yape')
 
 module.exports = {
 
@@ -112,8 +113,8 @@ request(options, function (error, response, body) {
 async crearDevolucion(req, res, next){
 
     const codigo = await req.params.codigo
-    const iduser = await req.params.iduser
-    const datos = await User.buscarConst(codigo,iduser)
+    const idTienda = await req.params.iduser
+    const datos = await User.buscarConst(codigo,idTienda)
     const payment = req.body
     
     const options = {
@@ -132,7 +133,8 @@ async crearDevolucion(req, res, next){
     json: true
     };
 
-request(options, function (error, response, body) {
+    request(options, function (error, response, body) {
+    
     if (error){
         //  console.log(body);  
         return res.status(501).json({
@@ -147,6 +149,7 @@ request(options, function (error, response, body) {
                 success: false
             })
         } else {
+            Yape.updateDevolucion(idTienda,payment.idorder,body.id)
             return res.status(201).json(body)
         }
         
