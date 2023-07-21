@@ -1,0 +1,42 @@
+curl -X DELETE \
+      'https://api.mercadopago.com/v1/customers/{customer_id}/cards/{id}' \
+       -H 'Authorization: Bearer YOUR_ACCESS_TOKEN \
+      
+
+
+////////////////////////////////////////////////////////////////
+
+{
+      "id": "8987269652",
+      "expiration_month": 7,
+      "expiration_year": 2023,
+      "first_six_digits": "503143",
+      "last_four_digits": "6351",
+      "payment_method": {
+        "id": "master",
+        "name": "Mastercard",
+        "payment_type_id": "credit_card",
+        "thumbnail": "http://img.mlstatic.com/org-img/MP3/API/logos/master.gif",
+        "secure_thumbnail": "https://www.mercadopago.com/org-img/MP3/API/logos/master.gif"
+      },
+      "security_code": {
+        "length": 3,
+        "card_location": "back"
+      },
+      "issuer": {
+        "id": 24,
+        "name": "Mastercard"
+      },
+      "cardholder": {
+        "name": "APRO",
+        "identification": {
+          "number": "19119119100",
+          "type": "CPF"
+        }
+      },
+      "date_created": "2021-03-16T16:08:21.000-04:00",
+      "date_last_updated": "2021-03-16T16:14:40.962-04:00",
+      "customer_id": "470183340-cpunOI7UsIHlHr",
+      "user_id": "470183340",
+      "live_mode": true
+    }

@@ -212,6 +212,23 @@ CREATE TABLE orders(
 	Foreign key(id_tienda) references users(id) on update cascade on delete cascade
 );
 
+
+drop table if exists datos_card cascade;
+create table datos_card(
+	id bigserial primary key,
+	id_client bigint not null,
+	expiration_year varchar(4) not null,
+	expiration_month bigint not null,
+	card_number varchar(16) not null,
+	document_type varchar(15) not null,
+	document_number varchar(15) not null,
+	nombre varchar(150) not null,
+	estado boolean null default true,
+	card_brand varchar(15) not null default 'visa',
+	card_type varchar(15) not null default 'debito',
+	Foreign key(id_client) references users(id) on update cascade on delete cascade,
+);
+
 drop table IF exists orders_has_products cascade;
 CREATE TABLE orders_has_products(
 	id_order bigint not null,

@@ -33,10 +33,11 @@ module.exports = (app, upload) => {
     app.get('/api/users/getAdminsNotificationTokens/:iduser', passport.authenticate('jwt', {session:false}), UsersController.getAdminsNotificationTokens)
     app.get('/api/users/listartokentiendacliente', passport.authenticate('jwt', {session:false}), UsersController.listarTokenTiendaClienteController)
 
-    //idorder=id
     app.get('/api/users/mostrardatos/:id/:iduser/:iddelivery/:idtienda', passport.authenticate('jwt', {session:false}), UsersController.mostrarEvidenciaController)
-
     app.get('/api/users/buscarconst/:codigo/:iduser', passport.authenticate('jwt', {session:false}), UsersController.buscarConstController)
+//*** */
+    app.get('/api/users/getAllCardClient/:idclient',passport.authenticate('jwt', {session:false}),  UsersController.getAllCardClientController)
+    app.get('/api/users/getBuscarCardClient/:idclient/:cardnumber',passport.authenticate('jwt', {session:false}),  UsersController.getBuscarCardClientController)
 
     //guardar datos
     app.post('/api/users/create/:withlogin',upload.array('image',1), UsersController.registerWithImage)
@@ -47,7 +48,8 @@ module.exports = (app, upload) => {
 
     app.post('/api/users/login', UsersController.login)
     app.post('/api/users/logout', UsersController.logout)
-
+//*** */
+    app.post('/api/users/createCardClient', passport.authenticate('jwt', {session: false}), UsersController.createCardClientController)
 
     //PUT 
     app.put('/api/users/upduserpass', UsersController.updateUserPassController)
@@ -57,5 +59,6 @@ module.exports = (app, upload) => {
     
     app.put('/api/users/eliminarusuario/:id',passport.authenticate('jwt', {session:false}), upload.array('image',1), UsersController.eliminarUsuarioController)
     app.put('/api/users/actualizarcomentario/:idorder/:comentariousuario/:calificacion', passport.authenticate('jwt', {session:false}), UsersController.actualizarComentarioController)
-
+//*** */ 
+    app.put('/api/users/disenableCard/:idclient/:cardnumber', passport.authenticate('jwt', {session:false}), UsersController.disenableCardController)
 }

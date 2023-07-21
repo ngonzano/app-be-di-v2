@@ -1,0 +1,48 @@
+curl -X GET \
+      'https://api.mercadopago.com/v1/customers/search?email=jhon@doe.com' \
+       -H 'Authorization: Bearer YOUR_ACCESS_TOKEN \
+
+
+       
+////////////////////////////////////////////////////////////////////////////
+
+{
+      "paging": {
+        "limit": 10,
+        "offset": 0,
+        "total": 1
+      },
+      "results": [
+        {
+          "address": {
+            "id": "1162600213",
+            "street_name": "Caetano Poli, 12",
+            "zip_code": "05187010"
+          },
+          "addresses": [
+            {}
+          ],
+          "cards": [
+            {}
+          ],
+          "date_created": "2017-05-05T04:00:00.000Z",
+          "date_last_updated": "2017-05-05T13:23:25.021Z",
+          "default_address": "1162600213",
+          "default_card": 1493990563105,
+          "email": "test@test.com",
+          "first_name": "Customer",
+          "id": "123456789-jxOV430go9fx2e",
+          "identification": {
+            "number": "19119119100",
+            "type": "CPF"
+          },
+          "last_name": "Tester",
+          "live_mode": true,
+          "metadata": {},
+          "phone": {
+            "area_code": "11",
+            "number": "987654321"
+          }
+        }
+      ]
+    }

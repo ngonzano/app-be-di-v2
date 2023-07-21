@@ -1,0 +1,42 @@
+curl -X GET \
+      'https://api.mercadopago.com/v1/customers/{customer_id}/cards' \
+       -H 'Authorization: Bearer YOUR_ACCESS_TOKEN \
+
+
+////////////////////////////////////////////////////////////////
+[
+      {
+        "id": "277090284",
+        "date_created": "2018-07-18T13:28:32.000-04:00",
+        "date_last_updated": "2018-08-07T12:21:32.243-04:00",
+        "customer_id": "329653963-byLEdchVPhPc4H",
+        "expiration_month": 11,
+        "expiration_year": 2020,
+        "first_six_digits": "423564",
+        "last_four_digits": "5682",
+        "payment_method": {
+          "id": "visa",
+          "name": "Visa",
+          "payment_type_id": "credit_card",
+          "thumbnail": "http://img.mlstatic.com/org-img/MP3/API/logos/visa.gif",
+          "secure_thumbnail": "https://www.mercadopago.com/org-img/MP3/API/logos/visa.gif"
+        },
+        "security_code": {
+          "length": 3,
+          "card_location": "back"
+        },
+        "issuer": {
+          "id": 25,
+          "name": "Visa"
+        },
+        "cardholder": {
+          "name": "APRO",
+          "identification": {
+            "number": "19119119100",
+            "type": "CPF"
+          }
+        },
+        "user_id": "12123adfasdf123u4u",
+        "live_mode": true
+      }
+    ]

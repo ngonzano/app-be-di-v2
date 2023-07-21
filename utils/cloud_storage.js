@@ -56,7 +56,7 @@ module.exports = (file, pathImage, deletePathImage) => {
                 }));
 
                 blobStream.on('error', (error) => {
-                    console.log('Error al subir archivo a firebase', error);
+                    // console.log('Error al subir archivo a firebase', error);
                     reject('Something is wrong! Unable to upload at the moment.');
                 });
 

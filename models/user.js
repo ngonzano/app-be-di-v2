@@ -560,4 +560,61 @@ User.bodySms = () => {
 
 //SMS
 
+//card
+
+
+User.getAllCardClient = (idClient) => {
+    const sql=`
+    select id, id_client, expiration_year, expiration_month, card_number, document_type, document_number, nombre, estado, card_brand, card_type
+      from datos_card
+     where id_client = $1
+       and estado = true
+     order by id asc
+    `
+    return db.manyOrNone(sql,idClient)
+}
+User.getBuscarCardClient = (idClient, cardNumber) => {
+    const sql=`
+    select id, id_client, expiration_year, expiration_month, card_number, document_type, document_number, nombre, estado, card_brand, card_type
+      from datos_card
+     where id_client = $1
+       and card_number = $2
+       and estado = true
+     order by id asc
+    `
+    return db.manyOrNone(sql,[idClient,cardNumber])
+}
+
+User.createCardClient = (card) => {
+
+    const sql= `
+    insert into datos_card (
+        id_client, expiration_year, expiration_month, card_number, document_type, document_number, nombre,card_brand, card_type
+    )values(
+        $1, $2, $3, $4, $5, $6, $7,$8, $9
+        ) returning id
+    `
+    return db.oneOrNone(sql, [
+        card.id_client,
+        card.expiration_year,
+        card.expiration_month,
+        card.card_number,
+        card.document_type,
+        card.document_number,
+        card.nombre,
+        card.card_brand,
+        card.card_type
+    ])
+}
+
+User.disenableCard = (iduser, cardNumber) => {
+    const sql= `
+    update datos_card set estado = false
+     where id_client = $1
+       and card_number = $2
+    `;
+    return db.none(sql, [iduser, cardNumber])
+}
+
+//card
 module.exports=User

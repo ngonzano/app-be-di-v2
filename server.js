@@ -29,6 +29,7 @@ const mercadoPagoRoutes = require('./routes/mercadoPagoRoutes')
 
 const efectivo = require('./routes/efectivoRoutes')
 const yapeController = require('./routes/yapeRoutes')
+const culqiController = require('./routes/culqiRoutes')
 
 /*MERCADO PAGO CONFIGURACION*/
 //QA
@@ -83,6 +84,7 @@ products(app, upload)
 mercadoPagoRoutes(app)
 efectivo(app)
 yapeController(app)
+culqiController(app)
 
 server.listen(port,'0.0.0.0', function(){
 // server.listen(port,'192.168.18.18'||'localhost', function(){

@@ -89,7 +89,7 @@ module.exports = {
                 }
                 start()
             } catch (error) {
-                console.log(`Error: ${error}`)
+                // console.log(`Error: ${error}`)
                 return res.status(501).json({
                     message: `Error al registrar el Producto ${error}`,
                     success: false,

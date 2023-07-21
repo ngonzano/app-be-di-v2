@@ -90,7 +90,13 @@ module.exports = {
                 let order = payment.order
                 order.status='PAGADO'
                 order.idmp = data.response.id //id de mercado pago
-                order.comision = data.response.fee_details[0].amount //comision
+                // console.log(data.response.fee_details[0]);
+                if (data.response.fee_details[0] === undefined) {
+                    order.comision = 0
+                }else{
+                    order.comision = data.response.fee_details[0].amount //comision
+                }
+                
                 // console.log(`data.response: ${data.response.fee_details[0].amount}`);
                 order.status_pago=true
                 const delivery = req.params.delivery
@@ -118,7 +124,7 @@ module.exports = {
             })
             }
         }else{
-            console.log('Error al crear el pago en createPaymentCreditCart.');
+            // console.log('Error al crear el pago en createPaymentCreditCart.');
             // return res.status(501).json({
             //     message: 'Error al crear el pago',
             //     success: false

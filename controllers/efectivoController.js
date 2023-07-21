@@ -28,6 +28,8 @@ module.exports = {
                 intMedioPago = 4
             } else if (medioPago === 'plin'){
                 intMedioPago = 5
+            } else if (medioPago === 'culqi'){
+                intMedioPago = 6
             }
             // console.log(medioPago);
             // console.log(intMP);
@@ -45,7 +47,7 @@ module.exports = {
                }
             )
         } catch (error) {
-            console.log(`Error en create Order: ${error}`)
+            // console.log(`Error en create Order: ${error}`)
             return res.status(501).json({
                 success : false,
                 message : 'Hubo un error creado la Orden',

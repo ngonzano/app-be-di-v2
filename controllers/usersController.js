@@ -16,7 +16,7 @@ module.exports = {
             ////console.log(`Usuarios: ${data}`)
             return res.status('201').json(data)
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             return res.status(501).json({
                 success: false,
                 message: 'Error al obtener usuario.'
@@ -272,7 +272,7 @@ module.exports = {
             data: data.id
         })
         } catch (error) {
-            console.log(`Error: ${error}`)
+            // console.log(`Error: ${error}`)
             return res.status(501),json({
                 success: false,
                 message: 'Error al registrar al usuario.',
@@ -291,7 +291,7 @@ module.exports = {
                 message: 'El token de notificaciones se ha almacenado correctamente'
         })
         } catch (error) {
-            console.log(`Error: ${error}`)
+            // console.log(`Error: ${error}`)
             return res.status(501),json({
                 success: false,
                 message: 'Hubo un error al tratar de actualizar el token del usuario',
@@ -322,7 +322,7 @@ module.exports = {
             data: data.id
         })
         } catch (error) {
-            console.log(`Error: ${error}`)
+            // console.log(`Error: ${error}`)
             return res.status(501),json({
                 success: false,
                 message: 'Error al registrar al usuario.',
@@ -397,7 +397,7 @@ module.exports = {
             message: 'Los datos se actualizaron correctamente.'
         })
         } catch (error) {
-            console.log(`Error: ${error}`)
+            // console.log(`Error: ${error}`)
             return res.status(501),json({
                 success: false,
                 message: 'Error al actualizar al usuario.',
@@ -434,10 +434,10 @@ module.exports = {
 
             if (dato.includes('@')) {
                  myUser = await User.findByEmail(dato)
-                 console.log('correo');
+                //  console.log('correo');
             } else {
                  myUser = await User.findByPhone(dato)
-                 console.log('telefono');
+                //  console.log('telefono');
             }
             
             if (!myUser) {
@@ -480,7 +480,7 @@ module.exports = {
                 })
             }
         } catch (error) {
-            console.log(`Error: ${error}`)
+            // console.log(`Error: ${error}`)
             return res.status(501).json({
                 success: false,
                 message: 'Error al realizar login, por favor cerrar la app PidePE y volver a intentar.',
@@ -497,7 +497,7 @@ module.exports = {
                 message: 'LA SESION HA EXPIRADO.'
             })
         } catch (error) {
-            console.log(`Error: ${error}`)
+            // console.log(`Error: ${error}`)
             return res.status(501).json({
                 success: false,
                 message: 'Error al cerrar sesion.',
@@ -578,7 +578,7 @@ module.exports = {
             })
 
         } catch (error) {
-            console.log(`Error al crear rol: ${error}`)
+            // console.log(`Error al crear rol: ${error}`)
             return res.status(501).json({
                 success : false,
                 message : 'El repartidor ya se encuentra registrado como repartidor en su negocio.',
@@ -597,7 +597,7 @@ module.exports = {
             })
 
         } catch (error) {
-            console.log(`Error al crear el negocio: ${error}`)
+            // console.log(`Error al crear el negocio: ${error}`)
             return res.status(501).json({
                 success : false,
                 message : 'Error al crear el negocio.',
@@ -703,6 +703,78 @@ module.exports = {
             return res.status(501).json({
                 success: false,
                 message: 'Error al obtener la version'
+            })
+        }
+    },
+
+    async getAllCardClientController(req,res, next){
+        try {
+            const idClient = await req.params.idclient
+            const data= await User.getAllCardClient(idClient)
+            ////console.log(`Usuarios: ${data}`)
+            return res.status('201').json(data)
+        } catch (error) {
+            // console.log(error)
+            return res.status(501).json({
+                success: false,
+                message: 'Error al obtener usuario.'
+            })
+        }
+    },
+
+    async getBuscarCardClientController(req,res, next){
+        try {
+            const idClient = await req.params.idclient
+            const cardNumber = await req.params.cardnumber
+            const data= await User.getBuscarCardClient(idClient, cardNumber)
+            ////console.log(`Usuarios: ${data}`)
+            return res.status('201').json(data)
+        } catch (error) {
+            // console.log(error)
+            return res.status(501).json({
+                success: false,
+                message: 'Error en getBuscarCardClientController.'
+            })
+        }
+    },
+
+    async createCardClientController(req, res, next){
+        try {
+            const card= req.body
+            console.log(card);
+            const data = await User.createCardClient(card)
+
+            return res.status(201).json({
+            success: true,
+            message: 'Tarjeta guardada exitosamente para futuras compras.',
+            data: data.id
+        })
+        } catch (error) {
+            console.log(`Error: ${error}`)
+            return res.status(501),json({
+                success: false,
+                message: 'Error al guardar tarjeta.',
+                error: error
+            })
+        }
+    },
+    async disenableCardController(req, res, next) {
+        try {
+            let idClient = req.params.idclient
+            let cardNumber = req.params.cardnumber
+            await User.disenableCard(idClient, cardNumber)
+
+            return res.status(201).json({
+                success : true,
+                message : 'Se cambio el estado correctamente.'
+            })
+
+        } catch (error) {
+            //console.log(`Error en actualizar el estado: ${error}`)
+            return res.status(501).json({
+                success : false,
+                message : 'Hubo un error al actualizar el estado',
+                error : error
             })
         }
     },

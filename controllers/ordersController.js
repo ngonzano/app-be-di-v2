@@ -10,7 +10,7 @@ module.exports = {
             //console.log(`Status ${JSON.stringify(data)}`)
             return res.status(201).json(data)
         } catch (error) {
-            console.log(`Error ${error}`);
+            // console.log(`Error ${error}`);
             return res.status(501).json({
                 message: 'Hubo un error al listar las ordenes por estado.',
                 error: error,
@@ -43,7 +43,7 @@ module.exports = {
             // //console.log(`Status delivery ${JSON.stringify(data)}`)
             return res.status(201).json(data)
         } catch (error) {
-            console.log(`Error ${error}`);
+            // console.log(`Error ${error}`);
             return res.status(501).json({
                 message: 'Hubo un error al listar las ordenes por estado.',
                 error: error,
@@ -59,7 +59,7 @@ module.exports = {
             // //console.log(`Status Cliente ${JSON.stringify(data)}`)
             return res.status(201).json(data)
         } catch (error) {
-            console.log(`Error ${error}`);
+            // console.log(`Error ${error}`);
             return res.status(501).json({
                 message: 'Hubo un error al listar las ordenes por estado.',
                 error: error,
