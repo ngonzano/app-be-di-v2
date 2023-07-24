@@ -113,7 +113,7 @@ module.exports = {
                 success: false
             })
         }  else {
-            console.log(body);  
+            // console.log(body);  
             if (body.object==='error') {
                 return res.status(501).json({
                     message: body.merchant_message,

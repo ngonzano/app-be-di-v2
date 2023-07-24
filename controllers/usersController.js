@@ -741,7 +741,7 @@ module.exports = {
     async createCardClientController(req, res, next){
         try {
             const card= req.body
-            console.log(card);
+            // console.log(card);
             const data = await User.createCardClient(card)
 
             return res.status(201).json({
@@ -750,7 +750,7 @@ module.exports = {
             data: data.id
         })
         } catch (error) {
-            console.log(`Error: ${error}`)
+            // console.log(`Error: ${error}`)
             return res.status(501),json({
                 success: false,
                 message: 'Error al guardar tarjeta.',

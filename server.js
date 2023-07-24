@@ -1,7 +1,3 @@
-/*
-const: constantes
-let: variables
-*/
 const express = require('express')
 const sessionx = require('express-session')
 const http = require('http')
@@ -19,6 +15,7 @@ const mercadopago = require('mercadopago')
 const orderDeliverySocket = require('./sockets/orders_delivery_sockets')
 const deliveryTiendaSocket = require('./sockets/delivery_tienda_sockets')
 const driverSocket = require('./sockets/driver_sockets')
+const ordersUpdateSocket = require('./sockets/update_orders_sockets')
 
 const users = require('./routes/usersRoutes')
 const categories = require('./routes/categoriesRoutes')
@@ -30,19 +27,6 @@ const mercadoPagoRoutes = require('./routes/mercadoPagoRoutes')
 const efectivo = require('./routes/efectivoRoutes')
 const yapeController = require('./routes/yapeRoutes')
 const culqiController = require('./routes/culqiRoutes')
-
-/*MERCADO PAGO CONFIGURACION*/
-//QA
-// mercadopago.configure({
-//     access_token:'TEST-4647891345690403-070800-d0bea39e4981caeb0be9329839d56e67-578676229'
-// })
-
-//PROD
-// mercadopago.configure({
-//     access_token:'APP_USR-1181137664744409-120823-00a328d8dbd81d6967dd857a28f2a421-1258945087'
-// })
-
-/*FIN MERCADO PAGO CONFIGURACION*/
 
 /*iniciar firebase*/
 admin.initializeApp({
@@ -72,6 +56,7 @@ app.set('port', port)
 orderDeliverySocket(io);
 deliveryTiendaSocket(io);
 driverSocket(io);
+ordersUpdateSocket(io);
 
 /*
 llamando a las rutas
