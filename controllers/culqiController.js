@@ -191,7 +191,7 @@ module.exports = {
     
                 order.status='PAGADO'
     
-                const orderData = await Order.createyape(order, 4) 
+                const orderData = await Order.createyape(order, 6) 
                 await Order.createPagoDelivery(order, delivery)
                 //recorrer todos los productos agregados a la orden
                 for (const product of order.products) {
