@@ -4,7 +4,7 @@ const Address = {}
 
 Address.findByUser = (id_user) => {
     const sql = `
-        SELECT ID, ID_USER, ADDRESS, NEIGHBORHOOD, LAT, LNG, istienda, isdelivery
+        SELECT ID, ID_USER, ADDRESS, NEIGHBORHOOD, LAT, LNG, istienda, isdelivery,referencia
           FROM ADDRESS
          WHERE disponibilidad = true
            AND ID_USER = $1
@@ -14,7 +14,7 @@ Address.findByUser = (id_user) => {
 //buscar direccion de la tienda
 Address.buscarDireccionTienda = (idTienda) => {
     const sql = `
-    SELECT id, id_user, address, neighborhood, lat, lng, create_at, update_at, disponibilidad, istienda
+    SELECT id, id_user, address, neighborhood, lat, lng, create_at, update_at, disponibilidad, istienda,referencia
 	  FROM public.address
      WHERE id_user = $1
        AND istienda = TRUE
@@ -23,7 +23,7 @@ Address.buscarDireccionTienda = (idTienda) => {
 }
 Address.buscarDireccionDelivery = () => {
     const sql = `
-    SELECT id, id_user, address, neighborhood, lat, lng, create_at, update_at, disponibilidad, isdelivery
+    SELECT id, id_user, address, neighborhood, lat, lng, create_at, update_at, disponibilidad, isdelivery,referencia
 	  FROM public.address
      WHERE isdelivery = true
     `;
@@ -63,8 +63,8 @@ Address. updAddressDelivery = (idadrees, iddelivery) => {
 }
 Address.create = (address) => {
     const sql = `
-        INSERT INTO ADDRESS (ID_USER, ADDRESS, NEIGHBORHOOD, LAT, LNG, CREATE_AT, UPDATE_AT)
-        VALUES ($1,$2,$3,$4,$5,$6,$7)
+        INSERT INTO ADDRESS (ID_USER, ADDRESS, NEIGHBORHOOD, LAT, LNG, CREATE_AT, UPDATE_AT,referencia)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
         RETURNING ID
     `;
     return db.oneOrNone(sql, [
@@ -74,7 +74,8 @@ Address.create = (address) => {
         address.lat,
         address.lng,
         new Date(),
-        new Date()
+        new Date(),
+        address.referencia
     ])
 }
 
