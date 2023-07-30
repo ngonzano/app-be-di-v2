@@ -14,7 +14,7 @@ User.getAllTiendas = (idgiro) => {
        u.desde,
        u.hasta,
 	   ( CASE WHEN 
-		   (select Round(avg(calificacion),1)  from evidencia where idtienda = u.id) IS null then 4.5
+		   (select Round(avg(calificacion),1)  from evidencia where idtienda = u.id) IS null then 9999
 			else (select Round(avg(calificacion),1)  from evidencia where idtienda = u.id)
 		 END
 	   ) as promedio,
@@ -80,7 +80,7 @@ User.buscarTienda= (descripcion,idgiro) => {
            u.desde,
            u.hasta,
            ( CASE WHEN 
-               (select Round(avg(calificacion),1)  from evidencia where idtienda = u.id) IS null then 4.5
+               (select Round(avg(calificacion),1)  from evidencia where idtienda = u.id) IS null then 9999
                 else (select Round(avg(calificacion),1)  from evidencia where idtienda = u.id)
              END
            ) as promedio,
