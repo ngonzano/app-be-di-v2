@@ -34,6 +34,7 @@ User.getAllTiendas = (idgiro) => {
 	                  inner join giros as g on g.idgiro = u.idgiro 
      where ur.id_rol='2'
 	   and u.idgiro = $1
+       and u.estado = true
 	 group by u.id,g.descripcion--,a.lat,a.lng
      order by promedio desc
     `
@@ -100,6 +101,7 @@ User.buscarTienda= (descripcion,idgiro) => {
                    inner join giros as g on g.idgiro = u.idgiro 
     where ur.id_rol='2'
       and u.idgiro = $2
+      and u.estado = true
       and (upper(u.name ||' '||u.lastname) ilike upper($1) or upper(g.descripcion) ilike upper($1))
     group by u.id,g.descripcion
     order by promedio desc
