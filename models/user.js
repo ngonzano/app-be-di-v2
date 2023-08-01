@@ -67,6 +67,7 @@ User.getAllGirosCoordenadas = () => {
     where u.idgiro <> 1
       and a.disponibilidad = true
       and u.estado = true
+      and a.istienda = true
     group by g.idgiro, descripcion, g.image
     `
     return db.manyOrNone(sql)
