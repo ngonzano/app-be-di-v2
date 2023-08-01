@@ -58,7 +58,8 @@ User.getAllGirosCoordenadas = () => {
 	   			'idtienda', u.id,
 				'idgiro', g.idgiro,
 		    	'lat', a.lat,
-			    'lng', a.lng
+			    'lng', a.lng,
+                'rango_cliente_tienda',u.rango_cliente_tienda
 	   			)
 	   ) as coordenadas
      from users u inner join giros g on u.idgiro = g.idgiro
