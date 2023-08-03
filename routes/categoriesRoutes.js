@@ -11,5 +11,5 @@ module.exports = (app, upload) => {
 
     app.get('/api/categories/getAllInvitado/:iduser', CategoriesController.getAll)
     //POST
-    app.post('/api/categories/create', CategoriesController.create)//passport.authenticate('jwt', {session: false}), 
+    app.post('/api/categories/create', passport.authenticate('jwt', {session: false}),CategoriesController.create)//passport.authenticate('jwt', {session: false}), 
 }
