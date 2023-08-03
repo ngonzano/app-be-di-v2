@@ -66,8 +66,8 @@ module.exports = {
     },
     async create(req, res, next){
         try {
-            const category = JSON.parse(req.body.category)
-            // // const category = req.body
+            // const category = JSON.parse(req.body.category)
+            const category = req.body
             // const files = req.files
             // if (files.length>0) {
             //     const pathImage = `image_${Date.now()}` //nombre del archivo
