@@ -47,16 +47,17 @@ Category.getAllStockSinBuscar = (idUser) => {
 }
 Category.create = (category) => {
     const sql=`
-        INSERT INTO CATEGORIES (NAME, DESCRIPTION, CREATE_AT, UPDATE_AT, id_user,image)
-        VALUES ($1, $2, $3, $4, $5, $6) RETURNING ID
+        INSERT INTO CATEGORIES (NAME, DESCRIPTION, CREATE_AT, UPDATE_AT, id_user)
+        --,image)
+        VALUES ($1, $2, $3, $4, $5) RETURNING ID
     `;
     return db.oneOrNone(sql, [
         category.name,
         category.description,
         new Date(),
         new Date(),
-        category.idtienda,
-        category.image
+        category.idtienda
+        // category.image
     ])
 }
 

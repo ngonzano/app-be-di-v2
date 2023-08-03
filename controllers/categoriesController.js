@@ -67,16 +67,16 @@ module.exports = {
     async create(req, res, next){
         try {
             const category = JSON.parse(req.body.category)
-            // const category = req.body
-            const files = req.files
-            if (files.length>0) {
-                const pathImage = `image_${Date.now()}` //nombre del archivo
-                const url= await storage(files[0], pathImage)
+            // // const category = req.body
+            // const files = req.files
+            // if (files.length>0) {
+            //     const pathImage = `image_${Date.now()}` //nombre del archivo
+            //     const url= await storage(files[0], pathImage)
 
-                if (url != undefined && url != null) {
-                    category.image=url
-                }
-            }
+            //     if (url != undefined && url != null) {
+            //         category.image=url
+            //     }
+            // }
             const data = await Category.create(category)
             return res.status(201).json({
                 message: 'Se creo la categoria.',
