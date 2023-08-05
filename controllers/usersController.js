@@ -119,7 +119,6 @@ module.exports = {
             })
         }
     },
-
     async buscarTelefonoController(req,res, next){
         try {
             const phone = await req.params.phone
@@ -778,5 +777,59 @@ module.exports = {
             })
         }
     },
+//chat
+async crearChatController(req, res, next) {
+    try {
+        const idClient = req.params.idclient;
+        const idSoporte = req.params.idsoporte;
 
+        await User.crearChat(idClient, idSoporte)
+
+        return res.status(201).json({
+            success : true,
+            message : 'Se creao el chat satisfactoriamente.',
+            
+        })
+
+    } catch (error) {
+        // console.log(`Error al crear el negocio: ${error}`)
+        return res.status(501).json({
+            success : false,
+            message : 'Error al crear chat.',
+            error : error
+        })
+    }
+},
+async buscarChatController(req,res, next){
+    try {
+        const idClient = await req.params.idclient
+        const idSoporte = await req.params.idsoporte
+
+        const data= await User.buscarChat(idClient, idSoporte)
+        
+        return res.status('201').json(data)
+
+    } catch (error) {
+        //console.log(error)
+        return res.status(501).json({
+            success: false,
+            message: 'Error al obtener chat.'
+        })
+    }
+},
+async listaChatController(req,res, next){
+    try {
+        const data = await User.listaChat()
+        
+        return res.status('201').json(data)
+        
+    } catch (error) {
+        //console.log(error)
+        return res.status(501).json({
+            success: false,
+            message: 'Error al obtener constante.'
+        })
+    }
+},
+//fin chat
 }

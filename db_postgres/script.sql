@@ -28,6 +28,7 @@ create table roles(
 	update_at timestamp(0) not null
 );
 
+
 drop table if exists giros cascade;
 create table giros(
 	idgiro bigserial primary key,
@@ -95,6 +96,17 @@ create table datos_constantes(
 	yape_op_key varchar(255) not null default 'sk_live_84b62c0c8047ac0d'
 	foreign key(id_user) references users(id) on update cascade on delete cascade,
 	primary key(id)
+);
+
+drop table if exists chat cascade;
+create table chat(
+	idchat bigserial not null,
+	idclient bigint not null,
+	idsoporte bigint not null,
+	create_at timestamp(0) not null,
+	foreign key(idclient) references users(id) on update cascade on delete cascade,
+	foreign key(idsoporte) references users(id) on update cascade on delete cascade,
+	primary key(idclient,idsoporte)
 );
 
 drop table if exists user_has_roles cascade;

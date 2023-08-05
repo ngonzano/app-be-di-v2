@@ -17,6 +17,7 @@ const deliveryTiendaSocket = require('./sockets/delivery_tienda_sockets')
 const driverSocket = require('./sockets/driver_sockets')
 const ordersUpdateSocket = require('./sockets/update_orders_sockets')
 const productSocket = require('./sockets/product_sockets')
+const chatSocket = require('./sockets/chat_sockets')
 
 const users = require('./routes/usersRoutes')
 const categories = require('./routes/categoriesRoutes')
@@ -59,6 +60,7 @@ deliveryTiendaSocket(io);
 driverSocket(io);
 ordersUpdateSocket(io);
 productSocket(io);
+chatSocket(io);
 
 /*
 llamando a las rutas

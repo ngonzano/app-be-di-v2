@@ -519,6 +519,7 @@ User.telefonoEmp = () => {
     `
     return db.oneOrNone(sql);
 }
+
 //SMS
 User.smsIdPlanServicio = () => {
     const sql= `
@@ -561,12 +562,9 @@ User.bodySms = () => {
     `
     return db.oneOrNone(sql);
 }
-
-//SMS
+//fin SMS
 
 //card
-
-
 User.getAllCardClient = (idClient) => {
     const sql=`
     select id, id_client, expiration_year, expiration_month, card_number, document_type, document_number, nombre, estado, card_brand, card_type
@@ -577,6 +575,7 @@ User.getAllCardClient = (idClient) => {
     `
     return db.manyOrNone(sql,idClient)
 }
+
 User.getBuscarCardClient = (idClient, cardNumber) => {
     const sql=`
     select id, id_client, expiration_year, expiration_month, card_number, document_type, document_number, nombre, estado, card_brand, card_type
@@ -619,6 +618,35 @@ User.disenableCard = (iduser, cardNumber) => {
     `;
     return db.none(sql, [iduser, cardNumber])
 }
+//fin card
 
-//card
+//chat
+User.crearChat = (idClient, idSoporte) => {
+    const sql= `
+            insert into chat (idclient,idsoporte,create_at)
+            values ($1 , $2, $3);              
+    `
+    return db.oneOrNone(sql, [
+        idClient, idSoporte ,new Date()
+    ])
+}
+User.buscarChat = (idClient, idSoporte) => {
+    const sql=`
+    select count(*)
+      from chat
+     where idclient = $1
+       and idsoporte = $2
+    `
+    return db.oneOrNone(sql,[idClient, idSoporte])
+}
+User.listaChat = () => {
+    const sql=`
+select idchat, idclient, idsoporte, u.name || ' '||u.lastname as name, u.image
+  from chat c inner join users u on c.idclient = u.id
+ order by idchat desc
+    `
+    return db.manyOrNone(sql)
+}
+//fin chat
 module.exports=User
+
