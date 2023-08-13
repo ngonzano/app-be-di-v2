@@ -61,9 +61,12 @@ module.exports = (app, upload) => {
     app.put('/api/users/update',passport.authenticate('jwt', {session:false}), upload.array('image',1), UsersController.update)
     app.put('/api/users/updateNotificationToken',passport.authenticate('jwt', {session:false}), UsersController.updateNotificationToken)
     app.put('/api/users/updateestado/:id/:estado', passport.authenticate('jwt', {session:false}), UsersController.updateDeliveryController)
+    //chat
+    app.put('/api/users/updatechat/:idclient/:idsoporte/:countmsg', passport.authenticate('jwt', {session:false}), UsersController.updateChatController)
+    //fin chat
     
     app.put('/api/users/eliminarusuario/:id',passport.authenticate('jwt', {session:false}), upload.array('image',1), UsersController.eliminarUsuarioController)
     app.put('/api/users/actualizarcomentario/:idorder/:comentariousuario/:calificacion', passport.authenticate('jwt', {session:false}), UsersController.actualizarComentarioController)
-//*** */ 
+
     app.put('/api/users/disenableCard/:idclient/:cardnumber', passport.authenticate('jwt', {session:false}), UsersController.disenableCardController)
 }
