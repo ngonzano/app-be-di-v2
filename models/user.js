@@ -633,9 +633,8 @@ User.crearChat = (idClient, idSoporte) => {
 User.updateChat = (idClient, idSoporte, countmsg) => {
     const sql= `
             update chat set countmsg = $4
-             where id_client = $1
-               and idSoporte = $2
-            ;              
+             where idclient = $1
+               and idSoporte = $2;              
     `
     return db.none(sql, [
         idClient, idSoporte ,new Date(),countmsg

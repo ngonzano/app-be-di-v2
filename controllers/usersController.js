@@ -810,7 +810,7 @@ async updateChatController(req, res, next) {
 
         return res.status(201).json({
             success : true,
-            message : 'Se creao el chat satisfactoriamente.',
+            message : 'Se actualizo la cantidad de chat.',
             
         })
 
