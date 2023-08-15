@@ -800,29 +800,6 @@ async crearChatController(req, res, next) {
         })
     }
 },
-async updateChatController(req, res, next) {
-    try {
-        const idClient = req.params.idclient;
-        const idSoporte = req.params.idsoporte;
-        const countmsg = req.params.countmsg;
-
-        await User.updateChat(idClient, idSoporte, countmsg)
-
-        return res.status(201).json({
-            success : true,
-            message : 'Se actualizo la cantidad de chat.',
-            
-        })
-
-    } catch (error) {
-        // console.log(`Error al crear el negocio: ${error}`)
-        return res.status(501).json({
-            success : false,
-            message : 'Error al crear chat.',
-            error : error
-        })
-    }
-},
 async buscarChatController(req,res, next){
     try {
         const idClient = await req.params.idclient

@@ -630,16 +630,6 @@ User.crearChat = (idClient, idSoporte) => {
         idClient, idSoporte ,new Date()
     ])
 }
-User.updateChat = (idClient, idSoporte, countmsg) => {
-    const sql= `
-            update chat set countmsg = $4
-             where idclient = $1
-               and idSoporte = $2;              
-    `
-    return db.none(sql, [
-        idClient, idSoporte ,new Date(),countmsg
-    ])
-}
 User.buscarChat = (idClient, idSoporte) => {
     const sql=`
     select count(*)
@@ -651,7 +641,7 @@ User.buscarChat = (idClient, idSoporte) => {
 }
 User.listaChat = () => {
     const sql=`
-            select idchat, idclient, idsoporte, u.name || ' '|| u.lastname as name, u.image, c.countmsg
+            select idchat, idclient, idsoporte, u.name || ' '|| u.lastname as name, u.image
               from chat c inner join users u on c.idclient = u.id
              order by idchat desc
     `
