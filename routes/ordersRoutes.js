@@ -5,6 +5,7 @@ module.exports = (app) => {
     //GET
     app.get('/api/order/listarAnulados/:status/:idtienda', passport.authenticate('jwt', {session: false}), OrdersController.listaOrdenesAnuladasController)
     app.get('/api/order/findByStatus/:status/:idtienda', passport.authenticate('jwt', {session: false}), OrdersController.findByStatus)
+    app.get('/api/order/buscarOrden/:idorder', passport.authenticate('jwt', {session: false}), OrdersController.buscarOrderController)
     app.get('/api/order/findByDeliveryAndStatus/:id_delivery/:status', passport.authenticate('jwt', {session: false}), OrdersController.findByDeliveryAndStatus)
     app.get('/api/order/findByClientAndStatus/:id_client/:status', passport.authenticate('jwt', {session: false}), OrdersController.findByClientAndStatus)
     

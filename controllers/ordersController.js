@@ -18,6 +18,21 @@ module.exports = {
             })
         }
     },
+    async buscarOrderController(req, res, next){
+        try {
+            const idOrder = req.params.idorder
+            const data = await Order.buscarOrder(idOrder)
+            //console.log(`Status ${JSON.stringify(data)}`)
+            return res.status(201).json(data)
+        } catch (error) {
+            // console.log(`Error ${error}`);
+            return res.status(501).json({
+                message: 'Hubo un error al listar las ordenes por estado.',
+                error: error,
+                success: false
+            })
+        }
+    },
     async listaOrdenesAnuladasController(req, res, next){
         try {
             const status = req.params.status
