@@ -1,6 +1,6 @@
 const Category = require('../models/category')
-const { getAll } = require('../models/user')
-const storage = require('../utils/cloud_storage')
+// const { getAll } = require('../models/user')
+// const storage = require('../utils/cloud_storage')
 
 module.exports = {
     async getAll(req, res, next){
