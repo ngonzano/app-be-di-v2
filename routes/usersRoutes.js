@@ -39,8 +39,8 @@ module.exports = (app, upload) => {
     app.get('/api/users/getAllCardClient/:idclient',passport.authenticate('jwt', {session:false}),  UsersController.getAllCardClientController)
     app.get('/api/users/getBuscarCardClient/:idclient/:cardnumber',passport.authenticate('jwt', {session:false}),  UsersController.getBuscarCardClientController)
 //chat
-    app.get('/api/users/listarchat',passport.authenticate('jwt', {session:false}),  UsersController.listaChatController)
-    app.get('/api/users/buscarchat/:idclient/:idsoporte',passport.authenticate('jwt', {session:false}),  UsersController.buscarChatController)
+    app.get('/api/users/listarchat/:tipo',passport.authenticate('jwt', {session:false}),  UsersController.listaChatController)
+    app.get('/api/users/buscarchat/:idclient/:idsoporte/:tipo',passport.authenticate('jwt', {session:false}),  UsersController.buscarChatController)
 //fin chat
     
     app.post('/api/users/create/:withlogin',upload.array('image',1), UsersController.registerWithImage)
@@ -54,7 +54,7 @@ module.exports = (app, upload) => {
 
     app.post('/api/users/createCardClient', passport.authenticate('jwt', {session: false}), UsersController.createCardClientController)
 //chat
-    app.post('/api/users/crearchat/:idclient/:idsoporte', passport.authenticate('jwt', {session: false}), UsersController.crearChatController)
+    app.post('/api/users/crearchat/:idclient/:idsoporte/:tipo', passport.authenticate('jwt', {session: false}), UsersController.crearChatController)
 //fin chat
     //PUT 
     app.put('/api/users/upduserpass', UsersController.updateUserPassController)

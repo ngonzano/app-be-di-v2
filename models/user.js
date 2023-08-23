@@ -621,31 +621,33 @@ User.disenableCard = (iduser, cardNumber) => {
 //fin card
 
 //chat
-User.crearChat = (idClient, idSoporte) => {
+User.crearChat = (idClient, idSoporte,tipo) => {
     const sql= `
-            insert into chat (idclient,idsoporte,create_at)
-            values ($1 , $2, $3);              
+            insert into chat (idclient,idsoporte,create_at,tipo)
+            values ($1 , $2, $3, $4);              
     `
     return db.oneOrNone(sql, [
-        idClient, idSoporte ,new Date()
+        idClient, idSoporte ,new Date(), tipo
     ])
 }
-User.buscarChat = (idClient, idSoporte) => {
+User.buscarChat = (idClient, idSoporte, tipo) => {
     const sql=`
     select count(*)
       from chat
      where idclient = $1
        and idsoporte = $2
+       and tipo = $3
     `
-    return db.oneOrNone(sql,[idClient, idSoporte])
+    return db.oneOrNone(sql,[idClient, idSoporte, tipo])
 }
-User.listaChat = () => {
+User.listaChat = (tipo) => {
     const sql=`
-            select idchat, idclient, idsoporte, u.name || ' '|| u.lastname as name, u.image
+            select idchat, idclient, idsoporte, u.name || ' '|| u.lastname as name, u.image, c.tipo
               from chat c inner join users u on c.idclient = u.id
+            where c.tipo = $1
              order by idchat desc
     `
-    return db.manyOrNone(sql)
+    return db.manyOrNone(sql,tipo)
 }
 //fin chat
 module.exports=User

@@ -782,8 +782,9 @@ async crearChatController(req, res, next) {
     try {
         const idClient = req.params.idclient;
         const idSoporte = req.params.idsoporte;
+        const tipo = req.params.tipo;
 
-        await User.crearChat(idClient, idSoporte)
+        await User.crearChat(idClient, idSoporte, tipo)
 
         return res.status(201).json({
             success : true,
@@ -804,8 +805,9 @@ async buscarChatController(req,res, next){
     try {
         const idClient = await req.params.idclient
         const idSoporte = await req.params.idsoporte
+        const tipo = await req.params.tipo
 
-        const data= await User.buscarChat(idClient, idSoporte)
+        const data= await User.buscarChat(idClient, idSoporte, tipo)
         
         return res.status('201').json(data)
 
@@ -819,7 +821,8 @@ async buscarChatController(req,res, next){
 },
 async listaChatController(req,res, next){
     try {
-        const data = await User.listaChat()
+        const tipo = await req.params.tipo
+        const data = await User.listaChat(tipo)
         
         return res.status('201').json(data)
         

@@ -104,9 +104,10 @@ create table chat(
 	idclient bigint not null,
 	idsoporte bigint not null,
 	create_at timestamp(0) not null,
+	tipo varchar(20) not null
 	foreign key(idclient) references users(id) on update cascade on delete cascade,
 	foreign key(idsoporte) references users(id) on update cascade on delete cascade,
-	primary key(idclient,idsoporte)
+	primary key(idclient,idsoporte,tipo)
 );
 
 drop table if exists user_has_roles cascade;
