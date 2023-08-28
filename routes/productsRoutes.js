@@ -2,6 +2,9 @@ const ProductsController = require('../controllers/productsController')
 const passport = require('passport')
 
 module.exports = (app, upload) => {
+    
+    app.get('/api/products/listaProductoTienda/:id_user/:id_cantidad', passport.authenticate('jwt', {session:false}), ProductsController.listaProductoTiendaController)
+    
     app.get('/api/products/findByCategory/:id_category/:id_user/:id_cantidad', passport.authenticate('jwt', {session:false}), ProductsController.findByCategory)
     app.get('/api/products/findByCategoryAndProductName/:id_category/:id_user/:product_name/:id_cantidad', passport.authenticate('jwt', {session:false}), ProductsController.findByCategoryAndProductName)
 

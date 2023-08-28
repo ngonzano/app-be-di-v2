@@ -17,6 +17,15 @@ Product.findByCategory = (id_category, id_user, cantidad) => {
     `;
     return db.manyOrNone(sql, [id_category, id_user, cantidad]);
 }
+Product.listaProductoTienda = (id_user, cantidad) => {
+    const sql =`
+    SELECT lower(P.NAME) as name
+      FROM PRODUCTS AS P INNER JOIN USERS U ON P.ID_USER = U.ID
+     WHERE U.ID= $1
+       AND p.cantidad != $2
+    `;
+    return db.manyOrNone(sql, [id_user, cantidad]);
+}
 Product.findByCategoryAndProductName = (id_category, id_user, product_name, cantidad) => {
     const sql =`
     SELECT P.ID, P.NAME, P.DESCRIPTION, PRICE, IMAGE1, IMAGE2, IMAGE3, ID_CATEGORY,p.id_user as iduser,cantidad,c.name as nameCategoria

@@ -21,6 +21,23 @@ module.exports = {
                 })
         }
     },
+    async listaProductoTiendaController(req, res, next){
+        try {
+            const id_user=req.params.id_user;
+            const id_cantidad=req.params.id_cantidad;
+
+            const data = await Product.listaProductoTienda(id_user, id_cantidad);
+            return res.status(201).json(data);
+
+        } catch (error) {
+            //console.log(`Error findByCategory: ${error}`)
+                return res.status(501).json({
+                    message: `Error al mostrar el producto por categoria`,
+                    success: false,
+                    error: error
+                })
+        }
+    },
     async findByCategoryAndProductName(req, res, next){
         try {
             // //console.log(`findByCategoryAndProductName | categoria: ${req.params.id_category} | id de la tienda: ${req.params.id_user} - product_name: ${req.params.product_name}`)
