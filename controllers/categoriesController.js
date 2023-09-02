@@ -35,10 +35,11 @@ module.exports = {
     },
     async getAllStockController(req, res, next){
         try {
-            const idUser = req.params.iduser
+            const idUser = req.params.iduser            
             const productname = req.params.productname
+            const replacedString = productname.replace(/\_/g, '/');
 
-            const data = await Category.getAllStock(idUser, productname)
+            const data = await Category.getAllStock(idUser, replacedString)
             return res.status(201).json(data)
         } catch (error) {
             //console.log(`Error ${error}`);

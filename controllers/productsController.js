@@ -44,9 +44,11 @@ module.exports = {
             const id_category = req.params.id_category;//cliente
             const id_user = req.params.id_user;//id de la tienda
             const product_name = req.params.product_name;//producto
+             const replacedString = product_name.replace(/\_/g, '/');
+
             const id_cantidad=req.params.id_cantidad;//cantidad para este caso se pondra por defecto 99999 como un dato para no mostrar
             
-            const data = await Product.findByCategoryAndProductName(id_category, id_user, product_name, id_cantidad);
+            const data = await Product.findByCategoryAndProductName(id_category, id_user, replacedString, id_cantidad);
             return res.status(201).json(data);
         } catch (error) {
             console.log(`Error: ${error}`)

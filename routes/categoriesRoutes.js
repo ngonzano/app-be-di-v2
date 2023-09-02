@@ -5,7 +5,7 @@ module.exports = (app, upload) => {
     //GET
     app.get('/api/categories/getAll/:iduser', passport.authenticate('jwt', {session: false}), CategoriesController.getAll)
     app.get('/api/categories/getAllBuscar/:iduser/:productname', passport.authenticate('jwt', {session: false}), CategoriesController.getAllBuscarController)
-
+    
     app.get('/api/categories/getAllStock/:iduser/:productname', passport.authenticate('jwt', {session: false}), CategoriesController.getAllStockController)
     app.get('/api/categories/getAllStockSinBuscar/:iduser', passport.authenticate('jwt', {session: false}), CategoriesController.getAllStockSinBuscarController)
 
