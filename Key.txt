@@ -3,3 +3,14 @@ LOS TOKEN DE MERCADO PAGO SE CAMBIAN EN server.js y mercadoPagoController.js
 **********************************NO BORRAR**********************************************
 2go9fanFPSWCLXGu5JyMmeAMSem1
 **********************************NO BORRAR**********************************************
+
+google cloud
+guia: https://www.youtube.com/watch?v=KClw3fwTjP8&ab_channel=EvelynWeng
+
+pasos://////
+conocer donde estas: pwd
+ejecutar: cd gcloud(gcloud es la carpeta donde se encuentra el backend que se subio a gcloud)
+ejecutar: npm install
+ejecutar: gcloud app deploy || luego esperar y elegir "y"
+ejecutar: gcloud app browse || es para obtener la ruta de la raiz en la nube
+copiar y probar: https://hl-delivery.uc.r.appspot.com

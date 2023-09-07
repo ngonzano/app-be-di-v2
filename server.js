@@ -30,6 +30,11 @@ const efectivo = require('./routes/efectivoRoutes')
 const yapeController = require('./routes/yapeRoutes')
 const culqiController = require('./routes/culqiRoutes')
 
+// admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount)
+// });
+
+async function pidepe() {
 /*iniciar firebase*/
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
@@ -38,7 +43,6 @@ admin.initializeApp({
 const upload = multer ({
     storage: multer.memoryStorage()
 })
-
 
 /*Rutas*/
 const port = process.env.PORT || 3000
@@ -88,11 +92,7 @@ app.get('/',(req, res) => {
 app.get('/orders/delivery', (req, res) => {
     res.send('Socket IO');
   });
-//error handler
-app.use((err,req, res, next) => {
-    //console.log(err)
-    res.status(err.status || 500).send(err.stack)
-})
+
 app.use(sessionx({
     secret: 'secret',
     resave: false,
@@ -100,11 +100,15 @@ app.use(sessionx({
     cookie: { secure: true }
   }))
   
-
 module.exports = {
     app: app,
     server: server
 }
+}
+
+pidepe();
+
+
 
 //200 - es una respuesta exitosa
 //400 - significa que la url no existe
