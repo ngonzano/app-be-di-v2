@@ -3,3 +3,22 @@ LOS TOKEN DE MERCADO PAGO SE CAMBIAN EN server.js y mercadoPagoController.js
 **********************************NO BORRAR**********************************************
 2go9fanFPSWCLXGu5JyMmeAMSem1
 **********************************NO BORRAR**********************************************
+
+google cloud
+guia: https://www.youtube.com/watch?v=5ScNKhR_gWY&ab_channel=VishalGautam
+
+ejecutar:
+//
+node add @google-cloud/functions-framework
+//
+curl https://sdk.cloud.google.com | bash
+/users/niltongr/google/cloud/
+
+// pasar a otra terminal y seguir los pasos de la guia
+gcloud init
+//otro terminal
+//instalar
+npm install -g firebase-tools
+//probar
+gcloud functions deploy gcp-func-pidepe --runtime nodejs16 --entry-point pidepe --trigger-http --project hl-delivery
+
