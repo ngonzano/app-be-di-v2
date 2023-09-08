@@ -16,9 +16,9 @@ const databaseConfig={
     'database': 'postgres',
     'user': 'postgres',
     'password': '14@qweszxC',
-    ssl: {
-        rejectUnauthorized: false
-    },
+    // ssl: {
+    //     rejectUnauthorized: false
+    // },
     
     //habilitar si es para heroku
     // ssl: {
