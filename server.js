@@ -30,10 +30,6 @@ const efectivo = require('./routes/efectivoRoutes')
 const yapeController = require('./routes/yapeRoutes')
 const culqiController = require('./routes/culqiRoutes')
 
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount)
-// });
-
 async function pidepe() {
 /*iniciar firebase*/
 admin.initializeApp({
