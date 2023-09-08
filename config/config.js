@@ -11,14 +11,19 @@ types.setTypeParser(1114, function(stringValue){
 
 const databaseConfig={
     // PRODUCION
-    'host': 'ec2-3-219-137-162.compute-1.amazonaws.com',
+    'host': '35.226.197.243',
     'port': 5432,
-    'database': 'd8n42rchdp95on',
-    'user': 'fzdaencubsqpxs',
-    'password': '47243b44ec0032ee5db04cda1d41bcb342b8c826daeccb9c3909e2c19c73c02d',
+    'database': 'postgres',
+    'user': 'postgres',
+    'password': '14@qweszxC',
     ssl: {
         rejectUnauthorized: false
     },
+    
+    //habilitar si es para heroku
+    // ssl: {
+    //     rejectUnauthorized: false
+    // },
 
     //QA
     // 'host': 'localhost',

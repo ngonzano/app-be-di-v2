@@ -86,7 +86,7 @@ server.listen(port,'0.0.0.0', function(){
 })
 
 app.get('/',(req, res) => {
-    res.send('H&L DELIVERY | PidePE - ruta raiz del backend, solo se vera con TOKEN los demas endpoint')
+    res.send('H&L DELIVERY | PidePE - raiz | gcloud |')
 })
 
 app.get('/orders/delivery', (req, res) => {
