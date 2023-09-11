@@ -16,9 +16,9 @@ const databaseConfig={
     'database': 'fl0-db-pidepe',
     'user': 'fl0user',
     'password': 'mGi3PMWSH7IK',
-    ssl: {
-        rejectUnauthorized: false
-    },
+    // ssl: {
+    //     rejectUnauthorized: false
+    // },
     
     //habilitar si es para heroku
     // ssl: {
