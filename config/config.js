@@ -11,11 +11,11 @@ types.setTypeParser(1114, function(stringValue){
 
 const databaseConfig={
     // PRODUCION
-    'host': 'ep-delicate-shadow-30737887.us-east-2.aws.neon.tech',
+    'host': '34.69.21.93',
     'port': 5432,
-    'database': 'fl0-db-pidepe',
-    'user': 'fl0user',
-    'password': 'mGi3PMWSH7IK',
+    'database': 'db_pidepe',
+    'user': 'ngonzano',
+    'password': '2go9fanFPSWCLXGu5JyMmeAMSem1',
     // ssl: {
     //     rejectUnauthorized: false
     // },

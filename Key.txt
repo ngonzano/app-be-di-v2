@@ -1,34 +1,59 @@
 LOS TOKEN DE MERCADO PAGO SE CAMBIAN EN server.js y mercadoPagoController.js
 
-================================================================================================================
-DEPLOY DE NODE JS || guia: https://www.youtube.com/watch?v=KClw3fwTjP8&ab_channel=EvelynWeng
-================================================================================================================
+**********************************NO BORRAR**********************************************
+2go9fanFPSWCLXGu5JyMmeAMSem1
+**********************************NO BORRAR**********************************************
 
 google cloud
 
+guia: https://www.youtube.com/watch?v=KClw3fwTjP8&ab_channel=EvelynWeng
+
 pasos:///BACKEND///UBICARSE EN LA SHELL DE google CLOUD
+================================================================================================================================
+                                                BACKEND - GOOGLE CLOUD - NODE JS
+================================================================================================================================
 conocer donde estas: pwd
-subir los archivos del backend
-ejecutar: cd gcloud (gcloud es la carpeta donde se encuentra el backend que se subio a gcloud)
+ejecutar: cd gcloud(gcloud es la carpeta donde se encuentra el backend que se subio a gcloud)
 ejecutar: npm install
 ejecutar: gcloud app deploy || luego esperar y elegir "y" SIEMPRE EJECUTAR CUANDO HAY CAMBIOS
 ejecutar: gcloud app browse || es para obtener la ruta de la raiz en la nube
 copiar y probar: https://hl-delivery.uc.r.appspot.com
 
-==========================================////POSTGRES EN GCLOUD/////==========================================
+================================================================================================================================
+                                                BACKEND - GOOGLE CLOUD - NODE JS - v2
+================================================================================================================================
+validar que este instalado con node -v y npm -v
+
+
+
+================================================================================================================================
+                                                POSTGRES EN GCLOUD
+================================================================================================================================
 
 guia: https://www.youtube.com/watch?v=JLdy_cJ1KRA&ab_channel=ScriptBytes
 
 EJECUTAR: 
-sudo apt-get update || para actualizar el sistema operativo
-sudo apt-get install \ca-certificates \curl \gnupg \lsb-release
-
-/************************************************/
-
-sudo docker run hello-world
+//instalar docker desde su pagina
 
 sudo docker pull postgres
-
+con esto siempre estara activo asi reinicie la VM
 sudo docker run --name some-postgres -e POSTGRES_PASSWORD=2go9fanFPSWCLXGu5JyMmeAMSem1 -v postgres:/var/lib/postgresql/data -p 5432:5432 -d postgres
+
+===== verificar que si esta postgres instalado: ====
+docker ps
+
+===== instalar el cliente de postgres: =====
+sudo apt update
+sudo apt install postgresql-client
+
+===== revisar la version =====
+psql --version
+
+ahora ya se debe ejecutar con el comando psql || si funciona
+psql -U postgres -d postgres -h localhost -p 5432 -W
+ingresar clave luego esto estaras dentro
+
+
+
 
 
