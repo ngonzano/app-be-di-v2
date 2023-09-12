@@ -63,7 +63,8 @@ psql -U postgres -d postgres -h localhost -p 5432 -W
 ingresar clave luego esto estaras dentro
 
 ============== cuando se detenga una instancia de vm ===============
-la IP externa siempre cambia cada vez que se detenga la instancia
+la IP externa siempre cambia cada vez que se detenga la instancia cambiar la ip en la configuracion del backen postgres y en flutter
+sudo docker ps
 sudo docker ps -a || muestra los contenedores detenidos
 CONTAINER ID   IMAGE         COMMAND                  CREATED       STATUS                      PORTS     NAMES
 ad6eec95f6cf   postgres      "docker-entrypoint.s…"   6 hours ago   Exited (0) 10 minutes ago             some-postgres

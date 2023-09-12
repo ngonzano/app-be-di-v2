@@ -90,6 +90,12 @@ app.get('/orders/delivery', (req, res) => {
     res.send('Socket IO');
   });
 
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'text/plain');
+  res.status(200).send('La aplicación está activa.');
+  next();
+});
+
 app.use(sessionx({
     secret: 'secret',
     resave: false,
