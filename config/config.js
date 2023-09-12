@@ -11,7 +11,7 @@ types.setTypeParser(1114, function(stringValue){
 
 const databaseConfig={
     // PRODUCION
-    'host': '34.69.21.93',
+    'host': '35.224.226.64',
     'port': 5432,
     'database': 'db_pidepe',
     'user': 'ngonzano',

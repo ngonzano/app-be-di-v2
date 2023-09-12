@@ -22,9 +22,18 @@ copiar y probar: https://hl-delivery.uc.r.appspot.com
 ================================================================================================================================
                                                 BACKEND - GOOGLE CLOUD - NODE JS - v2
 ================================================================================================================================
-validar que este instalado con node -v y npm -v
+validar que este instalado con node -v, npm -v, git --version
 
+clonar el repo conectandose con SSH keys
+ssh-keygen -t rsa -b 4096 -C "nilton.gonzano@gmail.com" || generar key
+cat ~/.ssh/id_rsa.pub || mostrara el key que se tendra que agregar a git
 
+luego clonar la repo ejecutar: git clone git@github.com:ngonzano/app-be-di-v2.git
+luego de cada cambio ejecutar: git pull origin main
+
+verificar que su aplicacion esta corriendo: ps aux | grep node
+ejm: hldeliv+   90002  0.1  8.4 635424 84608 pts/1    Sl+  23:27   0:02 node server
+ejecutar para detener el backend: kill -9 90002
 
 ================================================================================================================================
                                                 POSTGRES EN GCLOUD
@@ -40,7 +49,7 @@ con esto siempre estara activo asi reinicie la VM
 sudo docker run --name some-postgres -e POSTGRES_PASSWORD=2go9fanFPSWCLXGu5JyMmeAMSem1 -v postgres:/var/lib/postgresql/data -p 5432:5432 -d postgres
 
 ===== verificar que si esta postgres instalado: ====
-docker ps
+sudo docker ps
 
 ===== instalar el cliente de postgres: =====
 sudo apt update
@@ -53,6 +62,16 @@ ahora ya se debe ejecutar con el comando psql || si funciona
 psql -U postgres -d postgres -h localhost -p 5432 -W
 ingresar clave luego esto estaras dentro
 
+============== cuando se detenga una instancia de vm ===============
+la IP externa siempre cambia cada vez que se detenga la instancia
+sudo docker ps -a || muestra los contenedores detenidos
+CONTAINER ID   IMAGE         COMMAND                  CREATED       STATUS                      PORTS     NAMES
+ad6eec95f6cf   postgres      "docker-entrypoint.s…"   6 hours ago   Exited (0) 10 minutes ago             some-postgres
+ejecutar contenedor detenido
+sudo docker start ad6eec95f6cf
+
+ejecutar las aplicaciones node con
+node server
 
 
 
