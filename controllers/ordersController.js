@@ -221,7 +221,7 @@ module.exports = {
         try {
             const id = await req.params.id
             const data= await Order.buscarOrden(id)
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -233,7 +233,7 @@ module.exports = {
     async versionAppController(req,res, next){
         try {
             const data= await Order.versionApp()
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({

@@ -44,6 +44,7 @@ module.exports = (app, upload) => {
 //fin chat
     
     app.post('/api/users/create/:withlogin',upload.array('image',1), UsersController.registerWithImage)
+    app.post('/api/users/createhttps/:withlogin', UsersController.registerUser)
     app.post('/api/users/asignarrepartidor', passport.authenticate('jwt', {session: false}), UsersController.asignarRolRepartidorController)
     app.post('/api/users/agregarnegocio', passport.authenticate('jwt', {session: false}), UsersController.agregarNegocioController)
 

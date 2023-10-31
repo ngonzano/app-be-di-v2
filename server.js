@@ -49,6 +49,12 @@ app.use(express.urlencoded({
     extended: true
 }))
 app.use(cors())
+app.use(sessionx({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 app.use(passport.initialize())
 app.use(passport.session())
 require('./config/passport')(passport)
@@ -96,13 +102,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(sessionx({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
-  }))
-  
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('¡Algo salió mal!');
+  });
+
 module.exports = {
     app: app,
     server: server

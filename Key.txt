@@ -35,6 +35,16 @@ verificar que su aplicacion esta corriendo: ps aux | grep node
 ejm: hldeliv+   90002  0.1  8.4 635424 84608 pts/1    Sl+  23:27   0:02 node server
 ejecutar para detener el backend: kill -9 90002
 
+para que la aplicacion nunca se detenga por falta de peticiones 
+npm install pm2 -g
+
+pm2 start server.js --name server -- --autorestart || para que se reinicie la aplicacion en automatico
+pm2 start server.js
+
+detener la aplicacion ejecutada por pm2: pm2 stop server || donde server es el nombre de la aplicacion backend
+pm2 stop all || para detener todas las aplicaciones
+
+
 ================================================================================================================================
                                                 POSTGRES EN GCLOUD
 ================================================================================================================================

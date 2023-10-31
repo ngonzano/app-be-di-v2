@@ -14,7 +14,7 @@ module.exports = {
             const idgiro = await req.params.idgiro
             const data= await User.getAllTiendas(idgiro)
             ////console.log(`Usuarios: ${data}`)
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             // console.log(error)
             return res.status(501).json({
@@ -26,7 +26,7 @@ module.exports = {
     async getAllGirosController(req,res, next){
         try {
             const data= await User.getAllGiros()
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -38,7 +38,7 @@ module.exports = {
     async getAllGirosCoordenadasController(req,res, next){
         try {
             const data= await User.getAllGirosCoordenadas()
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -53,7 +53,7 @@ module.exports = {
             const cumpleanio = await req.params.cumpleanio
             ////console.log(`${email}-${cumpleanio}`);
             const data = await User.getUsuario(email, cumpleanio)
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -67,7 +67,7 @@ module.exports = {
             const id = await req.params.id
             const data= await User.findByUserId(id)
             // console.log(`Usuarios: ${data}`)
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -81,7 +81,7 @@ module.exports = {
             const id = await req.params.id
             const data= await User.buscarUsuario(id)
             ////console.log(`Usuarios: ${data}`)
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -96,7 +96,7 @@ module.exports = {
             const idgiro = await req.params.idgiro
             const data= await User.buscarTienda(descripcion,idgiro)
             ////console.log(`Usuarios: ${data}`)
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -110,7 +110,7 @@ module.exports = {
             const id = await req.params.id
             const data= await User.buscarRepartidor(id)
             
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -124,7 +124,7 @@ module.exports = {
             const phone = await req.params.phone
             const data= await User.buscarTelefono(phone)
             
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -138,7 +138,7 @@ module.exports = {
             const correo = await req.params.correo
             const data= await User.buscarCorreo(correo)
             
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -152,7 +152,7 @@ module.exports = {
             const email = await req.params.email
             const data= await User.findByOrden(email)
             ////console.log(`Usuarios: ${data}`)
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -166,7 +166,7 @@ module.exports = {
             const id = await req.params.id
             const data= await User.findByDeliveryMen(id)
             ////console.log(`Repartidores: ${data}`)
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -185,7 +185,7 @@ module.exports = {
     //             tokens.push(d.notification_token);
     //         })
     //         //console.log(`Tokens -------> : ${tokens}`)
-    //         return res.status('201').json(tokens)
+    //         return res.status(201).json(tokens)
     //     } catch (error) {
     //         //console.log(error)
     //         return res.status(501).json({
@@ -204,7 +204,7 @@ module.exports = {
                 tokens.push(d.notification_token);
             })
             //console.log(`Tokens -------> : ${tokens}`)
-            return res.status('201').json(tokens)
+            return res.status(201).json(tokens)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -221,7 +221,7 @@ module.exports = {
         //         tokens.push(d.id_user,d.lastname,d.lat,d.lng,d.notification_token);
         //     })
         //     //console.log(`Tokens -------> : ${tokens}`)
-        //     return res.status('201').json(tokens)
+        //     return res.status(201).json(tokens)
         // } catch (error) {
         //     //console.log(error)
         //     return res.status(501).json({
@@ -232,7 +232,7 @@ module.exports = {
         try {
             const data= await User.listarTokenTiendaCliente()
             ////console.log(`Usuarios: ${data}`)
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -249,7 +249,7 @@ module.exports = {
                 tokens.push(d.notification_token);
             })
             //console.log(`Tokens -------> : ${tokens}`)
-            return res.status('201').json(tokens)
+            return res.status(201).json(tokens)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -272,7 +272,7 @@ module.exports = {
         })
         } catch (error) {
             // console.log(`Error: ${error}`)
-            return res.status(501),json({
+            return res.status(501).json({
                 success: false,
                 message: 'Error al registrar al usuario.',
                 error: error
@@ -291,7 +291,7 @@ module.exports = {
         })
         } catch (error) {
             // console.log(`Error: ${error}`)
-            return res.status(501),json({
+            return res.status(501).json({
                 success: false,
                 message: 'Hubo un error al tratar de actualizar el token del usuario',
                 error: error
@@ -306,23 +306,48 @@ module.exports = {
 
             if (files.length>0) {
                 const pathImage = `image_${Date.now()}` //nombre del archivo
+               
                 const url= await storage(files[0], pathImage)
-
+               
                 if (url != undefined && url != null) {
                     user.image=url
                 }
             }
-            const data = await User.create(user, withlogin)
-            await Rol.create(data.id, 1)//rol por defecto (cliente)
+            const data = await User.create(user, withlogin);
+            await Rol.create(data.id, 1);//rol por defecto (cliente)
 
-            return res.status(201).json({
-            success: true,
-            message: 'El registro se realizo correctamente, Bienvenido.',
-            data: data.id
-        })
+            const response = {
+                success: true,
+                message: 'El registro se realizó correctamente, Bienvenido.',
+                data: data.id,
+              };
+            return res.status(201).json(response);
         } catch (error) {
             // console.log(`Error: ${error}`)
-            return res.status(501),json({
+            return res.status(501).json({
+                success: false,
+                message: 'Error al registrar al usuario.',
+                error: error
+            })
+        }
+    },
+    async registerUser(req, res, next){
+        try {
+            const user= req.body
+            const withlogin = await req.params.withlogin
+          
+            const data = await User.create(user, withlogin);           
+            await Rol.create(data.id, 1);//rol por defecto (cliente)
+
+            const response = {
+                success: true,
+                message: 'El registro se realizó correctamente, Bienvenido.',
+                data: data.id,
+              };
+            return res.status(201).json(response);
+        } catch (error) {
+            console.log(`Error: ${error}`)
+            return res.status(501).json({
                 success: false,
                 message: 'Error al registrar al usuario.',
                 error: error
@@ -350,7 +375,7 @@ module.exports = {
         })
         } catch (error) {
             //console.log(`Error registerEvidencia: ${error}`)
-            return res.status(501),json({
+            return res.status(501).json({
                 success: false,
                 message: 'Error al registrar al usuario.',
                 error: error
@@ -368,7 +393,7 @@ module.exports = {
 
             const data= await User.mostrarEvidencia(idorder,iduser,iddelivery,idtienda)
             ////console.log(`Usuarios: ${data}`)
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -397,7 +422,7 @@ module.exports = {
         })
         } catch (error) {
             // console.log(`Error: ${error}`)
-            return res.status(501),json({
+            return res.status(501).json({
                 success: false,
                 message: 'Error al actualizar al usuario.',
                 error: error
@@ -611,7 +636,7 @@ module.exports = {
 
             const data = await User.buscarConst(codigo, iduser)
             // console.log(`Constante: ${data}`)
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -623,7 +648,7 @@ module.exports = {
     async versionAppController(req,res, next){
         try {
             const data= await User.versionApp()
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -635,7 +660,7 @@ module.exports = {
     async telefonoEmpController(req,res, next){
         try {
             const data= await User.telefonoEmp()
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -648,7 +673,7 @@ module.exports = {
     async smsIdPlanServicioController(req,res, next){
         try {
             const data= await User.smsIdPlanServicio()
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -660,7 +685,7 @@ module.exports = {
     async smsCredentialController(req,res, next){
         try {
             const data= await User.smsCredential()
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -672,7 +697,7 @@ module.exports = {
     async urlSinchController(req,res, next){
         try {
             const data= await User.urlSinch()
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -684,7 +709,7 @@ module.exports = {
     async fromSmsController(req,res, next){
         try {
             const data= await User.fromSms()
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -696,7 +721,7 @@ module.exports = {
     async bodySmsController(req,res, next){
         try {
             const data= await User.bodySms()
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             //console.log(error)
             return res.status(501).json({
@@ -711,7 +736,7 @@ module.exports = {
             const idClient = await req.params.idclient
             const data= await User.getAllCardClient(idClient)
             ////console.log(`Usuarios: ${data}`)
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             // console.log(error)
             return res.status(501).json({
@@ -720,14 +745,13 @@ module.exports = {
             })
         }
     },
-
     async getBuscarCardClientController(req,res, next){
         try {
             const idClient = await req.params.idclient
             const cardNumber = await req.params.cardnumber
             const data= await User.getBuscarCardClient(idClient, cardNumber)
             ////console.log(`Usuarios: ${data}`)
-            return res.status('201').json(data)
+            return res.status(201).json(data)
         } catch (error) {
             // console.log(error)
             return res.status(501).json({
@@ -736,7 +760,6 @@ module.exports = {
             })
         }
     },
-
     async createCardClientController(req, res, next){
         try {
             const card= req.body
@@ -750,7 +773,7 @@ module.exports = {
         })
         } catch (error) {
             // console.log(`Error: ${error}`)
-            return res.status(501),json({
+            return res.status(501).json({
                 success: false,
                 message: 'Error al guardar tarjeta.',
                 error: error
@@ -809,7 +832,7 @@ async buscarChatController(req,res, next){
 
         const data= await User.buscarChat(idClient, idSoporte, tipo)
         
-        return res.status('201').json(data)
+        return res.status(201).json(data)
 
     } catch (error) {
         //console.log(error)
@@ -824,7 +847,7 @@ async listaChatController(req,res, next){
         const tipo = await req.params.tipo
         const data = await User.listaChat(tipo)
         
-        return res.status('201').json(data)
+        return res.status(201).json(data)
         
     } catch (error) {
         //console.log(error)
