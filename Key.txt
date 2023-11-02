@@ -24,12 +24,45 @@ copiar y probar: https://hl-delivery.uc.r.appspot.com
 ================================================================================================================================
 validar que este instalado con node -v, npm -v, git --version
 
++++++++++++++++++++ node js +++++++++++++++++++
+rm -rf $NVM_DIR ~/.npm ~/.bower
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+source ~/.bashrc
+nvm --version
+nvm install 18.13.0
+node --version
+nvm install --latest
+nvm list
+nvm use 18 || 18 es la version que sale del nvm
+nvm alias default 18
++++++++++++++++++++ git +++++++++++++++++++
+sudo apt-get update
+sudo apt-get remove git
+sudo apt-get install git
+git --version
+git config --list
+git config --global user.name "Nilton Gonzano"
+git config --global user.email "ng.rifas.jl@gmail.com"
++++++++++++++++++++ conexion con github +++++++++++++++++++
+ls ~/.ssh/
+ssh-keygen -t rsa -b 4096 -C "ng.rifas.jl@gmail.com"
+cat ~/.ssh/id_rsa.pub || copiar con todo y correo
+ssh -T git@github.com || yes
+
 clonar el repo conectandose con SSH keys
 ssh-keygen -t rsa -b 4096 -C "nilton.gonzano@gmail.com" || generar key
 cat ~/.ssh/id_rsa.pub || mostrara el key que se tendra que agregar a git
 
-luego clonar la repo ejecutar: git clone git@github.com:ngonzano/app-be-di-v2.git
-luego de cada cambio ejecutar: git pull origin main
+luego clonar la repo ejecutar: git clone git@github.com:ngrifasjl/jl_backend.git
+
+git config --global pull.rebase true
+
+npm init
+npm install
+
+git reset --hard HEAD
+
+luego de cada cambio ejecutar: git pull
 
 verificar que su aplicacion esta corriendo: ps aux | grep node
 ejm: hldeliv+   90002  0.1  8.4 635424 84608 pts/1    Sl+  23:27   0:02 node server
@@ -41,7 +74,7 @@ npm install pm2 -g
 pm2 start server.js --name server -- --autorestart || para que se reinicie la aplicacion en automatico
 pm2 start server.js
 
-detener la aplicacion ejecutada por pm2: pm2 stop server || donde server es el nombre de la aplicacion backend
+detener la aplicacion ejecutada por pm2: pm2 stop server || donde server es el name de la aplicacion backend
 pm2 stop all || para detener todas las aplicaciones
 ================================================================================================================================
                                                 POSTGRES EN GCLOUD || sin docker
@@ -59,7 +92,7 @@ sudo apt-get --purge remove \
 
 sudo nano /etc/apt/sources.list.d/pgdg.list
 
-deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main
+deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main || guardar
 
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc |
   sudo apt-key add -
