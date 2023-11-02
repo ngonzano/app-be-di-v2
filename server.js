@@ -82,8 +82,8 @@ efectivo(app)
 yapeController(app)
 culqiController(app)
 
-server.listen(port,'0.0.0.0', function(){
-// server.listen(port,'192.168.18.18'||'localhost', function(){
+// server.listen(port,'0.0.0.0', function(){
+server.listen(port,'192.168.18.18'||'localhost', function(){
     console.log('App '+process.pid+' iniciada...')
     console.log('Port '+port+' iniciada...')
 })

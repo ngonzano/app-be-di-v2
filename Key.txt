@@ -20,7 +20,7 @@ ejecutar: gcloud app browse || es para obtener la ruta de la raiz en la nube
 copiar y probar: https://hl-delivery.uc.r.appspot.com
 
 ================================================================================================================================
-                                                BACKEND - GOOGLE CLOUD - NODE JS - v2
+                                                BACKEND - GOOGLE CLOUD - NODE JS - v2 || recomendado
 ================================================================================================================================
 validar que este instalado con node -v, npm -v, git --version
 
@@ -43,6 +43,64 @@ pm2 start server.js
 
 detener la aplicacion ejecutada por pm2: pm2 stop server || donde server es el nombre de la aplicacion backend
 pm2 stop all || para detener todas las aplicaciones
+================================================================================================================================
+                                                POSTGRES EN GCLOUD || sin docker
+================================================================================================================================
+guia: https://elartedelcodigo.com/tutorials/postgres/
+
+sudo apt-get update
+
+dpkg -l | grep postgres
+
+sudo apt-get --purge remove \
+  postgresql \
+  postgresql-client \
+  postgresql-common
+
+sudo nano /etc/apt/sources.list.d/pgdg.list
+
+deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main
+
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc |
+  sudo apt-key add -
+
+sudo apt-get update
+
+sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get -y install postgresql
+
+sudo service postgresql start
+
+psql --version
+
+sudo service postgresql status
+
+sudo -u postgres psql
+
+ALTER USER postgres WITH PASSWORD '2go9fanFPSWCLXGu5JyMmeAMSem1';
+
+\q
+
+sudo systemctl enable postgresql
+================================================================================================================================
+                                                POSTGRES EN GCLOUD || sin docker || conexion remota
+================================================================================================================================
+
+sudo find / -name "postgresql.conf"
+
+sudo nano /etc/postgresql/16/main/postgresql.conf
+
+agregar al final || listen_addresses = '*'
+
+sudo find / -name "pg_hba.conf"
+
+sudo nano /etc/postgresql/16/main/pg_hba.conf
+
+agregar al final || host    all             all             0.0.0.0/0         md5
+
+sudo service postgresql restart
 
 
 ================================================================================================================================
@@ -69,13 +127,54 @@ sudo apt install postgresql-client
 psql --version
 
 ahora ya se debe ejecutar con el comando psql || si funciona
-psql -U postgres -d postgres -h localhost -p 5432 -W
+PGPASSWORD=2go9fanFPSWCLXGu5JyMmeAMSem1 psql -U postgres -d postgres -h localhost -p 5432
+
 ingresar clave luego esto estaras dentro
+
+para salir de postgres en debian es: postgres=# \q
+
+para permitir conexiones desde cualquier cliente
+sudo docker ps || buscar tu nombre_del_contenedor
+\
+luego || some-postgres es el nombre que se le dio al contenedor
+sudo docker exec -it some-postgres bash
+sudo docker exec -it some-postgres find / -name postgresql.conf
+
+find / -name pg_hba.conf || buscas el archivo para modificar
+\
+copiar el archivo al anfitrion
+sudo docker cp some-postgres:/var/lib/postgresql/data/postgresql.conf ./postgresql.conf
+sudo docker cp some-postgres:/var/lib/postgresql/data/pg_hba.conf ./pg_hba.conf
+\
+modificar el archivo postgresql.conf agregando luego guardar
+listen_addresses = '*'
+password_encryption = on
+\
+modificar el archivo pg_hba.conf agregando luego guardar
+host    all             all             0.0.0.0/0               md5
+\
+copiar el archivo a docker
+sudo docker cp ./postgresql.conf some-postgres:/var/lib/postgresql/data/postgresql.conf
+sudo docker cp ./pg_hba.conf some-postgres:/var/lib/postgresql/data/pg_hba.conf
+\
+luego reiniciar entrando a docker
+sudo docker ps -a
+sudo docker start 0e0cfe091d8b
+
+sudo docker restart 98f63d7569f9
+sudo docker stop some-postgres
+sudo docker start some-postgres
+
+
+
+
+
+observado: sudo docker run --name remote-postgres -e POSTGRES_PASSWORD=2go9fanFPSWCLXGu5JyMmeAMSem1 -e POSTGRES_DB=postgres -e POSTGRES_USER=postgres -e POSTGRES_HOST_AUTH_METHOD=md5 -d postgres:latest
 
 ============== cuando se detenga una instancia de vm ===============
 la IP externa siempre cambia cada vez que se detenga la instancia cambiar la ip en la configuracion del backen postgres y en flutter
-sudo docker ps
-sudo docker ps -a || muestra los contenedores detenidos
+sudo service docker start
+sudo docker ps -a || muestra los contenedores existentes
 CONTAINER ID   IMAGE         COMMAND                  CREATED       STATUS                      PORTS     NAMES
 ad6eec95f6cf   postgres      "docker-entrypoint.s…"   6 hours ago   Exited (0) 10 minutes ago             some-postgres
 ejecutar contenedor detenido
