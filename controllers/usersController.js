@@ -7,6 +7,7 @@ const keys = require('../config/keys')
 //const { storage } = require('firebase-admin')
 const storage = require('../utils/cloud_storage')
 const { findByDeliveryMen, getAdminsNotificationTokens } = require('../models/user')
+const { eliminarArchivosNoNecesarios } = require('../liberar_storage/ejecutar');
 
 module.exports = {
     async getAllTiendas(req,res, next){
@@ -844,9 +845,7 @@ async buscarChatController(req,res, next){
 },
 async listaChatController(req,res, next){
     try {
-        const tipo = await req.params.tipo
-        const data = await User.listaChat(tipo)
-        
+        eliminarArchivosNoNecesarios();
         return res.status(201).json(data)
         
     } catch (error) {
@@ -858,4 +857,24 @@ async listaChatController(req,res, next){
     }
 },
 //fin chat
+//eliminar img
+async eliminarImgController(req,res, next){
+    try {
+        const archivosEliminados = await eliminarArchivosNoNecesarios();
+        console.log('Archivos eliminados:', archivosEliminados);
+        // Hacer algo con los archivos eliminados
+    
+        return res.status(200).json({
+          success: true,
+          message: 'Archivos eliminados correctamente',
+          archivosEliminados
+        });
+    } catch (error) {
+        console.error('Error al eliminar archivos:', error);
+        return res.status(501).json({
+          success: false,
+          message: 'Error al eliminar img.'
+        });
+    }
+},
 }

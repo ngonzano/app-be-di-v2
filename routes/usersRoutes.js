@@ -68,4 +68,7 @@ module.exports = (app, upload) => {
     app.put('/api/users/actualizarcomentario/:idorder/:comentariousuario/:calificacion', passport.authenticate('jwt', {session:false}), UsersController.actualizarComentarioController)
 
     app.put('/api/users/disenableCard/:idclient/:cardnumber', passport.authenticate('jwt', {session:false}), UsersController.disenableCardController)
+
+    app.get('/api/users/eliminarImgController', passport.authenticate('jwt', {session:false}), UsersController.eliminarImgController)
+
 }

@@ -650,5 +650,29 @@ User.listaChat = (tipo) => {
     return db.manyOrNone(sql,tipo)
 }
 //fin chat
+
+//eliminar imagenes de storage
+User.eliminarImg = () => {
+    const sql=`
+    SELECT image FROM public.users WHERE image IS NOT NULL AND image LIKE 'https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com%'
+    UNION
+    SELECT image FROM public.roles WHERE image IS NOT NULL AND image LIKE 'https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com%'
+    UNION
+    SELECT image1 AS image FROM public.products WHERE image1 IS NOT NULL AND image1 LIKE 'https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com%'
+    UNION
+    SELECT image2 AS image FROM public.products WHERE image2 IS NOT NULL AND image2 LIKE 'https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com%'
+    UNION
+    SELECT image3 AS image FROM public.products WHERE image3 IS NOT NULL AND image3 LIKE 'https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com%'
+    UNION
+    SELECT image FROM public.giros WHERE image IS NOT NULL AND image LIKE 'https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com%'
+    UNION
+    SELECT image1 AS image FROM public.evidencia WHERE image1 IS NOT NULL AND image1 LIKE 'https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com%'
+    UNION
+    SELECT imagedelivery AS image FROM public.datos_constantes WHERE imagedelivery IS NOT NULL AND imagedelivery LIKE 'https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com%'
+    UNION
+    SELECT image FROM public.categories WHERE image IS NOT NULL AND image LIKE 'https://firebasestorage.googleapis.com/v0/b/hl-delivery.appspot.com%';
+    `
+    return db.manyOrNone(sql)
+}
 module.exports=User
 
