@@ -76,6 +76,13 @@ pm2 start server.js
 
 detener la aplicacion ejecutada por pm2: pm2 stop server || donde server es el name de la aplicacion backend
 pm2 stop all || para detener todas las aplicaciones
+
+pm2 list
+pm2 show server
+pm2 logs server
+pm2 stop server.js
+pm2 start server.js --name server -- --autorestart
+
 ================================================================================================================================
                                                 POSTGRES EN GCLOUD || sin docker
 ================================================================================================================================

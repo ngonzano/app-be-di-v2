@@ -81,6 +81,7 @@ module.exports = {
                 const start = async () => {
                     
                     await asyncForEach(files, async(file) => {
+                        
                         const pathImage =`image_${Date.now()}`
                         
                         const url = await storage(file, pathImage)
@@ -99,10 +100,13 @@ module.exports = {
                         await Product.update(product)
                         inserts = inserts + 1
                         if (inserts === files.length) {
-                            return res.status(201).json({
-                                message: 'El producto se ha registrado correctamente.',
-                                success: true
-                            })
+                           
+                           const  resx = res.status(201).json({
+                                            message: 'El producto se ha registrado correctamente.',
+                                            success: true
+                                        })
+                           
+                            return resx
                         }
                     })
                 }
@@ -117,6 +121,7 @@ module.exports = {
             }
         }
     },
+  
     async updateController(req, res, next) {
         let product = JSON.parse(req.body.product) 
         

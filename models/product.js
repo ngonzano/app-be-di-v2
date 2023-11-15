@@ -41,7 +41,7 @@ Product.create = (product) => {
     const sql=`
     INSERT INTO products(
         name, description, price, image1, image2, image3, id_category, create_at, update_at,id_user,cantidad, pricecompra)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING ID
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING ID;
     `;
     return db.oneOrNone(sql, [
         product.name,
@@ -61,7 +61,7 @@ Product.create = (product) => {
 Product.update = (product) => {
     const sql=`
     UPDATE PRODUCTS SET NAME=$2, DESCRIPTION = $3, PRICE=$4, IMAGE1= $5, IMAGE2= $6, IMAGE3= $7, ID_CATEGORY=$8, UPDATE_AT=$9
-    WHERE ID=$1
+    WHERE ID=$1;
     `;
     return db.none(sql, [
         product.id,
@@ -78,7 +78,7 @@ Product.update = (product) => {
 Product.updateproducto = (product) => {
     const sql=`
     UPDATE PRODUCTS SET NAME=$2, DESCRIPTION = $3, PRICE=$4, IMAGE1= $5, IMAGE2= $6, IMAGE3= $7, UPDATE_AT=$8,cantidad=$9
-    WHERE ID=$1
+    WHERE ID=$1;
     `;
     return db.none(sql, [
         product.id,

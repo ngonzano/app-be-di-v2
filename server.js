@@ -10,7 +10,6 @@ const admin = require('firebase-admin')
 const serviceAccount = require('./serviceAccountKey.json')
 const passport = require('passport')
 const io = require('socket.io')(server)
-const mercadopago = require('mercadopago')
 /*sockets*/
 const orderDeliverySocket = require('./sockets/orders_delivery_sockets')
 const deliveryTiendaSocket = require('./sockets/delivery_tienda_sockets')

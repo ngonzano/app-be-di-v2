@@ -1,9 +1,9 @@
 const { Storage } = require('@google-cloud/storage');
 const { format } = require('util');
-const env = require('../config/env')
 const url = require('url');
 const { v4: uuidv4 } = require('uuid');
 const uuid = uuidv4();
+const env = require('../config/env')
 
 
 const storage = new Storage({
@@ -11,7 +11,7 @@ const storage = new Storage({
     keyFilename: './serviceAccountKey.json'
 });
 
-const bucket = storage.bucket("gs://hl-delivery.appspot.com/");
+const bucket = storage.bucket("gs://hl-delivery.appspot.com");
 
 /**
  * Subir el archivo a Firebase Storage
