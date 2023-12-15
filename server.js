@@ -29,6 +29,10 @@ const efectivo = require('./routes/efectivoRoutes')
 const yapeController = require('./routes/yapeRoutes')
 const culqiController = require('./routes/culqiRoutes')
 
+const path = require('path');//izipay
+
+const {paymentRouter} = require('./routes/izipayRoutes');//izipay
+
 
 async function pidepe() {
 /*iniciar firebase*/
@@ -60,6 +64,9 @@ require('./config/passport')(passport)
 app.disable('x-powered-by')
 app.set('port', port)
 
+
+app.use("/api",paymentRouter)//izipay
+app.use(express.static(path.join(__dirname, 'public')))//izipay
 //LLamar al sockets
 orderDeliverySocket(io);
 deliveryTiendaSocket(io);

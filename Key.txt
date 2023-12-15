@@ -80,6 +80,8 @@ pm2 stop all || para detener todas las aplicaciones
 pm2 list
 pm2 show server
 pm2 logs server
+git pull
+npm install
 pm2 stop server.js
 pm2 start server.js --name server -- --autorestart
 
@@ -112,6 +114,7 @@ sudo apt-get update
 sudo apt-get -y install postgresql
 
 sudo service postgresql start
+sudo service postgresql restart
 
 psql --version
 
