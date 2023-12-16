@@ -1,6 +1,5 @@
 node_modules/
 cd/
-.env
 dist
 tmp/*
 !tmp/.gitkeep
