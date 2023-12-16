@@ -66,7 +66,7 @@ app.set('port', port)
 
 
 
-app.use(express.static(path.join(__dirname, 'public')))
+// app.use(express.static(path.join(__dirname, 'public')))
 //LLamar al sockets
 orderDeliverySocket(io);
 deliveryTiendaSocket(io);
