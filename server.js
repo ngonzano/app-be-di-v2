@@ -31,7 +31,7 @@ const culqiController = require('./routes/culqiRoutes')
 
 const path = require('path');//izipay
 
-const {paymentRouter} = require('./routes/izipayRoutes');//izipay
+const izipayRouter = require('./routes/izipayRoutes');
 
 
 async function pidepe() {
@@ -65,8 +65,8 @@ app.disable('x-powered-by')
 app.set('port', port)
 
 
-app.use("/api",paymentRouter)//izipay
-app.use(express.static(path.join(__dirname, 'public')))//izipay
+
+app.use(express.static(path.join(__dirname, 'public')))
 //LLamar al sockets
 orderDeliverySocket(io);
 deliveryTiendaSocket(io);
@@ -78,6 +78,7 @@ chatSocket(io);
 /*
 llamando a las rutas
 */
+izipayRouter(app)
 users(app, upload)
 categories(app, upload)
 address(app)
@@ -88,8 +89,8 @@ efectivo(app)
 yapeController(app)
 culqiController(app)
 
-server.listen(port,'0.0.0.0', function(){
-// server.listen(port,'192.168.18.18'||'localhost', function(){
+// server.listen(port,'0.0.0.0', function(){
+server.listen(port,'192.168.18.8'||'localhost', function(){
     console.log('App '+process.pid+' iniciada...')
     console.log('Port '+port+' iniciada...')
 })
@@ -102,11 +103,11 @@ app.get('/orders/delivery', (req, res) => {
     res.send('Socket IO');
   });
 
-app.use((req, res, next) => {
-  res.setHeader('Content-Type', 'text/plain');
-  res.status(200).send('La aplicación está activa.');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader('Content-Type', 'text/plain');
+//   res.status(200).send('La aplicación está activa.');
+//   next();
+// });
 
 app.use((err, req, res, next) => {
     console.error(err.stack);

@@ -113,9 +113,6 @@ const paymentForm = (req, res) => {
 
 }
 
-
-
-
 // module.exports = { createPayment, validatePayment, paymentForm };
 module.exports = { validatePayment, paymentForm };
  

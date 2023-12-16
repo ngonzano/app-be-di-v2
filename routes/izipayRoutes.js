@@ -1,16 +1,9 @@
-const express = require("express");
 
-const router = express.Router();
+const izipayController = require('../controllers/izipayController')
 
-const {
-//   createPayment,
-  validatePayment,
-  paymentForm,
-} = require("../controllers/izipayController");
+module.exports = (app) => {
 
-// router.post("/createPayment", createPayment);
-router.post("/validatePayment", validatePayment);//pidepe-444e2ee958a2.herokuapp.com/validatePayment
-
-router.post("/paymentForm", paymentForm)
-
-module.exports = { paymentRouter: router };
+   app.post('/api/validatePayment', izipayController.validatePayment)
+   app.post('/api/paymentForm', izipayController.paymentForm)
+     
+}
