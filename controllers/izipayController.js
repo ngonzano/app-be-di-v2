@@ -99,6 +99,8 @@ const paymentForm = (req, res) => {
     // vads_url_error:'https://webview.error/',
     // vads_url_success: 'https://webview.success/',
     // vads_url_refused: 'https://webview.refused/',
+    vads_redirect_success_timeout:'0',
+    vads_redirect_error_timeout:'',
     vads_version: "V2",
   }
 
