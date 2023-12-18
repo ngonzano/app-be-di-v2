@@ -79,7 +79,7 @@ const validatePayment = (req, res) => {
 };
 
 const paymentForm = (req, res) => {
-  const {amount, email, currency, id_user, nombre, apellido, items} = req.body;
+  const {amount, email, currency, id_user, nombre, apellido, items, documento} = req.body;
 
   const params = new URLSearchParams();
   const obj = {
@@ -89,12 +89,13 @@ const paymentForm = (req, res) => {
     vads_currency: currency=="PEN"?604:840,
     vads_cust_email: email,
     vads_cust_first_name: nombre,
-    vads_cust_last_name: apellido, //01-07659002 (dni), 20-20102034561
-    vads_ext_info_cybersource_mdd_15: id_user,//id_user
+    vads_cust_last_name: apellido,
+    vads_ext_info_cybersource_mdd_14: documento,
+    vads_ext_info_cybersource_mdd_15: id_user,
     vads_ext_info_cybersource_mdd_16: 'NO',
     vads_ext_info_cybersource_mdd_22: '03',
     vads_ext_info_cybersource_mdd_24: 'BAJO',
-    vads_ext_info_cybersource_mdd_29: items,// 1,3,2 items
+    vads_ext_info_cybersource_mdd_29: items,
     vads_ext_info_cybersource_mdd_37: 'DELIVERY',
     vads_ext_info_cybersource_mdd_46: 'APP',
     vads_language:'es',
@@ -108,7 +109,7 @@ const paymentForm = (req, res) => {
     vads_theme_config: 'SIMPLIFIED_DISPLAY=true',
     vads_trans_date: getDateUTC(),
     vads_trans_id: genRandonString(6),    
-    vads_url_cancel:'https://webview.cancel/',
+    vads_url_cancel:'https://webview.cancel/',//tambien volver a la tienda desencadena esto
     vads_url_error:'https://webview.error/',
     vads_url_refused: 'https://webview.refused/',
     vads_url_success: 'https://webview.success/',   
