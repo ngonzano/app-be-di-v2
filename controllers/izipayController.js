@@ -79,7 +79,7 @@ const validatePayment = (req, res) => {
 };
 
 const paymentForm = (req, res) => {
-  const {amount, email, currency, id_user} = req.body;
+  const {amount, email, currency, id_user, nombre, apellido} = req.body;
 
   const params = new URLSearchParams();
   const obj = {
@@ -88,8 +88,8 @@ const paymentForm = (req, res) => {
     vads_ctx_mode: process.env.MODE,
     vads_currency: currency=="PEN"?604:840,
     vads_cust_email: email,
-    vads_cust_first_name: 'nombre',
-    vads_cust_last_name: 'apellido', //01-07659002 (dni), 20-20102034561
+    vads_cust_first_name: nombre,
+    vads_cust_last_name: apellido, //01-07659002 (dni), 20-20102034561
     vads_ext_info_cybersource_mdd_15: id_user,//id_user
     vads_ext_info_cybersource_mdd_16: 'NO',
     vads_ext_info_cybersource_mdd_22: '03',
