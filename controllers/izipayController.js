@@ -79,7 +79,7 @@ const validatePayment = (req, res) => {
 };
 
 const paymentForm = (req, res) => {
-  const {amount, email, currency} = req.body;
+  const {amount, email, currency, phone, documento, id_user, items} = req.body;
 
   const params = new URLSearchParams();
   const obj = {
@@ -88,12 +88,26 @@ const paymentForm = (req, res) => {
     vads_ctx_mode: process.env.MODE,
     vads_currency: currency=="PEN"?604:840,
     vads_cust_email: email,
+    vads_cust_first_name: nombre,
+    vads_cust_last_name: apellido,
+    vads_ext_info_cybersource_mdd_12: email,
+    vads_ext_info_cybersource_mdd_13: phone,
+    vads_ext_info_cybersource_mdd_14: documento, //01-07659002 (dni), 20-20102034561
+    vads_ext_info_cybersource_mdd_15: id_user,//id_user
+    vads_ext_info_cybersource_mdd_16: 'NO',
+    vads_ext_info_cybersource_mdd_22: '03',
+    vads_ext_info_cybersource_mdd_24: 'BAJO',
+    vads_ext_info_cybersource_mdd_29: items,// 1,3,2
+    vads_ext_info_cybersource_mdd_37: 'DELIVERY',
+    vads_ext_info_cybersource_mdd_43: phone,
+    vads_ext_info_cybersource_mdd_46: 'APP',
     vads_language:'es',
     vads_order_id: new Date().getTime(),
     vads_page_action: "PAYMENT",
     vads_payment_config: "SINGLE",
     vads_redirect_error_timeout:'5',
     vads_redirect_success_timeout:'5',
+    vads_shop_name: 'Pidepe',
     vads_site_id: process.env.ID_TIENDA,
     vads_theme_config: 'SIMPLIFIED_DISPLAY=true',
     vads_trans_date: getDateUTC(),
