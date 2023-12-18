@@ -95,10 +95,10 @@ const paymentForm = (req, res) => {
     vads_theme_config: 'SIMPLIFIED_DISPLAY=true',//
     vads_trans_date: getDateUTC(),
     vads_trans_id: genRandonString(6),
-    vads_url_cancel:'http://webview.cancel/',
-    vads_url_error:'http://webview.error/',
-    vads_url_success: 'http://webview.success/',
-    vads_url_refused: 'http://webview.refused/',
+    vads_url_cancel:'https://webview.cancel/',
+    vads_url_error:'https://webview.error/',
+    vads_url_success: 'https://webview.success/',
+    vads_url_refused: 'https://webview.refused/',
     vads_version: "V2",
   }
 
