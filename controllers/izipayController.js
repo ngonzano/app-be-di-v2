@@ -87,12 +87,18 @@ const paymentForm = (req, res) => {
     vads_ctx_mode: process.env.MODE,
     vads_currency: currency=="PEN"?604:840,
     vads_cust_email: email && "example@gmail.com",
+    vads_language:'es',//
     vads_order_id: new Date().getTime(),
     vads_page_action: "PAYMENT",
     vads_payment_config: "SINGLE",
     vads_site_id: process.env.ID_TIENDA,
+    vads_theme_config: 'SIMPLIFIED_DISPLAY=true',//
     vads_trans_date: getDateUTC(),
     vads_trans_id: genRandonString(6),
+    vads_url_cancel:'http://webview.success/',
+    vads_url_error:'http://webview.success/',
+    vads_url_success: 'http://webview.success/',
+    vads_url_refused: 'http://webview.success/',
     vads_version: "V2",
   }
 
