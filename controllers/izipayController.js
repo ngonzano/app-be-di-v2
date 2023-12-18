@@ -79,7 +79,7 @@ const validatePayment = (req, res) => {
 };
 
 const paymentForm = (req, res) => {
-  const {amount, email, currency, id_user, nombre, apellido} = req.body;
+  const {amount, email, currency, id_user, nombre, apellido, items} = req.body;
 
   const params = new URLSearchParams();
   const obj = {
@@ -94,7 +94,7 @@ const paymentForm = (req, res) => {
     vads_ext_info_cybersource_mdd_16: 'NO',
     vads_ext_info_cybersource_mdd_22: '03',
     vads_ext_info_cybersource_mdd_24: 'BAJO',
-    vads_ext_info_cybersource_mdd_29: 2,// 1,3,2 items
+    vads_ext_info_cybersource_mdd_29: items,// 1,3,2 items
     vads_ext_info_cybersource_mdd_37: 'DELIVERY',
     vads_ext_info_cybersource_mdd_46: 'APP',
     vads_language:'es',
