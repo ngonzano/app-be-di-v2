@@ -80,27 +80,28 @@ const validatePayment = (req, res) => {
 
 const paymentForm = (req, res) => {
   const {amount, email, currency} = req.body;
+
   const params = new URLSearchParams();
   const obj = {
     vads_action_mode: "INTERACTIVE",
     vads_amount: amount*100,
     vads_ctx_mode: process.env.MODE,
     vads_currency: currency=="PEN"?604:840,
-    vads_cust_email: email && "example@gmail.com",
-    vads_language:'es',//
+    vads_cust_email: `${email}` && "example@gmail.com",
+    vads_language:'es',
     vads_order_id: new Date().getTime(),
     vads_page_action: "PAYMENT",
     vads_payment_config: "SINGLE",
-    vads_site_id: process.env.ID_TIENDA,
-    vads_theme_config: 'SIMPLIFIED_DISPLAY=true',//
-    vads_trans_date: getDateUTC(),
-    vads_trans_id: genRandonString(6),
-    // vads_url_cancel:'https://webview.cancel/',
-    // vads_url_error:'https://webview.error/',
-    // vads_url_success: 'https://webview.success/',
-    // vads_url_refused: 'https://webview.refused/',
-    vads_redirect_success_timeout:'0',
     vads_redirect_error_timeout:'0',
+    vads_redirect_success_timeout:'0',
+    vads_site_id: process.env.ID_TIENDA,
+    vads_theme_config: 'SIMPLIFIED_DISPLAY=true',
+    vads_trans_date: getDateUTC(),
+    vads_trans_id: genRandonString(6),    
+    vads_url_cancel:'https://webview.cancel/',
+    vads_url_error:'https://webview.error/',
+    vads_url_refused: 'https://webview.refused/',
+    vads_url_success: 'https://webview.success/',   
     vads_version: "V2",
   }
 
@@ -110,7 +111,7 @@ const paymentForm = (req, res) => {
 
   const signature = getSignature(obj, KEY);
   params.append("signature", signature);
-
+// console.log(params);
   axios.post("https://secure.micuentaweb.pe/vads-payment/entry.silentInit.a", params)
   .then(response => {
     res.status(200).json(response.data)
