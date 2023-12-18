@@ -79,7 +79,7 @@ const validatePayment = (req, res) => {
 };
 
 const paymentForm = (req, res) => {
-  const {amount, email, currency, id_user, nombre, apellido, items, documento} = req.body;
+  const {amount, email, currency, id_user, nombre, apellido, items, phone} = req.body;
 
   const params = new URLSearchParams();
   const obj = {
@@ -90,7 +90,7 @@ const paymentForm = (req, res) => {
     vads_cust_email: email,
     vads_cust_first_name: nombre,
     vads_cust_last_name: apellido,
-    vads_ext_info_cybersource_mdd_14: documento,
+    vads_cust_phone: phone,
     vads_ext_info_cybersource_mdd_15: id_user,
     vads_ext_info_cybersource_mdd_16: 'NO',
     vads_ext_info_cybersource_mdd_22: '03',
@@ -102,8 +102,8 @@ const paymentForm = (req, res) => {
     vads_order_id: new Date().getTime(),
     vads_page_action: "PAYMENT",
     vads_payment_config: "SINGLE",
-    vads_redirect_error_timeout:'5',
-    vads_redirect_success_timeout:'5',
+    vads_redirect_error_timeout:'15',
+    vads_redirect_success_timeout:'15',
     vads_shop_name: 'Pidepe',
     vads_site_id: process.env.ID_TIENDA,
     vads_theme_config: 'SIMPLIFIED_DISPLAY=true',
