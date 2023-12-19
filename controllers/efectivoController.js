@@ -30,6 +30,8 @@ module.exports = {
                 intMedioPago = 5
             } else if (medioPago === 'culqi'){
                 intMedioPago = 6
+            } else if (medioPago === 'izipay'){
+                intMedioPago = 7
             }
             // console.log(medioPago);
             // console.log(intMP);
