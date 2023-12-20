@@ -60,30 +60,27 @@ else {
 //     });
 // };
 
-
-
-//pidepe-444e2ee958a2.herokuapp.com/validatePayment
-
-// const validatePayment = (req, res) => {
-//   const { clientAnswer, hash, hashKey } = req.body;
-//   let key = "";
-//   if (hashKey === "sha256_hmac") {
-//     // key => HMAC-SHA-256 OF YOUR BACK OFFICE
-//     key = process.env.TEST_KEY_HMAC_SHA_256;
-//   } else if (hashKey === "password") {
-//     // key => testPassword OF YOUR BACK OFFICE
-//     key = process.env.TEST_PASSWORD;
-//   }
-
-//   const answerHash = Hex.stringify(
-//     HmacSHA256(JSON.stringify(clientAnswer), key)
-//   );
-
-//   if (hash === answerHash) res.status(200).json("Valid Payment");
-//   else res.status(500).json("Payment hash mismatch");
-// };
-
 const validatePayment = (req, res) => {
+  const { clientAnswer, hash, hashKey } = req.body;
+  const body = req.body;
+  let key = "";
+  if (hashKey === "sha256_hmac") {
+    // key => HMAC-SHA-256 OF YOUR BACK OFFICE
+    key = process.env.TEST_KEY_HMAC_SHA_256;
+  } else if (hashKey === "password") {
+    // key => testPassword OF YOUR BACK OFFICE
+    key = process.env.TEST_PASSWORD;
+  }
+
+  const answerHash = Hex.stringify(
+    HmacSHA256(JSON.stringify(clientAnswer), key)
+  );
+
+  if (hash === answerHash) res.status(200).json(body);
+  else res.status(500).json("Payment hash mismatch");
+};
+
+const validatePayment2 = (req, res) => {
   const body = req.body;
   console.log(req.body);
   if (!body) return res.status(400).send("POST is empty");
@@ -93,7 +90,8 @@ const validatePayment = (req, res) => {
     
   console.log(`Order ${body.vads_order_id} successfully updated`);
 
-  res.status(200).send(`Order ${body.vads_order_id} successfully updated.`);
+  // res.status(200).send(`Order ${body.vads_order_id} successfully updated.`);
+  return res.status(200).json(body)
 };
 
 const paymentForm = (req, res) => {
