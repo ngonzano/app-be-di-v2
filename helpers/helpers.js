@@ -15,6 +15,27 @@ const getSignature = (obj, KEY) => {
    return signature;
   
 }
+const getSignature2 = (params, KEY) => {
+   let contenu_signature = "";
+ 
+   const sortedParams = Object.keys(params).sort().reduce(
+       (obj, key) => { 
+           obj[key] = params[key]; 
+           return obj;
+       }, 
+       {}
+   );
+ 
+   for (let nom in sortedParams) {
+       if (nom.substring(0, 5) === 'vads_') {
+           contenu_signature += sortedParams[nom] + "+";
+       }
+   }
+ 
+   contenu_signature += KEY;
+ 
+   return Base64.stringify(hmacSHA256(contenu_signature, KEY)); // Signature
+ };
 const genRandonString = (length) => {
    var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
    var charLength = chars.length;
@@ -53,4 +74,4 @@ const getDateUTC = () => {
    return  (formattedDate); // AAAAMDDHHMMSS ``
 }
 
-module.exports = { genRandonString, getDateUTC, getSignature };
+module.exports = { genRandonString, getDateUTC, getSignature, getSignature2 };

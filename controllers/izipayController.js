@@ -3,9 +3,8 @@ const { HmacSHA256 } = require("crypto-js");
 const Hex = require("crypto-js/enc-hex");
 const dotenv = require("dotenv");
 const { v4: uuid } = require("uuid");
-const { genRandonString, getDateUTC, getSignature } = require("../helpers/helpers");
+const { genRandonString, getDateUTC, getSignature, getSignature2 } = require("../helpers/helpers");
 const bodyParser = require("body-parser");
-const { getDateUTC, getTransId, getSignature } = require("./utils");
 
 // Variable de entorno
 dotenv.config({ path: "./.env" });
@@ -22,48 +21,8 @@ else {
   PASSWORD = process.env.PROD_PASSWORD;
 }
 
-// const createPayment = (req, res) => {
-//   const {name, lastName, amount, email} = req.body;
-
-//   const body = {
-//     amount: amount * 100,
-//     currency: "USD",
-//     customer: {
-//       email,
-//       billingDetails: {
-//         firstName: name,
-//         lastName,
-//       }
-//     },
-//     orderId: `order-${ uuid() }`
-//   }
-  
-//   const auth = btoa(`${process.env.ID_TIENDA}:${PASSWORD}`);
-//   axios
-//     .post(
-//       "https://api.micuentaweb.pe/api-payment/V4/Charge/CreatePayment",
-//       body,
-//       {
-//         headers: {
-//           Authorization: `Basic ${auth}`,
-//         },
-//       }
-//     )
-//     .then((rpta) => {
-//       { 
-//         // console.log(rpta);
-//         res.status(200).json({ formToken: rpta.data.answer.formToken });
-//       }
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       res.status(500).json("Error server");
-//     });
-// };
-
-const validatePayment = (req, res) => {
+const validatePaymentx = (req, res) => {
   const { clientAnswer, hash, hashKey } = req.body;
-  console.log(`${clientAnswer}, ${hash}, ${hashKey}`);
   const body = req.body;
   let key = "";
   if (hashKey === "sha256_hmac") {
@@ -82,18 +41,18 @@ const validatePayment = (req, res) => {
   else res.status(500).json("No coincide el hash de pago");
 };
 
-const validatePayment2 = (req, res) => {
+const validatePayment = (req, res) => {
   const body = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   if (!body) return res.status(400).send("POST is empty");
   if (!body.vads_hash) return res.status(400).send("Hash not found");
 
-  if(!(body.signature === getSignature(body, KEY ))) return res.status(404).send("An error occurred while computing the signature.")
+  if(!(body.signature === getSignature2(body, KEY ))) return res.status(404).send("An error occurred while computing the signature.")
     
   console.log(`Order ${body.vads_order_id} successfully updated`);
 
-  // res.status(200).send(`Order ${body.vads_order_id} successfully updated.`);
-  return res.status(200).json(body)
+  res.status(200).send(`Order ${body.vads_order_id} successfully updated.`);
+  // return res.status(200).json(body)
 };
 
 const paymentForm = (req, res) => {

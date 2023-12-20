@@ -60,6 +60,8 @@ app.use(sessionx({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
+
+
 require('./config/passport')(passport)
 app.disable('x-powered-by')
 app.set('port', port)
