@@ -18,6 +18,7 @@ module.exports = {
             const delivery = req.body.delivery
 
             order.status='PAGADO'
+            //actualizar datos
 
             const medioPago = order.mediopago
             if (medioPago === 'efectivo') {
@@ -33,14 +34,13 @@ module.exports = {
             } else if (medioPago === 'izipay'){
                 intMedioPago = 7
             }
-            // console.log(medioPago);
-            // console.log(intMP);
             const orderData = await Order.create(order, intMedioPago) 
             await Order.createPagoDelivery(order, delivery)
             //recorrer todos los productos agregados a la orden
             for (const product of order.products) {
                await OrderHasProduct.create(orderData.id, product.id, product.quantity, product.comentario);
             }
+
             //console.log(`LA ORDEN SE CREO CORRECTAMENTE ${orderData.id}`);
                return res.status(201).json({
                    success : true,

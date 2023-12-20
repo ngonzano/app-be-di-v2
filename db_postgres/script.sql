@@ -220,6 +220,8 @@ CREATE TABLE orders(
 	idyape varchar(30) not null DEFAULT '0',
 	comision decimal default 0,
 	idyapedevolucion varchar(30) not null DEFAULT '0',
+	id_izipay bigint null,
+	Foreign key(id_izipay) references izipay(id) on update cascade on delete cascade,
 	Foreign key(id_client) references users(id) on update cascade on delete cascade,
 	Foreign key(id_delivery) references users(id) on update cascade on delete cascade,
 	Foreign key(id_address) references address(id) on update cascade on delete cascade,
@@ -297,3 +299,17 @@ create table configuracion(
 );
 insert into configuracion (	descripcion,mensaje ) 
        values ('Version','1.0.15+16');
+
+drop table if exists izipay cascade;
+CREATE TABLE izipay
+(
+    id bigserial primary key,
+    vads_cust_email varchar(100) null,
+   	vads_trans_uuid varchar(255) null,
+   	vads_effective_creation_date varchar(100) null,
+   	vads_order_id varchar(15) null,
+	vads_card_brand varchar(20) null,
+   	vads_card_number varchar(20) null
+);
+insert into izipay (vads_cust_email) 
+       values ('defecto');

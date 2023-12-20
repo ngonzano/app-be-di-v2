@@ -1,9 +1,11 @@
 const axios = require("axios").default;
-const { HmacSHA256 } = require("crypto-js");
-const Hex = require("crypto-js/enc-hex");
+// const { HmacSHA256 } = require("crypto-js");
+// const Hex = require("crypto-js/enc-hex");
 const dotenv = require("dotenv");
-const { v4: uuid } = require("uuid");
+// const { v4: uuid } = require("uuid");
 const { genRandonString, getDateUTC, getSignature, getSignature2 } = require("../helpers/helpers");
+
+const Order = require('../models/order')
 // const bodyParser = require("body-parser");
 
 // Variable de entorno
@@ -43,16 +45,24 @@ else {
 
 const validatePayment = (req, res) => {
   const body = req.body;
-  console.log(body);
+
   if (!body) return res.status(400).send("LA PUBLICACIÓN está vacía");
   if (!body.vads_hash) return res.status(400).send("Hash no encontrado");
-
-  if(!(body.signature === getSignature2(body, KEY ))) return res.status(404).send("Se produjo un error al calcular la firma.")
+  if (!(body.signature === getSignature2(body, KEY ))) return res.status(404).send("Se produjo un error al calcular la firma.")
     
   console.log(`Orden ${body.vads_order_id} actualizado exitosamente`);
 
+  const id = Order.createPagoIzipay(
+    body.vads_cust_email,
+    body.vads_trans_uuid,
+    body.vads_effective_creation_date,
+    body.vads_order_id,
+    body.vads_card_brand,
+    body.vads_card_number
+    )
+    
+  console.log(id);
   res.status(200).send(`Orden ${body.vads_order_id} actualizado exitosamente.`);
- 
 };
 
 const paymentForm = (req, res) => {
