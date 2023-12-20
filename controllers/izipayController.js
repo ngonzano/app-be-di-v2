@@ -4,6 +4,7 @@ const Hex = require("crypto-js/enc-hex");
 const dotenv = require("dotenv");
 const { v4: uuid } = require("uuid");
 const { genRandonString, getDateUTC, getSignature } = require("../helpers/helpers");
+const bodyParser = require("body-parser");
 
 // Variable de entorno
 dotenv.config({ path: "./.env" });
@@ -63,23 +64,36 @@ else {
 
 //pidepe-444e2ee958a2.herokuapp.com/validatePayment
 
+// const validatePayment = (req, res) => {
+//   const { clientAnswer, hash, hashKey } = req.body;
+//   let key = "";
+//   if (hashKey === "sha256_hmac") {
+//     // key => HMAC-SHA-256 OF YOUR BACK OFFICE
+//     key = process.env.TEST_KEY_HMAC_SHA_256;
+//   } else if (hashKey === "password") {
+//     // key => testPassword OF YOUR BACK OFFICE
+//     key = process.env.TEST_PASSWORD;
+//   }
+
+//   const answerHash = Hex.stringify(
+//     HmacSHA256(JSON.stringify(clientAnswer), key)
+//   );
+
+//   if (hash === answerHash) res.status(200).json("Valid Payment");
+//   else res.status(500).json("Payment hash mismatch");
+// };
+
 const validatePayment = (req, res) => {
-  const { clientAnswer, hash, hashKey } = req.body;
-  let key = "";
-  if (hashKey === "sha256_hmac") {
-    // key => HMAC-SHA-256 OF YOUR BACK OFFICE
-    key = process.env.TEST_KEY_HMAC_SHA_256;
-  } else if (hashKey === "password") {
-    // key => testPassword OF YOUR BACK OFFICE
-    key = process.env.TEST_PASSWORD;
-  }
+  const body = req.body;
+  console.log(req.body);
+  if (!body) return res.status(400).send("POST is empty");
+  if (!body.vads_hash) return res.status(400).send("Hash not found");
 
-  const answerHash = Hex.stringify(
-    HmacSHA256(JSON.stringify(clientAnswer), key)
-  );
+  if(!(body.signature === getSignature(body, KEY ))) return res.status(404).send("An error occurred while computing the signature.")
+    
+  console.log(`Order ${body.vads_order_id} successfully updated`);
 
-  if (hash === answerHash) res.status(200).json("Valid Payment");
-  else res.status(500).json("Payment hash mismatch");
+  res.status(200).send(`Order ${body.vads_order_id} successfully updated.`);
 };
 
 const paymentForm = (req, res) => {
@@ -119,7 +133,7 @@ const paymentForm = (req, res) => {
     vads_url_success: 'https://webview.success/',   
     vads_version: "V2",
   }
-console.log(obj);
+// console.log(obj);
   for (const property in obj) {
     params.append(property, obj[property])
   }
