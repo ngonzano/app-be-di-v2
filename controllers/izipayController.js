@@ -4,7 +4,7 @@ const Hex = require("crypto-js/enc-hex");
 const dotenv = require("dotenv");
 const { v4: uuid } = require("uuid");
 const { genRandonString, getDateUTC, getSignature, getSignature2 } = require("../helpers/helpers");
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 
 // Variable de entorno
 dotenv.config({ path: "./.env" });
@@ -43,16 +43,16 @@ else {
 
 const validatePayment = (req, res) => {
   const body = req.body;
-  // console.log(req.body);
-  if (!body) return res.status(400).send("POST is empty");
-  if (!body.vads_hash) return res.status(400).send("Hash not found");
+  console.log(body);
+  if (!body) return res.status(400).send("LA PUBLICACIÓN está vacía");
+  if (!body.vads_hash) return res.status(400).send("Hash no encontrado");
 
-  if(!(body.signature === getSignature2(body, KEY ))) return res.status(404).send("An error occurred while computing the signature.")
+  if(!(body.signature === getSignature2(body, KEY ))) return res.status(404).send("Se produjo un error al calcular la firma.")
     
-  console.log(`Order ${body.vads_order_id} successfully updated`);
+  console.log(`Orden ${body.vads_order_id} actualizado exitosamente`);
 
-  res.status(200).send(`Order ${body} successfully updated.`);
-  // return res.status(200).json(body)
+  res.status(200).send(`Orden ${body.vads_order_id} actualizado exitosamente.`);
+ 
 };
 
 const paymentForm = (req, res) => {
@@ -76,7 +76,7 @@ const paymentForm = (req, res) => {
     vads_ext_info_cybersource_mdd_37: 'DELIVERY',
     vads_ext_info_cybersource_mdd_46: 'APP',
     vads_language:'es',
-    vads_order_id: new Date().getTime(),/////////64
+    vads_order_id: new Date().getTime(),
     vads_page_action: "PAYMENT",
     vads_payment_config: "SINGLE",
     vads_redirect_error_timeout:'0',
