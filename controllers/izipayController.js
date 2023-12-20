@@ -59,6 +59,10 @@ else {
 //     });
 // };
 
+
+
+//pidepe-444e2ee958a2.herokuapp.com/validatePayment
+
 const validatePayment = (req, res) => {
   const { clientAnswer, hash, hashKey } = req.body;
   let key = "";
@@ -99,7 +103,7 @@ const paymentForm = (req, res) => {
     vads_ext_info_cybersource_mdd_37: 'DELIVERY',
     vads_ext_info_cybersource_mdd_46: 'APP',
     vads_language:'es',
-    vads_order_id: new Date().getTime(),
+    vads_order_id: new Date().getTime(),/////////64
     vads_page_action: "PAYMENT",
     vads_payment_config: "SINGLE",
     vads_redirect_error_timeout:'0',
@@ -115,7 +119,7 @@ const paymentForm = (req, res) => {
     vads_url_success: 'https://webview.success/',   
     vads_version: "V2",
   }
-
+console.log(obj);
   for (const property in obj) {
     params.append(property, obj[property])
   }
