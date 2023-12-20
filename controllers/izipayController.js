@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const { v4: uuid } = require("uuid");
 const { genRandonString, getDateUTC, getSignature } = require("../helpers/helpers");
 const bodyParser = require("body-parser");
+const { getDateUTC, getTransId, getSignature } = require("./utils");
 
 // Variable de entorno
 dotenv.config({ path: "./.env" });
@@ -62,6 +63,7 @@ else {
 
 const validatePayment = (req, res) => {
   const { clientAnswer, hash, hashKey } = req.body;
+  console.log(`${clientAnswer}, ${hash}, ${hashKey}`);
   const body = req.body;
   let key = "";
   if (hashKey === "sha256_hmac") {
@@ -77,7 +79,7 @@ const validatePayment = (req, res) => {
   );
 
   if (hash === answerHash) res.status(200).json(body);
-  else res.status(500).json("Payment hash mismatch");
+  else res.status(500).json("No coincide el hash de pago");
 };
 
 const validatePayment2 = (req, res) => {
@@ -151,4 +153,5 @@ const paymentForm = (req, res) => {
 
 // module.exports = { createPayment, validatePayment, paymentForm };
 module.exports = { validatePayment, paymentForm };
- 
+
+
