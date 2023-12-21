@@ -67,7 +67,7 @@ const paymentForm = (req, res) => {
     vads_ext_info_cybersource_mdd_46: 'APP',
     vads_language:'es',
     vads_order_id: new Date().getTime(),
-    vads_page_action: "PAYMENT",
+    vads_page_action: "ASK_REGISTER_PAY",//ask_register_pay || PAYMENT
     vads_payment_config: "SINGLE",
     vads_redirect_error_timeout:'0',
     vads_redirect_success_timeout:'0',
