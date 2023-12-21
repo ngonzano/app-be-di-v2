@@ -48,7 +48,8 @@ Order.findByStatus = (status, idTienda) => {
             (select image from users where id = o.id_tienda) as imagentienda,
             idmp,idyape,
             id_mediopago as mediopago,
-            (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery
+            (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery,
+            o.id_izipay
        FROM ORDERS AS O INNER JOIN USERS AS U ON O.ID_CLIENT = U.ID
 	   		LEFT JOIN USERS AS U2 ON O.ID_DELIVERY = U2.ID
             INNER JOIN ADDRESS AS A ON A.ID = O.ID_ADDRESS
@@ -107,7 +108,8 @@ Order.buscarOrder = (idOrden) => {
             (select image from users where id = o.id_tienda) as imagentienda,
             idmp,idyape,
             id_mediopago as mediopago,
-            (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery
+            (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery,
+            o.id_izipay
        FROM ORDERS AS O INNER JOIN USERS AS U ON O.ID_CLIENT = U.ID
 	   		LEFT JOIN USERS AS U2 ON O.ID_DELIVERY = U2.ID
             INNER JOIN ADDRESS AS A ON A.ID = O.ID_ADDRESS
@@ -165,12 +167,13 @@ Order.listaOrdenesAnuladas = (status, idTienda) => {
             (select image from users where id = o.id_tienda) as imagentienda,
             idmp,idyape,
             id_mediopago as mediopago,
-            (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery
+            (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery,
+            o.id_izipay
        FROM ORDERS AS O INNER JOIN USERS AS U ON O.ID_CLIENT = U.ID
 	   		LEFT JOIN USERS AS U2 ON O.ID_DELIVERY = U2.ID
             INNER JOIN ADDRESS AS A ON A.ID = O.ID_ADDRESS
 			INNER JOIN ORDERS_HAS_PRODUCTS AS OHP ON OHP.ID_ORDER = O.ID
-			INNER JOIN PRODUCTS AS P ON P.ID = OHP.ID_PRODUCT
+			INNER JOIN PRODUCTS AS P ON P.ID = OHP.ID_PRODUCT            
       WHERE STATUS=$1
         AND P.ID_USER=$2
 	  GROUP BY O.ID, U.ID, A.ID, U2.ID
@@ -224,7 +227,8 @@ Order.findByDeliveryAndStatus = (id_delivery, status) => {
             (select image from users where id = o.id_tienda) as imagentienda,
             idmp,idyape,
             id_mediopago as mediopago,
-            (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery
+            (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery,
+            o.id_izipay
        FROM ORDERS AS O INNER JOIN USERS AS U ON O.ID_CLIENT = U.ID
 	   		LEFT JOIN USERS AS U2 ON O.ID_DELIVERY = U2.ID
             INNER JOIN ADDRESS AS A ON A.ID = O.ID_ADDRESS
@@ -283,7 +287,8 @@ Order.findByClientAndStatus = (id_client, status) => {
             (select image from users where id = o.id_tienda) as imagentienda,
             idmp,idyape,
             id_mediopago as mediopago,
-            (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery
+            (SELECT price_delivery FROM orders_has_delivery where id_order = O.ID) as price_delivery,
+            o.id_izipay
        FROM ORDERS AS O INNER JOIN USERS AS U ON O.ID_CLIENT = U.ID
 	   		LEFT JOIN USERS AS U2 ON O.ID_DELIVERY = U2.ID
             INNER JOIN ADDRESS AS A ON A.ID = O.ID_ADDRESS
@@ -374,6 +379,14 @@ Order.createPagoIzipay = (email, uuid, creation_date, order_id, card_brand, card
         email, uuid, creation_date, order_id, card_brand, card_number, product_category
     ])
 }
+Order.buscarOrdenIzipay = (idOrden) => {
+    const sql= `
+    select i.vads_order_id as id_orden, i.vads_trans_uuid as uuid
+      from izipay i inner join orders o on i.id = o.id_izipay
+     where o.id = $1
+    `
+    return db.oneOrNone(sql, idOrden);
+}
 //Anular una orden
 Order.updateAnular = (order) => {
     const sql= `
@@ -428,7 +441,7 @@ Order.updateLatLng = (order) => {
 }
 Order.buscarOrden = (id) => {
     const sql= `
-    SELECT ID, id_client, id_delivery,id_address,lat,lng,status,timestamp,create_at,update_at,status_pago,id_tienda,total
+    SELECT ID, id_client, id_delivery,id_address,lat,lng,status,timestamp,create_at,update_at,status_pago,id_tienda,total,id_izipay
       FROM ORDERS
      WHERE ID = $1
     `

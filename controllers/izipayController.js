@@ -23,7 +23,7 @@ else {
   PASSWORD = process.env.PROD_PASSWORD;
 }
 
-const validatePayment = (req, res) => {
+const validatePayment = async (req, res) => {
   const body = req.body;
 
   if (!body) return res.status(400).send("LA PUBLICACIÓN está vacía");
@@ -32,7 +32,7 @@ const validatePayment = (req, res) => {
     
   console.log(`Orden ${body.vads_order_id} actualizado exitosamente`);
 
-  Order.createPagoIzipay(
+  await Order.createPagoIzipay(
     body.vads_cust_email,
     body.vads_trans_uuid,
     body.vads_effective_creation_date,
@@ -42,7 +42,7 @@ const validatePayment = (req, res) => {
     body.vads_card_product_category
     )
 
-  res.status(200).send(`Orden ${body.vads_order_id} actualizado exitosamente.`);
+    return res.status(200).send(`Orden ${body.vads_order_id} actualizado exitosamente.`);
 };
 
 const paymentForm = (req, res) => {
@@ -100,7 +100,60 @@ const paymentForm = (req, res) => {
 
 }
 
+const cancelOrRefund = async (req, res) => {
+  //
+  const id = await req.params.id
+
+  const datos = await Order.buscarOrdenIzipay(id)
+
+  const url = 'https://api.micuentaweb.pe/api-payment/V4/Transaction/CancelOrRefund';
+  const headers = {
+    'Authorization': 'Basic ODExMzcyNTI6dGVzdHBhc3N3b3JkX0RwV0FlSExxcjliUU4yNHQ1RXVEZ2puVlVTYWtKT3ZxRHdOWThvS2tQbWpkOQ==',
+    'Content-Type': 'application/json'
+  };
+  const data = {
+    "currency": "PEN",
+    "uuid": datos.uuid
+  };
+
+  try {
+    const response = await axios.post(url, data, { headers });
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error('Error al realizar la solicitud:', error);
+    res.status(500).json({ error: 'Hubo un problema al procesar la solicitud' });
+  }
+};
+
+const updateTrans = async (req, res) => {
+  //
+  const id = await req.params.id
+  const amount = await req.params.amount
+  const datos = await Order.buscarOrdenIzipay(id)
+  
+  const url = 'https://api.micuentaweb.pe/api-payment/V4/Transaction/Update';
+  const headers = {
+    'Authorization': 'Basic ODExMzcyNTI6dGVzdHBhc3N3b3JkX0RwV0FlSExxcjliUU4yNHQ1RXVEZ2puVlVTYWtKT3ZxRHdOWThvS2tQbWpkOQ==',
+    'Content-Type': 'application/json'
+  };
+  const data = {
+    "cardUpdate": {
+      "amount": amount,
+      "currency": "PEN"
+    },
+    "orderId": datos.id_orden,
+    "uuid": datos.uuid
+  };
+
+  try {
+    const response = await axios.post(url, data, { headers });
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error('Error al realizar la solicitud:', error);
+    res.status(500).json({ error: 'Hubo un problema al procesar la solicitud' });
+  }
+};
 // module.exports = { createPayment, validatePayment, paymentForm };
-module.exports = { validatePayment, paymentForm };
+module.exports = { validatePayment, paymentForm, cancelOrRefund, updateTrans };
 
 
