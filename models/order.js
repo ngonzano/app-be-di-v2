@@ -299,7 +299,7 @@ Order.findByClientAndStatus = (id_client, status) => {
 //FIN lista de ordenes
 Order.create = (order, medioPago) => {
     const sql = `
-        INSERT INTO ORDERS (ID_CLIENT, ID_ADDRESS, STATUS, TIMESTAMP, CREATE_AT, UPDATE_AT,STATUS_PAGO, id_tienda, id_mediopago,idmp,comision)
+        INSERT INTO ORDERS (ID_CLIENT, ID_ADDRESS, STATUS, TIMESTAMP, CREATE_AT, UPDATE_AT,STATUS_PAGO, id_tienda, id_mediopago,idmp,comision,id_izipay)
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
         RETURNING ID;
     `;
@@ -314,7 +314,8 @@ Order.create = (order, medioPago) => {
         order.id_tienda,
         medioPago,
         order.idmp,
-        order.comision
+        order.comision,
+        order.id_izipay,
     ])
 }
 Order.createyape = (order, medioPago) => {

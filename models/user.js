@@ -126,7 +126,7 @@ User.getPagosIzipay = (email) => {
       FROM izipay
      where 0=0
        and vads_effective_creation_date is not null
-       and email = $1
+       and vads_cust_email = $1
      ORDER BY vads_effective_creation_date desc
      LIMIT 1
     `

@@ -18,7 +18,6 @@ module.exports = {
             const delivery = req.body.delivery
 
             order.status='PAGADO'
-            //actualizar datos
 
             const medioPago = order.mediopago
             if (medioPago === 'efectivo') {
