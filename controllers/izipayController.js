@@ -58,9 +58,10 @@ const validatePayment = (req, res) => {
     body.vads_effective_creation_date,
     body.vads_order_id,
     body.vads_card_brand,
-    body.vads_card_number
+    body.vads_card_number,
+    body.vads_card_product_category
     )
-    
+
   console.log(id);
   res.status(200).send(`Orden ${body.vads_order_id} actualizado exitosamente.`);
 };

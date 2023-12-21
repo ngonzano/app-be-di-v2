@@ -309,7 +309,8 @@ CREATE TABLE izipay
    	vads_effective_creation_date varchar(100) null,
    	vads_order_id varchar(15) null,
 	vads_card_brand varchar(20) null,
-   	vads_card_number varchar(20) null
+   	vads_card_number varchar(20) null,
+	vads_card_product_category varchar(20) null
 );
 insert into izipay (vads_cust_email) 
        values ('defecto');

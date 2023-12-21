@@ -355,7 +355,7 @@ Order.createPagoDelivery = (order, delivery) => {
         delivery
     ])
 }
-Order.createPagoIzipay = (email, uuid, creation_date, order_id, card_brand, card_number) => {
+Order.createPagoIzipay = (email, uuid, creation_date, order_id, card_brand, card_number, product_category) => {
     const sql = `
         INSERT INTO izipay (
             vads_cust_email,
@@ -363,13 +363,14 @@ Order.createPagoIzipay = (email, uuid, creation_date, order_id, card_brand, card
             vads_effective_creation_date,
             vads_order_id,
             vads_card_brand,
-            vads_card_number
+            vads_card_number,
+            vads_card_product_category
             )
-        VALUES ($1,$2,$3,$4,$5,$6) 
+        VALUES ($1,$2,$3,$4,$5,$6,$7) 
         RETURNING id;
     `;
     return db.oneOrNone(sql, [
-        email, uuid, creation_date, order_id, card_brand, card_number
+        email, uuid, creation_date, order_id, card_brand, card_number, product_category
     ])
 }
 //Anular una orden
