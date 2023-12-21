@@ -105,11 +105,11 @@ app.get('/orders/delivery', (req, res) => {
     res.send('Socket IO');
   });
 
-// app.use((req, res, next) => {
-//   res.setHeader('Content-Type', 'text/plain');
-//   res.status(200).send('La aplicación está activa.');
-//   next();
-// });
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'text/plain');
+  res.status(200).send('El backend esta activo.');
+  next();
+});
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
