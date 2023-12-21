@@ -120,6 +120,18 @@ User.getUsuario = (email, cumpleanio) => {
         email, cumpleanio
     ])
 }
+User.getPagosIzipay = (email) => {
+    const sql=`
+    SELECT id
+      FROM izipay
+     where 0=0
+       and vads_effective_creation_date is not null
+       and email = $1
+     ORDER BY vads_effective_creation_date desc
+     LIMIT 1
+    `
+    return db.oneOrNone(sql, email)
+}
 User.create = (user, withlogin) => {
     //ENCRYPTAR
     // console.log(`user.password: ${user.password}`);

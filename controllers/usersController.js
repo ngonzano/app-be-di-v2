@@ -63,6 +63,20 @@ module.exports = {
             })
         }
     },
+    async getPagosIzipayController(req,res, next){
+        try {
+            const email = await req.params.correo
+            ////console.log(`${email}-${cumpleanio}`);
+            const data = await User.getPagosIzipay(email)
+            return res.status(201).json(data)
+        } catch (error) {
+            //console.log(error)
+            return res.status(501).json({
+                success: false,
+                message: 'Error al obtener usuario.'
+            })
+        }
+    },
     async findById(req,res, next){
         try {
             const id = await req.params.id

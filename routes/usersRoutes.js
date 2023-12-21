@@ -20,6 +20,7 @@ module.exports = (app, upload) => {
 
     app.get('/api/users/buscarTienda/:descripcion/:idgiro',passport.authenticate('jwt', {session:false}),  UsersController.buscarTiendaController)
     app.get('/api/users/getusuario/:email/:cumpleanio',UsersController.getUsuarioController)
+    app.get('/api/users/getpagoizipay/:correo', passport.authenticate('jwt', {session:false}), UsersController.getPagosIzipayController)
     app.get('/api/users/findByID/:id', passport.authenticate('jwt', {session:false}), UsersController.findById)
     app.get('/api/users/buscarrepartidor/:id', passport.authenticate('jwt', {session:false}), UsersController.buscarRepartidorController)
 
