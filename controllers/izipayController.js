@@ -52,7 +52,7 @@ const validatePayment = (req, res) => {
     
   console.log(`Orden ${body.vads_order_id} actualizado exitosamente`);
 
-  const id = Order.createPagoIzipay(
+  Order.createPagoIzipay(
     body.vads_cust_email,
     body.vads_trans_uuid,
     body.vads_effective_creation_date,
@@ -62,7 +62,6 @@ const validatePayment = (req, res) => {
     body.vads_card_product_category
     )
 
-  console.log(id);
   res.status(200).send(`Orden ${body.vads_order_id} actualizado exitosamente.`);
 };
 
