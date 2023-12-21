@@ -23,26 +23,6 @@ else {
   PASSWORD = process.env.PROD_PASSWORD;
 }
 
-// const validatePaymentx = (req, res) => {
-//   const { clientAnswer, hash, hashKey } = req.body;
-//   const body = req.body;
-//   let key = "";
-//   if (hashKey === "sha256_hmac") {
-//     // key => HMAC-SHA-256 OF YOUR BACK OFFICE
-//     key = process.env.TEST_KEY_HMAC_SHA_256;
-//   } else if (hashKey === "password") {
-//     // key => testPassword OF YOUR BACK OFFICE
-//     key = process.env.TEST_PASSWORD;
-//   }
-
-//   const answerHash = Hex.stringify(
-//     HmacSHA256(JSON.stringify(clientAnswer), key)
-//   );
-
-//   if (hash === answerHash) res.status(200).json(body);
-//   else res.status(500).json("No coincide el hash de pago");
-// };
-
 const validatePayment = (req, res) => {
   const body = req.body;
 
@@ -99,7 +79,7 @@ const paymentForm = (req, res) => {
     vads_url_cancel:'https://webview.cancel/',//tambien volver a la tienda desencadena esto
     vads_url_error:'https://webview.error/',
     vads_url_refused: 'https://webview.refused/',
-    vads_url_success: 'https://webview.success/',   
+    vads_url_success: 'https://rifas-60f30.web.app/success/',   
     vads_version: "V2",
   }
 // console.log(obj);
