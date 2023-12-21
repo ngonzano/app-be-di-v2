@@ -300,7 +300,7 @@ Order.findByClientAndStatus = (id_client, status) => {
 Order.create = (order, medioPago) => {
     const sql = `
         INSERT INTO ORDERS (ID_CLIENT, ID_ADDRESS, STATUS, TIMESTAMP, CREATE_AT, UPDATE_AT,STATUS_PAGO, id_tienda, id_mediopago,idmp,comision,id_izipay)
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
         RETURNING ID;
     `;
     return db.oneOrNone(sql, [
