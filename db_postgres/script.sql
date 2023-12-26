@@ -220,7 +220,7 @@ CREATE TABLE orders(
 	idyape varchar(30) not null DEFAULT '0',
 	comision decimal default 0,
 	idyapedevolucion varchar(30) not null DEFAULT '0',
-	id_izipay bigint null,
+	id_izipay bigint null DEFAULT 1,
 	Foreign key(id_izipay) references izipay(id) on update cascade on delete cascade,
 	Foreign key(id_client) references users(id) on update cascade on delete cascade,
 	Foreign key(id_delivery) references users(id) on update cascade on delete cascade,
