@@ -147,7 +147,7 @@ sudo service postgresql restart
 
 
 ================================================================================================================================
-                                                POSTGRES EN GCLOUD
+                                                POSTGRES EN GCLOUD CON DOCKER
 ================================================================================================================================
 
 guia: https://www.youtube.com/watch?v=JLdy_cJ1KRA&ab_channel=ScriptBytes
