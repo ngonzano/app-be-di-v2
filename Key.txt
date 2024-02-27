@@ -42,7 +42,7 @@ sudo apt-get install git
 git --version
 git config --list
 git config --global user.name "Nilton Gonzano"
-git config --global user.email "ng.rifas.jl@gmail.com"
+git config --global user.email "ngonzano.allincorp@gmail.com"
 +++++++++++++++++++ conexion con github +++++++++++++++++++
 ls ~/.ssh/
 ssh-keygen -t rsa -b 4096 -C "ng.rifas.jl@gmail.com"
@@ -50,14 +50,13 @@ cat ~/.ssh/id_rsa.pub || copiar con todo y correo
 ssh -T git@github.com || yes
 
 clonar el repo conectandose con SSH keys
-ssh-keygen -t rsa -b 4096 -C "nilton.gonzano@gmail.com" || generar key
-cat ~/.ssh/id_rsa.pub || mostrara el key que se tendra que agregar a git
+ssh-keygen -t rsa -b 4096 -C "ngonzano.allincorp@gmail.com" || generar key
+cat ~/.ssh/id_rsa.pub || mostrara el key que se tendra que agregar a git se copia todo desde ssh-rsa y con todo correo
 
-luego clonar la repo ejecutar: git clone git@github.com:ngrifasjl/jl_backend.git
+luego clonar la repo ejecutar: git clone git@github.com:ngonzanoAllincorp/allingCorp.git
 
 git config --global pull.rebase true
 
-npm init
 npm install
 
 git reset --hard HEAD
@@ -126,7 +125,7 @@ ALTER USER postgres WITH PASSWORD '2go9fanFPSWCLXGu5JyMmeAMSem1';
 
 \q
 
-sudo systemctl enable postgresql
+sudo systemctl enable postgresql ||||||||||||||||||||||| IMPORTANTE EJECUTAR |||||||||||||||||||||||
 ================================================================================================================================
                                                 POSTGRES EN GCLOUD || sin docker || conexion remota
 ================================================================================================================================
@@ -208,10 +207,6 @@ sudo docker restart 98f63d7569f9
 sudo docker stop some-postgres
 sudo docker start some-postgres
 
-
-
-
-
 observado: sudo docker run --name remote-postgres -e POSTGRES_PASSWORD=2go9fanFPSWCLXGu5JyMmeAMSem1 -e POSTGRES_DB=postgres -e POSTGRES_USER=postgres -e POSTGRES_HOST_AUTH_METHOD=md5 -d postgres:latest
 
 ============== cuando se detenga una instancia de vm ===============
@@ -229,3 +224,10 @@ node server
 
 
 
+============= APPLE LOGIN =============
+
+https://sweet-heathered-lamprey.glitch.me
+
+
+CODIGO DEL PROYECTO
+https://glitch.com/edit/#!/sweet-heathered-lamprey

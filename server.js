@@ -28,6 +28,7 @@ const mercadoPagoRoutes = require('./routes/mercadoPagoRoutes')
 const efectivo = require('./routes/efectivoRoutes')
 const yapeController = require('./routes/yapeRoutes')
 const culqiController = require('./routes/culqiRoutes')
+const smsRoutes = require('./routes/smsRoutes')
 
 const path = require('path');//izipay
 
@@ -90,6 +91,7 @@ mercadoPagoRoutes(app)
 efectivo(app)
 yapeController(app)
 culqiController(app)
+smsRoutes(app)
 
 server.listen(port,'0.0.0.0', function(){
 // server.listen(port,'192.168.18.8'||'localhost', function(){
@@ -105,11 +107,11 @@ app.get('/orders/delivery', (req, res) => {
     res.send('Socket IO');
   });
 
-app.use((req, res, next) => {
-  res.setHeader('Content-Type', 'text/plain');
-  res.status(200).send('El backend esta activo.');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader('Content-Type', 'text/plain');
+//   res.status(200).send('El backend esta activo.');
+//   next();
+// });
 
 app.use((err, req, res, next) => {
     console.error(err.stack);

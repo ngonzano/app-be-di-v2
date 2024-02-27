@@ -338,7 +338,7 @@ module.exports = {
               };
             return res.status(201).json(response);
         } catch (error) {
-            // console.log(`Error: ${error}`)
+            console.log(`Error: ${error}`)
             return res.status(501).json({
                 success: false,
                 message: 'Error al registrar al usuario.',
