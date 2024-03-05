@@ -57,8 +57,8 @@ cat ~/.gitconfig
 
 ls ~/.ssh/
 ssh-keygen -t rsa -b 4096 -C "ng.rifas.jl@gmail.com" || o usar para pidepe ssh-keygen -t rsa -b 4096 -C "nilton.gonzano@gmail.com"
-cat ~/.ssh/id_rsa.pub || copiar con todo y correo
 ssh -T git@github.com || yes
+cat ~/.ssh/id_rsa.pub || copiar con todo y correo
 
 clonar el repo conectandose con SSH keys
 ssh-keygen -t rsa -b 4096 -C "ngonzano.allincorp@gmail.com" || generar key
