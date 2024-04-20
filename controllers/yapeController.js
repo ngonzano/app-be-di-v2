@@ -12,8 +12,12 @@ const codigo = await req.params.codigo
 const iduser = await req.params.iduser
 const payment = req.body
 // console.log(`payment: ${JSON.stringify(payment)}`)
+
+// console.log(codigo);
+// console.log(iduser);
 const datos = await User.buscarConst(codigo,iduser)
-       
+// console.log(datos.yape_token_key);
+
 const options = {
     method: 'POST',
     url: 'https://secure.culqi.com/v2/tokens/yape',
