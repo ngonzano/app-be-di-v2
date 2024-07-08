@@ -16,7 +16,7 @@ const payment = req.body
 // console.log(codigo);
 // console.log(iduser);
 const datos = await User.buscarConst(codigo,iduser)
-// console.log(datos.yape_token_key);
+// console.log(`toke yape: ${datos.yape_token_key}`);
 
 const options = {
     method: 'POST',
@@ -29,12 +29,13 @@ const options = {
         otp: payment.otp,
         number_phone: payment.number_phone,
         amount: payment.amount,
+        metadata: {dni: '5831543'}
     },
     json: true
   };
- 
+  console.log(`crear token: ${options}`);
 request(options, function (error, response, body) {
-    // console.log(response);
+    // console.log(`body: ${body.id}`);
     if (error){
         //  console.log(body);  
         return res.status(501).json({
@@ -55,7 +56,6 @@ request(options, function (error, response, body) {
         }
         
     }
-    // console.log(body);  
    
   });
 

@@ -42,7 +42,7 @@ sudo apt-get install git
 git --version
 git config --list
 git config --global user.name "Nilton Gonzano"
-git config --global user.email "ngonzano.allincorp@gmail.com"
+git config --global user.email "ngonzano@gmail.com"
 +++++++++++++++++++ conexion con github +++++++++++++++++++
 si quiero cambiar de usuario git usar
 ============================================================

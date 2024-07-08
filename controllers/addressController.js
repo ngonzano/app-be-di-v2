@@ -105,6 +105,7 @@ module.exports = {
     async create(req, res, next) {
         try {
             const address = req.body;
+            // console.log(address);
             const data = await Address.create(address)
             return res.status(201).json({
                 success : true,
@@ -113,7 +114,7 @@ module.exports = {
             })
 
         } catch (error) {
-            //console.log(`Error en create: ${error}`)
+            console.log(`Error en create: ${error}`)
             return res.status(501).json({
                 success : false,
                 message : 'Hubo un error creado la direccion',
