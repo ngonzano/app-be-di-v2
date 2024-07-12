@@ -93,8 +93,9 @@ yapeController(app)
 culqiController(app)
 smsRoutes(app)
 
-server.listen(port,'0.0.0.0', function(){
+// server.listen(port,'0.0.0.0', function(){
 // server.listen(port,'192.168.18.6'||'localhost', function(){
+server.listen(port,'104.198.33.164'||'localhost', function(){
     console.log('App '+process.pid+' iniciada...')
     console.log('Port '+port+' iniciada...')
 })

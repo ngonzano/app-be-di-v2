@@ -41,7 +41,7 @@ module.exports = {
             const data= await User.getAllGirosCoordenadas()
             return res.status(201).json(data)
         } catch (error) {
-            //console.log(error)
+            console.log(error)
             return res.status(501).json({
                 success: false,
                 message: 'Error al obtener giros.'
@@ -609,7 +609,8 @@ module.exports = {
     async asignarRolRepartidorController(req, res, next) {
         try {
             const user = req.body;
-            const data = await User.asignarRolRepartidor(user)
+            console.log(user.dni);
+            await User.asignarRolRepartidor(user)
             return res.status(201).json({
                 success : true,
                 message : 'Se actualizo el rol del repartidor exitosamente.',
@@ -620,7 +621,7 @@ module.exports = {
             // console.log(`Error al crear rol: ${error}`)
             return res.status(501).json({
                 success : false,
-                message : 'El repartidor ya se encuentra registrado como repartidor en su negocio.',
+                message : `Error al crear rol: ${error}`,
                 error : error
             })
         }

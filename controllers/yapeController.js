@@ -17,25 +17,28 @@ const payment = req.body
 // console.log(iduser);
 const datos = await User.buscarConst(codigo,iduser)
 // console.log(`toke yape: ${datos.yape_token_key}`);
-
+//946365851 - 172543
 const options = {
     method: 'POST',
     url: 'https://secure.culqi.com/v2/tokens/yape',
     headers: {
       Authorization: datos.yape_token_key,
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
-      body: {
-        otp: payment.otp,
-        number_phone: payment.number_phone,
-        amount: payment.amount,
-        metadata: {dni: '5831543'}
+    dataraw: {},
+    body: {
+      otp: payment.otp,
+      number_phone: payment.number_phone,
+      amount: payment.amount,
+      metadata: {
+          negocio: "PidePE" // Metadata relacionada al comercio
+      }
     },
     json: true
   };
-  console.log(`crear token: ${options}`);
+  console.log(`peticion: ${JSON.stringify(options)}`);
 request(options, function (error, response, body) {
-    // console.log(`body: ${body.id}`);
+    console.log(`respuesta: ${JSON.stringify(body)}`);
     if (error){
         //  console.log(body);  
         return res.status(501).json({

@@ -69,6 +69,7 @@ User.getAllGirosCoordenadas = () => {
       and u.estado = true
       and a.istienda = true
     group by g.idgiro, descripcion, g.image
+    order by g.idgiro
     `
     return db.manyOrNone(sql)
 }
@@ -149,18 +150,17 @@ User.create = (user, withlogin) => {
     ])
 }
 User.asignarRolRepartidor = (user) => {
-    //FIN ENCRYPTAR
-    // insert into user_has_roles (id_user, id_rol, create_at, update_at) 
-    // values ($2,3,$4,$5);
 
-    // insert into tienda_has_delivery (id_tienda, id_delivery, estado, create_at, update_at)
-    // values($1,$2,$3,$4,$5);
     const sql= `
     do $$
      begin 
     	if exists (select id_delivery from tienda_has_delivery where id_delivery=$2) then
-    		update tienda_has_delivery set id_tienda = $1 where id_delivery=$2;
-            update tienda_has_delivery set estado = $3 where id_tienda = $1 and id_delivery=$2;
+    		update tienda_has_delivery set id_tienda = $1 
+             where id_delivery=$2;
+
+            update tienda_has_delivery set estado = $3 
+             where id_tienda = $1 and id_delivery=$2;
+
     	else
     		insert into user_has_roles (id_user, id_rol, create_at, update_at) 
         	values ($2,3,$4,$5);
@@ -168,10 +168,13 @@ User.asignarRolRepartidor = (user) => {
         	insert into tienda_has_delivery (id_tienda, id_delivery, estado, create_at, update_at)
         	values($1,$2,$3,$4,$5);
     	end if;
+
+        update users set documento = $6
+         where id = $2;
     end $$
     `
     return db.oneOrNone(sql, [
-        user.idtienda,user.idrepartidor,user.estado,new Date(),new Date()
+        user.idtienda,user.idrepartidor,user.estado,new Date(),new Date(),user.dni
     ])
 }
 User.agregarNegocio = (user) => {
@@ -415,7 +418,8 @@ User.buscarRepartidor = (id) => {
         case 
             when (select lng from address a where istienda = true and a.id_user= u.id) is null then 9999999
             else (select lng from address a where istienda = true and a.id_user= u.id)
-        end ) as lng
+        end ) as lng,
+        documento as dni
         FROM USERS as u
         WHERE email = $1
     `
