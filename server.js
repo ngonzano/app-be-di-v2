@@ -93,9 +93,9 @@ yapeController(app)
 culqiController(app)
 smsRoutes(app)
 
-server.listen(port,'0.0.0.0', function(){
+// server.listen(port,'0.0.0.0', function(){
 // server.listen(port,'192.168.18.6'||'localhost', function(){
-// server.listen(port,'10.128.0.5'||'localhost', function(){//la ip interna de VM
+server.listen(port,'10.128.0.5'||'localhost', function(){//la ip interna de VM
     console.log('App '+process.pid+' iniciada...')
     console.log('Port '+port+' iniciada...')
 })
