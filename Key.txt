@@ -94,6 +94,7 @@ git pull
 npm install
 pm2 stop server.js
 pm2 start server.js --name server -- --autorestart
+pm2 logs server
 
 ================================================================================================================================
                                                 POSTGRES EN GCLOUD || sin docker
